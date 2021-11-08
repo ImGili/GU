@@ -2,15 +2,15 @@
  * @Author: ImGili
  * @Description: 
  */
-#include"Application.h"
-#include"Log.h"
+#include"Core/Application.h"
+#include"Core/Log.h"
+#include"Core/Core.h"
 GU::Application* GU::CreateApplication();
 int main()
 {
     GU::Log::Init();
     GU::Application* app = GU::CreateApplication();
-
-    GU_WARN("hello word!");
+    GU_ERROR("hello word!");
     app->Run();
     return 0;
 }

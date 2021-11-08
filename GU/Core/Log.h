@@ -17,5 +17,4 @@ namespace GU
 
 #define GU_WARN(...) GU::Log::Get()->warn(__VA_ARGS__)
 #define GU_INFO(...) GU::Log::Get()->info(__VA_ARGS__)
-#define GU_ERROR(...) GU::Log::Get()->error(__VA_ARGS__)
-#define GU_WARN(...) GU::Log::Get()->warn(__VA_ARGS__)
+#define GU_ERROR(...) SPDLOG_LOGGER_ERROR(GU::Log::Get(), __VA_ARGS__)

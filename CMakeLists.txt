@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(Gu)
 option(GU_BUILD_SHARED_LIBRARY ON)
 
-
+option(GU_DEBUG_ENABLE ON)
 option(GLFW_BUILD_DOCS OFF)
 option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
@@ -51,6 +51,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
+add_definitions(-DGU_ENABLE_DEBUG)
 add_library(${PROJECT_NAME} SHARED
                                 ${PROJECT_SOURCES} 
                                 ${PROJECT_HEADERS}
@@ -60,9 +61,15 @@ if(MSVC)
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
                 COMPILE_FLAGS "-DGU_PLATFORM_WINDOWS -DGU_BUILD_DLL")
 elseif(APPLE)
-SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
-COMPILE_FLAGS "-DGU_PLATFORM_MACOS")
+add_definitions(-DGU_PLATFORM_MACOS)
 endif()
+
+if(GU_DEBUG_ENABLE)
+    add_definitions(-DGU_DEBUG_ENABLE)
+endif()
+
+
+
 
 target_include_directories(${PROJECT_NAME} PUBLIC
                                 GU/
