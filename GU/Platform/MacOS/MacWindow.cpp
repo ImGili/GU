@@ -4,6 +4,7 @@
  */
 #include"MacWindow.h"
 #include"Events/ApplicationEvent.h"
+#include"Platform/OpenGL/OpenGLContext.h"
 #include<iostream>
 using namespace GU;
 MacWindow::MacWindow(const WindowProps& props)
@@ -31,19 +32,14 @@ void MacWindow::Init(const WindowProps& props)
     // --------------------
     m_window = glfwCreateWindow(props.Width, props.Width, (props.Title).c_str(), NULL, NULL);
     glfwMakeContextCurrent(m_window);
-
-    if (m_window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return;
-    }
+    m_Context = GraphicsContext::Create(m_window);
+    m_Context->Init();
     
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return;
-    }
+    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    // {
+    //     std::cout << "Failed to initialize GLAD" << std::endl;
+    //     return;
+    // }
 
     glfwSetWindowUserPointer(m_window, &m_wData);
     

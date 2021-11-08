@@ -12,7 +12,7 @@ namespace GU
     class GU_API OpenGLContext : public GraphicsContext
     {
     public:
-        OpenGLContext(void* window);
+        OpenGLContext(GLFWwindow* window);
         virtual void Init() override;
         virtual void SwapBuffers() override;     
     private:
