@@ -2,9 +2,10 @@
 #include<memory>
 #include"spdlog/spdlog.h"
 #include"spdlog/sinks/stdout_color_sinks.h"
+#include"Core.h"
 namespace GU
 {
-    class Log
+    class GU_API Log
     {
     public:
         static void Init();
