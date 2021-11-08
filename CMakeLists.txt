@@ -43,6 +43,7 @@ file(GLOB PROJECT_HEADERS           GU/*.h
 file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Platform/MacOS/*.cpp
                                     GU/Platform/Windows/*.cpp
+                                    GU/Platform/OpenGL/*.cpp
                                     GU/ImGui/*.cpp
                                     vendor/imgui/*.cpp
                                     vendor/imgui/backends/imgui_impl_opengl3.cpp
