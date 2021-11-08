@@ -1,5 +1,5 @@
 #pragma once
-#include"Core.h"
+#include"Core/Core.h"
 namespace GU
 {
     enum class GU_API EventType

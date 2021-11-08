@@ -6,8 +6,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include"Core.h"
-#include"Window.h"
+#include"Core/Core.h"
+#include"Core/Window.h"
 namespace GU
 {
     class GU_API MacWindow : public Window

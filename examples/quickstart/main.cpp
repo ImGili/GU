@@ -1,4 +1,4 @@
-#include"EntryPoint.h"
+#include"Core/EntryPoint.h"
 #include"ExampleLayer.h"
 class ExampleApplication : public GU::Application
 {

@@ -40,7 +40,7 @@ file(GLOB VENDORS_SOURCES           vendor/glad/src/glad.c
                                     )
 file(GLOB PROJECT_HEADERS           GU/*.h
                                     )
-file(GLOB PROJECT_SOURCES           GU/*.cpp
+file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Platform/MacOS/*.cpp
                                     GU/Platform/Windows/*.cpp
                                     GU/ImGui/*.cpp
