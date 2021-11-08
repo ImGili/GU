@@ -21,6 +21,6 @@ namespace GU
         void Init(const WindowProps& props);
         void SetEventCallback(const EventCallbackFn& callback) override;
         WindowData m_wData;
-        virtual void* GetNativeWindow();
+        virtual void* GetNativeWindow() override;
     };
 }
