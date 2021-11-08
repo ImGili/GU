@@ -1,0 +1,3 @@
+#pragma once
+#define GET_SHADER_PATH(x) (std::string("${CMAKE_SOURCE_DIR}/resources/shaders") + std::string(x)).c_str()
+#define GET_RESOURCE_PATH(x) (std::string("${CMAKE_SOURCE_DIR}/resources/") + std::string(x)).c_str()
