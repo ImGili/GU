@@ -1,5 +1,6 @@
 # Gu
 我自己的OpenGL封装
+![logo](docs/imgs/logo.png)
 
 # 克隆项目
 ```
