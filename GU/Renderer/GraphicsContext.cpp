@@ -4,7 +4,6 @@
  */
 #include"GraphicsContext.h"
 #include"RenderAPI.h"
-#include"Core/Assert.h"
 #include"Core/Log.h"
 using namespace GU;
 std::unique_ptr<GraphicsContext> GraphicsContext::Create(void* window)
