@@ -4,8 +4,6 @@
  */
 #include"Application.h"
 #include<iostream>
-#include <glad/glad.h>
-
 using namespace GU;
 
 Application* Application::s_Instance = nullptr;
@@ -31,8 +29,7 @@ void Application::Run()
 {
     while (m_Running)
     {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+        m_window->Clear();
         m_imGuiLayer->Begin();
         for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
         {
