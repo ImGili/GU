@@ -16,7 +16,7 @@ std::unique_ptr<GraphicsContext> GraphicsContext::Create(void* window)
         GU_ASSERT(false, "RenderAPI is None");
         break;
     case RenderAPI::API::OpenGL:
-        return std::make_unique<OpenGLContext>(std::forward<GLFWwindow*>(static_cast<GLFWwindow*>(window)));
+        return std::make_unique<OpenGLContext>(static_cast<GLFWwindow*>(window));
         break;
     
     default:

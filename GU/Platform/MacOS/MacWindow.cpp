@@ -32,6 +32,7 @@ void MacWindow::Init(const WindowProps& props)
     // --------------------
     m_window = glfwCreateWindow(props.Width, props.Width, (props.Title).c_str(), NULL, NULL);
     glfwMakeContextCurrent(m_window);
+   
     m_Context = GraphicsContext::Create(m_window);
     m_Context->Init();
     
