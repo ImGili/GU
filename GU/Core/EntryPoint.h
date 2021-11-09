@@ -7,6 +7,8 @@
 #include"Core/Core.h"
 #include"Core/Assert.h"
 #include"Platform/OpenGL/OpenGLContext.h"
+#include"Platform/OpenGL/OpenGLShader.h"
+#include"Renderer/Shader.h"
 GU::Application* GU::CreateApplication();
 int main()
 {
