@@ -12,8 +12,9 @@ namespace GU
     {
     public:
         virtual ~Shader() = default;
-
-        static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragSrc);
+        virtual void Bind() = 0;
+        virtual void Unbind() = 0;
+        static std::shared_ptr<Shader> Create(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
     private:
     };

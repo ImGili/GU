@@ -4,7 +4,7 @@
 #include"Core/Assert.h"
 #include"Core/Log.h"
 using namespace GU;
-std::shared_ptr<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragSrc)
+std::shared_ptr<Shader> Shader::Create(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 {
     switch (RenderAPI::GetAPI())
     {
@@ -13,7 +13,7 @@ std::shared_ptr<Shader> Shader::Create(const std::string& name, const std::strin
         break;
     case RenderAPI::API::OpenGL:
         GU_INFO("Create Shader: {0}", name);
-        std::make_shared<OpenGLShader>(name, vertexSrc, fragSrc);
+        std::make_shared<OpenGLShader>(name, vertexPath, fragmentPath, geometryPath);
         break;
     default:
         break;

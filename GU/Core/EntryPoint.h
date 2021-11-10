@@ -14,6 +14,7 @@ int main()
 {
     GU::Log::Init();
     GU::Application* app = GU::CreateApplication();
+    std::shared_ptr<GU::Shader> shader = GU::Shader::Create("aaa", "aaa", "aaa");
     GU_ERROR("hello word!");
     app->Run();
     return 0;

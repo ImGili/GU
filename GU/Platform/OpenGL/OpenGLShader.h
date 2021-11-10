@@ -9,10 +9,12 @@ namespace GU
     class OpenGLShader : public Shader
     {
     public:
-        OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragSrc);
+        OpenGLShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
         ~OpenGLShader() = default;
-
+        void Bind() override;
+        void Unbind() override;
     private:
+        void CheckCompileErrors(unsigned int shader, std::string type);
         uint32_t m_RenderID;
         std::string m_Name;
     };
