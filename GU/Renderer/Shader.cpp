@@ -13,7 +13,7 @@ std::shared_ptr<Shader> Shader::Create(const char* name, const char* vertexPath,
         break;
     case RenderAPI::API::OpenGL:
         GU_INFO("Create Shader: {0}", name);
-        std::make_shared<OpenGLShader>(name, vertexPath, fragmentPath, geometryPath);
+        return std::make_shared<OpenGLShader>(name, vertexPath, fragmentPath, geometryPath);
         break;
     default:
         break;

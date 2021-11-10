@@ -29,8 +29,12 @@ void Application::Run()
 {
     while (m_Running)
     {
-        m_window->Clear();
+        // m_window->Clear();
         m_imGuiLayer->Begin();
+        for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
+        {
+            (*it)->OnUpdate();
+        }
         for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
         {
             (*it)->OnImGuiRender();
@@ -50,5 +54,6 @@ void Application::OnEvent(Event& e)
 void Application::PushLayer(Layer* layer)
 {
     m_Layers.push_back(layer);
+    layer->OnAttach();
 }
 

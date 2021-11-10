@@ -15,7 +15,7 @@ namespace GU
         void Unbind() override;
     private:
         void CheckCompileErrors(unsigned int shader, std::string type);
-        uint32_t m_RenderID;
+        uint32_t m_RendererID;
         std::string m_Name;
     };
 }

@@ -77,18 +77,18 @@ OpenGLShader::OpenGLShader(const char* name, const char* vertexPath, const char*
         }
 
         // shader Program
-        m_RenderID = glCreateProgram();
-        glAttachShader(m_RenderID, vertex);
-        glAttachShader(m_RenderID, fragment);
+        m_RendererID = glCreateProgram();
+        glAttachShader(m_RendererID, vertex);
+        glAttachShader(m_RendererID, fragment);
         if(geometryPath != nullptr)
-            glAttachShader(m_RenderID, geometry);
-        glLinkProgram(m_RenderID);
-        CheckCompileErrors(m_RenderID, "PROGRAM");
+            glAttachShader(m_RendererID, geometry);
+        glLinkProgram(m_RendererID);
+        CheckCompileErrors(m_RendererID, "PROGRAM");
 
-        unsigned int uniformBlockIndex = glGetUniformBlockIndex(m_RenderID, "CameraMatrices");
+        unsigned int uniformBlockIndex = glGetUniformBlockIndex(m_RendererID, "CameraMatrices");
         if (uniformBlockIndex != GL_INVALID_INDEX)
         {
-            glUniformBlockBinding(m_RenderID, uniformBlockIndex, 0);
+            glUniformBlockBinding(m_RendererID, uniformBlockIndex, 0);
         }
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
@@ -126,7 +126,7 @@ void OpenGLShader::CheckCompileErrors(unsigned int shader, std::string type)
 
 void OpenGLShader::Bind()
 {
-    glUseProgram(m_RenderID);
+    glUseProgram(m_RendererID);
 }
 
 void OpenGLShader::Unbind()
