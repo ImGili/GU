@@ -51,6 +51,8 @@ void MacWindow::Init(const WindowProps& props)
     });
 }
 
+
+
 void MacWindow::SetEventCallback(const EventCallbackFn& callback)
 {
     m_wData.callback = callback;
