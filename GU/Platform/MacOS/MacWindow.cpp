@@ -36,12 +36,6 @@ void MacWindow::Init(const WindowProps& props)
     m_Context = GraphicsContext::Create(m_window);
     m_Context->Init();
     
-    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    // {
-    //     std::cout << "Failed to initialize GLAD" << std::endl;
-    //     return;
-    // }
-
     glfwSetWindowUserPointer(m_window, &m_wData);
     
     glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window){
