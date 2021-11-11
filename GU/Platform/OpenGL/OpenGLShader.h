@@ -4,9 +4,10 @@
  */
 #pragma once
 #include"Renderer/Shader.h"
+#include"Core/Core.h"
 namespace GU
 {
-    class OpenGLShader : public Shader
+    class GU_API OpenGLShader : public Shader
     {
     public:
         OpenGLShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);

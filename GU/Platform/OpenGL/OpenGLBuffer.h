@@ -22,4 +22,17 @@ namespace GU
         uint32_t m_RendererID;
         BufferLayout m_Layout;
     };
+
+    class GU_API OpenGLIndexBuffer : public IndexBuffer
+    {
+    public:
+        OpenGLIndexBuffer() = default;
+        OpenGLIndexBuffer(uint32_t* indics, uint32_t count);
+        ~OpenGLIndexBuffer() = default;
+        void Bind() override;
+        void Unbind() override;
+    private:
+        uint32_t m_RendererID;
+        uint32_t m_Count;
+    };
 }

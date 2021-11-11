@@ -4,13 +4,15 @@
  */
 #pragma once
 #include"Renderer/RenderAPI.h"
+#include"Core/Core.h"
 namespace GU
 {
-    class OpenGLRenderAPI : public RenderAPI
+    class GU_API OpenGLRenderAPI : public RenderAPI
     {
     public:
         void Init() override;
         void SetClearColor(const glm::vec4& color) override;
         void Clear() override;
+        void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0) override;
     };
 }

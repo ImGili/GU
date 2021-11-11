@@ -19,3 +19,8 @@ void OpenGLRenderAPI::Clear()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 }
+
+void OpenGLRenderAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount)
+{
+    // TODO: DrawIndexed
+}

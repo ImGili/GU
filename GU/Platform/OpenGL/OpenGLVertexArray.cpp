@@ -48,7 +48,7 @@ OpenGLVertexArray::~OpenGLVertexArray()
 }
 void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
 {
-    // TODO: Set VertexBuffer
+    // TODO: Add VertexBuffer
     GU_ASSERT(vertexBuffer->GetLayout().GetElements().size()>0, "VertexBuffer has no elements, set bufferelement!");
     BufferLayout layout = vertexBuffer->GetLayout();
     Bind();

@@ -5,10 +5,11 @@
 #pragma once
 #include"Renderer/VertexArray.h"
 #include"Renderer/Buffer.h"
+#include"Core/Core.h"
 #include<vector>
 namespace GU
 {
-    class OpenGLVertexArray : public VertexArray
+    class GU_API OpenGLVertexArray : public VertexArray
     {
     public:
         OpenGLVertexArray();

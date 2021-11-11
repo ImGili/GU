@@ -38,7 +38,6 @@ namespace GU
 	}
     struct GU_API BufferElement
     {
-        // TODO: BufferElement Implement
         std::string Name;
         ShaderDataType Type;
 		uint32_t Size;
@@ -121,4 +120,14 @@ namespace GU
 
         static std::shared_ptr<VertexBuffer> Create(float* data, uint32_t size);
     };
+
+	class GU_API IndexBuffer
+	{
+	public:
+		virtual ~IndexBuffer() = default;
+		virtual void Bind() = 0;
+		virtual void Unbind() = 0; 
+
+		static std::shared_ptr<IndexBuffer> Create(uint32_t* indices, uint32_t count);
+	};
 }
