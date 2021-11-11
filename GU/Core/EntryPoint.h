@@ -10,7 +10,6 @@ GU::Application* GU::CreateApplication();
 int main()
 {
     GU::Log::Init();
-    
     GU::Application* app = GU::CreateApplication();
     GU_ERROR("hello word!");
     app->Run();
