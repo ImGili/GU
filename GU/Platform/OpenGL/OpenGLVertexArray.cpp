@@ -80,3 +80,15 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& ver
     Unbind();
     m_VertexBuffers.push_back(vertexBuffer);
 }
+
+void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+{
+    glBindVertexArray(m_RendererID);
+    indexBuffer->Bind();
+    m_IndexBuffer = indexBuffer;
+}
+
+const std::shared_ptr<IndexBuffer>& OpenGLVertexArray::GetIndexBuffer() const
+{
+    return m_IndexBuffer;
+}
