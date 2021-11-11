@@ -54,6 +54,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 add_definitions(-DGU_ENABLE_DEBUG)
+add_definitions(-DGLAD_GLAPI_EXPORT)
 add_library(${PROJECT_NAME} SHARED
                                 ${PROJECT_SOURCES} 
                                 ${PROJECT_HEADERS}
