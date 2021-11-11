@@ -13,6 +13,5 @@ public:
     void OnUpdate() override;
 private:
     std::shared_ptr<Shader> m_Shader;
-    uint32_t m_b;
     std::shared_ptr<VertexBuffer> m_Vertexbuffer;
 };
