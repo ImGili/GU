@@ -14,8 +14,12 @@ namespace GU
         void Bind() override;
         void Unbind() override;
 
+        void SetLayout(const BufferLayout& bufferLayout) override;
+        const BufferLayout& GetLayout() const override;
+
         void SetData(float* data, uint32_t size) override;
     private:
         uint32_t m_RendererID;
+        BufferLayout m_Layout;
     };
 }

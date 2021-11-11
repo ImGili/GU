@@ -31,3 +31,13 @@ void OpenGLVertexBuffer::SetData(float* data, uint32_t size)
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
+
+void OpenGLVertexBuffer::SetLayout(const BufferLayout& bufferLayout)
+{
+    m_Layout = bufferLayout;
+}
+
+const BufferLayout& OpenGLVertexBuffer::GetLayout() const
+{
+    return m_Layout;
+}

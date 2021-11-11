@@ -15,7 +15,9 @@ namespace GU
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
 
-        virtual void SetVertexBuffer(const std::shared_ptr<VertexBuffer> vertexBuffer) = 0;
+        virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
+
+        static std::shared_ptr<VertexArray> Create();
     private:
     };
 }
