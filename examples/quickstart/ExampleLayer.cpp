@@ -9,6 +9,7 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
+#include "Renderer/RenderCommand.h"
 #include <imgui.h>
 #include <iostream>
 #include <glad/glad.h>
@@ -22,8 +23,7 @@ void ExampleLayer::OnUpdate()
 {
     m_VertexArray->Bind();
     m_Shader->Bind();
-    // glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+    RenderCommand::DrawIndexed(m_VertexArray);
 }
 
 void ExampleLayer::OnAttach()
