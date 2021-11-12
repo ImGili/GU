@@ -31,6 +31,7 @@ namespace GU
         ~OpenGLIndexBuffer() = default;
         void Bind() override;
         void Unbind() override;
+        uint32_t GetCount() override;
     private:
         uint32_t m_RendererID;
         uint32_t m_Count;

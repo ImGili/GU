@@ -61,3 +61,8 @@ void OpenGLIndexBuffer::Unbind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+
+uint32_t OpenGLIndexBuffer::GetCount()
+{
+    return m_Count;
+}
