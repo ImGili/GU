@@ -21,6 +21,8 @@ namespace GU
             return s_Instance;
         }
         Window& GetWindow(){ return *m_window; }
+
+        void Close(){ m_Running = false; }
     private:
         std::vector<Layer*> m_Layers;
         bool m_Running = true;

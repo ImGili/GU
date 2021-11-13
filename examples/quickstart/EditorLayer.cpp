@@ -3,6 +3,7 @@
  * @Description: 
  */
 #include"EditorLayer.h"
+#include"Core/Application.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
     :Layer("EditorLayer")
@@ -66,6 +67,18 @@ void EditorLayer::OnImGuiRender()
         ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
     }
+
+    if (ImGui::BeginMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Exit")) Application::Get()->Close();
+            ImGui::EndMenu();
+        }
+        
+        ImGui::EndMenuBar();
+    }
+    
     ImGui::Begin("Editor");
     ImGui::Button("aaa");
     ImGui::End();
