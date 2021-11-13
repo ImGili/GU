@@ -133,3 +133,8 @@ void OpenGLShader::Unbind()
 {
     glUseProgram(0);
 }
+
+OpenGLShader::~OpenGLShader()
+{
+    glDeleteShader(m_RendererID);
+}

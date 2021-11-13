@@ -11,7 +11,7 @@ namespace GU
     {
     public:
         OpenGLShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
-        ~OpenGLShader() = default;
+        virtual ~OpenGLShader();
         void Bind() override;
         void Unbind() override;
     private:

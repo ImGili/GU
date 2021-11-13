@@ -4,6 +4,8 @@
  */
 #include"EditorLayer.h"
 #include"Core/Application.h"
+#include"Renderer/FrameBuffer.h"
+#include"Renderer/RenderCommand.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
     :Layer("EditorLayer")
@@ -11,7 +13,11 @@ EditorLayer::EditorLayer()
 
 void EditorLayer::OnUpdate()
 {
-
+    m_FrameBuffer->Bind();
+    m_VertexArray->Bind();
+    m_Shader->Bind();
+    RenderCommand::DrawIndexed(m_VertexArray);
+    m_FrameBuffer->Unbind();
 }
 
 void EditorLayer::OnImGuiRender()
@@ -82,5 +88,38 @@ void EditorLayer::OnImGuiRender()
     ImGui::Begin("Editor");
     ImGui::Button("aaa");
     ImGui::End();
+
+    ImGui::Begin("Viewport");
+    uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
+    ImGui::Image((void*)textureID, ImVec2{ 1280, 720 }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
+    ImGui::End();
+}
+
+void EditorLayer::OnAttach()
+{
+    FrameBufferSpecification spec;
+    spec.Height = 720;
+    spec.Width = 1280;
+    m_FrameBuffer = FrameBuffer::Create(spec);
+
+    m_VertexArray = VertexArray::Create();
+    float vertices[] = {
+    	-0.5f, -0.5f, 0.0f,
+    	 0.5f, -0.5f, 0.0f,
+    	 0.0f,  0.5f, 0.0f
+    };
+    m_Vertexbuffer = VertexBuffer::Create(vertices, sizeof(vertices));
+    BufferLayout layout = {
+        { ShaderDataType::Float3, "a_Position" }
+    };
+    uint32_t indics[] = 
+    {
+        0, 1, 2
+    };
+    std::shared_ptr<IndexBuffer> indexbuffer = IndexBuffer::Create(indics, 3);
+    m_Vertexbuffer->SetLayout(layout);
+    m_VertexArray->AddVertexBuffer(m_Vertexbuffer);
+    m_VertexArray->SetIndexBuffer(indexbuffer);
+    m_Shader = Shader::Create("aaa", "assets/shaders/test.vert", "assets/shaders/test.frag");
 }
