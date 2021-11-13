@@ -17,5 +17,7 @@ namespace GU
         void OnDetach() override;
         void Begin();
         void End();
+
+        void SetDarkThemeColors();
     };
 }
