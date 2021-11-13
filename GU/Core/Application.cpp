@@ -3,6 +3,7 @@
  * @Description: 
  */
 #include"Application.h"
+#include"Renderer/RenderCommand.h"
 #include<iostream>
 using namespace GU;
 
@@ -29,7 +30,7 @@ void Application::Run()
 {
     while (m_Running)
     {
-        // m_window->Clear();
+        RenderCommand::Clear();
         m_imGuiLayer->Begin();
         for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
         {

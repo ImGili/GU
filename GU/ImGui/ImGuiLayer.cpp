@@ -6,6 +6,7 @@
 #include<imgui.h>
 #include<backends/imgui_impl_glfw.h>
 #include<backends/imgui_impl_opengl3.h>
+#include<GLFW/glfw3.h>
 #include"Core/Application.h"
 
 using namespace GU;
@@ -26,10 +27,18 @@ void ImGuiLayer::OnAttach()
     // ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
     // io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
     // io.Fonts->GetGlyphRangesChineseFull();
-
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
     // Setup Dear ImGui style
     ImGui::StyleColorsLight();
     //ImGui::StyleColorsClassic();
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
 
     // Setup Platform/Renderer backends
     GLFWwindow* window = (GLFWwindow*)(Application::Get()->GetWindow().GetNativeWindow());
@@ -55,6 +64,15 @@ void ImGuiLayer::Begin()
 
 void ImGuiLayer::End()
 {
+    ImGuiIO& io = ImGui::GetIO();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
 }

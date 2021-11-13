@@ -15,9 +15,11 @@
 #include <glad/glad.h>
 void ExampleLayer::OnImGuiRender()
 {
-    ImGui::Begin("test");
+//     static bool p_open = true;
 
-    ImGui::End();
+//     ImGui::Begin("DockSpace Demo", &p_open);
+
+//     ImGui::End();
 }
 void ExampleLayer::OnUpdate()
 {

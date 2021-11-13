@@ -12,7 +12,6 @@ namespace GU
     public:
         WindowsWindow(const WindowProps& props);
         virtual void OnUpdate() override;
-        void Clear(float r = 0.1f, float g = 0.1f, float b = 0.1f, float a = 0.1f) override;
         ~WindowsWindow();
     private:
         GLFWwindow* m_window;

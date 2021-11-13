@@ -37,6 +37,7 @@ endif()
 
 
 file(GLOB VENDORS_SOURCES           vendor/glad/src/glad.c
+                                    vendor/imgui/backends/imgui_demo.cpp
                                     )
 file(GLOB PROJECT_HEADERS           GU/*.h
                                     )

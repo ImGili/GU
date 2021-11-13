@@ -39,7 +39,6 @@ namespace GU
         virtual ~Window() = default;
         static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
         virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
-        virtual void Clear(float r = 0.1f, float g = 0.1f, float b = 0.1f, float a = 0.1f) = 0;
         virtual void* GetNativeWindow() = 0;
     };
 
