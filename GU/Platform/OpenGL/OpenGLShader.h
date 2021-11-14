@@ -5,6 +5,7 @@
 #pragma once
 #include"Renderer/Shader.h"
 #include"Core/Core.h"
+#include<glm/glm.hpp>
 namespace GU
 {
     class GU_API OpenGLShader : public Shader
@@ -14,6 +15,8 @@ namespace GU
         virtual ~OpenGLShader();
         void Bind() override;
         void Unbind() override;
+
+        void SetMat4(const std::string &name, const glm::mat4& value) const override;
     private:
         void CheckCompileErrors(unsigned int shader, std::string type);
         uint32_t m_RendererID;

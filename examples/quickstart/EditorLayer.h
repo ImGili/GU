@@ -8,6 +8,7 @@
 #include"Renderer/Shader.h"
 #include"Renderer/VertexArray.h"
 #include"Renderer/Buffer.h"
+#include"Renderer/OrthographicCameraController.h"
 #include<glm/glm.hpp>
 #include<string>
 using namespace GU;
@@ -19,7 +20,7 @@ public:
     ~EditorLayer() = default;
 
     void OnAttach() override;
-    void OnUpdate() override;
+    void OnUpdate(TimeStep ts) override;
     void OnImGuiRender() override;
 private:
     std::shared_ptr<FrameBuffer> m_FrameBuffer;
@@ -29,4 +30,5 @@ private:
     glm::vec2 m_ViewportBounds[2];
     bool m_ViewportFocused = false, m_ViewportHovered = false;
     glm::vec2 m_ViewportSize = glm::vec2 (0.0f, 0.0f);
+    OrthographicCameraController m_OrthographicCameraController;
 };

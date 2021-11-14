@@ -7,21 +7,27 @@
 #include"Renderer/FrameBuffer.h"
 #include"Renderer/RenderCommand.h"
 #include"ImGui/ImGuiAppConsole.h"
+#include"glm/gtc/type_ptr.hpp"
+#include"glm/gtc/matrix_transform.hpp"
 #include"Renderer/Renderer.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
-    :Layer("EditorLayer")
-{}
-
-void EditorLayer::OnUpdate()
+    :Layer("EditorLayer"), m_OrthographicCameraController(1)
 {
+}
+
+void EditorLayer::OnUpdate(TimeStep ts)
+{
+
+    m_OrthographicCameraController.OnUpdate(ts);
     if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
     {
         m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
     }
-    
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
+    m_Shader->Bind();
+    m_Shader->SetMat4("u_ProjectionViewMatrix", m_OrthographicCameraController.GetCamera().GetProjecttionViewMatrix());
     Renderer::Submit(m_Shader, m_VertexArray);
     m_FrameBuffer->Unbind();
 }
@@ -135,5 +141,7 @@ void EditorLayer::OnAttach()
     m_Vertexbuffer->SetLayout(layout);
     m_VertexArray->AddVertexBuffer(m_Vertexbuffer);
     m_VertexArray->SetIndexBuffer(indexbuffer);
-    m_Shader = Shader::Create("aaa", "assets/shaders/test.vert", "assets/shaders/test.frag");
+    m_Shader = Shader::Create("flatColor", "assets/shaders/flatColor/vertex.vert", "assets/shaders/flatColor/fragment.frag");
+    m_Shader->Bind();
+    m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
 }

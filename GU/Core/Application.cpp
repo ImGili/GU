@@ -4,6 +4,8 @@
  */
 #include"Application.h"
 #include"Renderer/RenderCommand.h"
+#include"Core/TimeStep.h"
+#include<glfw/glfw3.h>
 #include<iostream>
 using namespace GU;
 
@@ -33,13 +35,17 @@ Application::~Application()
 
 void Application::Run()
 {
+    m_LastFrameTime = (float)glfwGetTime();
     while (m_Running)
     {
         RenderCommand::Clear();
         m_imGuiLayer->Begin();
+        float time = (float)glfwGetTime();
+        TimeStep timestep = time - m_LastFrameTime;
+        m_LastFrameTime = time;
         for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
         {
-            (*it)->OnUpdate();
+            (*it)->OnUpdate(timestep);
         }
         for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
         {

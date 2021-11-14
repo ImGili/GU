@@ -29,6 +29,7 @@ namespace GU
         std::unique_ptr<Window> m_window;
         static Application* s_Instance;
         ImGuiLayer* m_imGuiLayer;
+        float m_LastFrameTime = 0.0f;
     };
 
     Application* CreateApplication();

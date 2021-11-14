@@ -11,7 +11,7 @@ public:
     ~ExampleLayer();
     void OnImGuiRender() override;
     void OnAttach() override;
-    void OnUpdate() override;
+    void OnUpdate(TimeStep ts) override;
 private:
     std::shared_ptr<Shader> m_Shader;
     std::shared_ptr<VertexBuffer> m_Vertexbuffer;

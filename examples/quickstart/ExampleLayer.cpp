@@ -21,7 +21,7 @@ void ExampleLayer::OnImGuiRender()
 
 //     ImGui::End();
 }
-void ExampleLayer::OnUpdate()
+void ExampleLayer::OnUpdate(TimeStep ts)
 {
     m_VertexArray->Bind();
     m_Shader->Bind();

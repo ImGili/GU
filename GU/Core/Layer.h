@@ -5,6 +5,7 @@
 #pragma once
 #include"Core.h"
 #include"Events/Event.h"
+#include"Core/TimeStep.h"
 #include<string>
 namespace GU
 {
@@ -15,7 +16,7 @@ namespace GU
         virtual ~Layer() = default;
 
         virtual void OnAttach(){}
-        virtual void OnUpdate(){}
+        virtual void OnUpdate(TimeStep ts){}
         virtual void OnEvent(Event& e){}
         virtual void OnDetach(){}
         virtual void OnImGuiRender(){}

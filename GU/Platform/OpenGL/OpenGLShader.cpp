@@ -7,6 +7,7 @@
 #include<glad/glad.h>
 #include<fstream>
 #include<sstream>
+#include<glm/gtc/type_ptr.hpp>
 using namespace GU;
 OpenGLShader::OpenGLShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath)
     : m_Name(name)
@@ -137,4 +138,15 @@ void OpenGLShader::Unbind()
 OpenGLShader::~OpenGLShader()
 {
     glDeleteShader(m_RendererID);
+}
+
+void OpenGLShader::SetMat4(const std::string &name, const glm::mat4& value) const
+{ 
+    int flag = glGetUniformLocation(m_RendererID, name.c_str());
+    if (flag != -1)
+    {
+        glUniformMatrix4fv(glGetUniformLocation(m_RendererID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value)); 
+    }
+
+    
 }
