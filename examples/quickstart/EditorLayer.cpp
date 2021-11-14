@@ -6,6 +6,7 @@
 #include"Core/Application.h"
 #include"Renderer/FrameBuffer.h"
 #include"Renderer/RenderCommand.h"
+#include"ImGui/ImGuiAppConsole.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
     :Layer("EditorLayer")
@@ -25,6 +26,7 @@ void EditorLayer::OnUpdate()
     RenderCommand::DrawIndexed(m_VertexArray);
     m_FrameBuffer->Unbind();
 }
+
 
 void EditorLayer::OnImGuiRender()
 {
@@ -101,6 +103,10 @@ void EditorLayer::OnImGuiRender()
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
     ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    // ImGui::ShowDemoWindow();
+    //-----------Debug Console-----------------------------------
+    static ImGuiAppConsole console;
+    console.Draw("Console", &p_open);
     ImGui::End();
     ImGui::End();
 }
