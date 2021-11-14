@@ -13,7 +13,13 @@ EditorLayer::EditorLayer()
 
 void EditorLayer::OnUpdate()
 {
+    if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
+    {
+        m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+    }
+    
     m_FrameBuffer->Bind();
+    RenderCommand::Clear();
     m_VertexArray->Bind();
     m_Shader->Bind();
     RenderCommand::DrawIndexed(m_VertexArray);
@@ -89,9 +95,12 @@ void EditorLayer::OnImGuiRender()
     ImGui::Button("aaa");
     ImGui::End();
 
+    //=============viewport======================================
     ImGui::Begin("Viewport");
+    ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+    m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image((void*)textureID, ImVec2{ 1280, 720 }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
     ImGui::End();
 }
