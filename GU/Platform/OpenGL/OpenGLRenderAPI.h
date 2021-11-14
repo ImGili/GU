@@ -15,6 +15,6 @@ namespace GU
         void SetClearColor(const glm::vec4& color) override;
         void Clear() override;
         void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0) override;
-        virtual void DrawArray(const std::shared_ptr<VertexArray>& vertexArray, uint32_t count, uint32_t drawFlag = GL_TRIANGLES) override;
+        virtual void DrawArray(uint32_t count, uint32_t drawFlag = GL_TRIANGLES) override;
     };
 }
