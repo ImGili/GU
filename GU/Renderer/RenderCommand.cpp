@@ -27,3 +27,8 @@ void RenderCommand::SetClearColor(const glm::vec4& color)
  {
      s_RenderAPI->DrawIndexed(vertexArray, indexCount);
  }
+
+void RenderCommand::DrawArray(uint32_t count, uint32_t drawFlag)
+{
+    s_RenderAPI->DrawArray(count, drawFlag);
+}
