@@ -7,6 +7,7 @@
 #include"Renderer/FrameBuffer.h"
 #include"Renderer/RenderCommand.h"
 #include"ImGui/ImGuiAppConsole.h"
+#include"Renderer/Renderer.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
     :Layer("EditorLayer")
@@ -21,9 +22,7 @@ void EditorLayer::OnUpdate()
     
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
-    m_VertexArray->Bind();
-    m_Shader->Bind();
-    RenderCommand::DrawIndexed(m_VertexArray);
+    Renderer::Submit(m_Shader, m_VertexArray);
     m_FrameBuffer->Unbind();
 }
 
