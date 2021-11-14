@@ -11,7 +11,12 @@ Application* Application::s_Instance = nullptr;
 
 Application::Application()
 {
-    m_window = Window::Create();
+    #ifdef GU_PLATFORM_WINDOWS
+        m_window = Window::Create();
+    #else
+        m_window = Window::Create({"GUEngine", 640, 400});
+    #endif
+    
     m_window->SetEventCallback([this](Event& evnet){this->OnEvent(evnet);});
     if (s_Instance != nullptr)
     {
