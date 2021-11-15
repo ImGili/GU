@@ -10,6 +10,7 @@
 #include"glm/gtc/type_ptr.hpp"
 #include"glm/gtc/matrix_transform.hpp"
 #include"Renderer/Renderer.h"
+#include"Renderer/Renderer2D.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
     :Layer("EditorLayer"), m_OrthographicCameraController(1)
@@ -29,11 +30,15 @@ void EditorLayer::OnUpdate(TimeStep ts)
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
-    m_Shader->Bind();
-    m_Shader->SetMat4("u_ProjectionViewMatrix", m_OrthographicCameraController.GetCamera().GetProjecttionViewMatrix());
-    // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
+    // m_Shader->Bind();
+    // m_Shader->SetMat4("u_ProjectionViewMatrix", m_OrthographicCameraController.GetCamera().GetProjecttionViewMatrix());
+    // // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
 
-    Renderer::Submit(m_Shader, m_VertexArray);
+    // Renderer::Submit(m_Shader, m_VertexArray);
+
+    Renderer2D::BeginScene();
+    Renderer2D::DrawQuad(glm::mat4(1));
+    Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
 

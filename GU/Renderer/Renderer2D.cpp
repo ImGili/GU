@@ -6,6 +6,7 @@
 #include"Renderer/VertexArray.h"
 #include"Renderer/Buffer.h"
 #include"Renderer/Shader.h"
+#include"Renderer/RenderCommand.h"
 
 #include<glm/glm.hpp>
 #include<glm/gtc/type_ptr.hpp>
@@ -15,13 +16,14 @@ using namespace GU;
 
 struct QuadVertex
 {
-    glm::vec4 Position;
+    glm::vec3 Position;
 };
 
 struct Renderer2DData
 {
     static const uint32_t MaxQuad = 2000;
-    static const uint32_t MaxVertics = MaxQuad * 4;
+    static const uint32_t MaxVertices = MaxQuad * 4;
+    static const uint32_t MaxIndices = MaxQuad * 6;
     QuadVertex* QuadVertexBufferDataBase = nullptr;
     QuadVertex* QuadVertexBufferDataPtr = nullptr;
 
@@ -36,20 +38,38 @@ static Renderer2DData s_Data;
 
 void Renderer2D::Init()
 {
-    s_Data.QuadVertexBuffer = VertexBuffer::Create(4);
+    s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
     s_Data.QuadVertexArray = VertexArray::Create();
-
     s_Data.QuadVertexBuffer->SetLayout({
         {ShaderDataType::Float3, "a_Position"}
     });
+    s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
     s_Data.QuadVertexShader = Shader::Create("quadShader", "asset/shaders/texture/vertex.vert", "asset/shaders/texture/fragment.frag");
-    s_Data.QuadVertexBufferDataBase = new QuadVertex[Renderer2DData::MaxVertics];
+    s_Data.QuadVertexBufferDataBase = new QuadVertex[Renderer2DData::MaxVertices];
 
     s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
     s_Data.QuadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
     s_Data.QuadVertexPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
     s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
+    uint32_t* quadIndices = new uint32_t[Renderer2DData::MaxIndices];
+    uint32_t offset = 0;
+    for (uint32_t i = 0; i < Renderer2DData::MaxIndices; i += 6)
+    {
+        quadIndices[i + 0] = offset + 0;
+        quadIndices[i + 1] = offset + 1;
+        quadIndices[i + 2] = offset + 2;
+
+        quadIndices[i + 3] = offset + 2;
+        quadIndices[i + 4] = offset + 3;
+        quadIndices[i + 5] = offset + 0;
+
+        offset += 4;
+    }
+    std::shared_ptr<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
+    s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
+    delete[] quadIndices;
 }
 
 void Renderer2D::BeginScene()
@@ -61,7 +81,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform)
 {
     for (size_t i = 0; i < 4; i++)
     {
-        s_Data.QuadVertexBufferDataPtr->Position  = transform * s_Data.QuadVertexPositions[i];
+        s_Data.QuadVertexBufferDataPtr->Position  = s_Data.QuadVertexPositions[i];
         s_Data.QuadVertexBufferDataPtr++;
     }
 }
@@ -73,6 +93,9 @@ void Renderer2D::EndScene()
 
 void Renderer2D::Flush()
 {
-    uint32_t datasize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferDataPtr - (uint8_t*)s_Data.QuadVertexBufferDataBase);
-    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferDataBase, datasize);
+    uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferDataPtr - (uint8_t*)s_Data.QuadVertexBufferDataBase);
+    s_Data.QuadVertexArray->Bind();
+    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferDataBase, dataSize);
+    s_Data.QuadVertexShader->Bind();
+    RenderCommand::DrawIndexed(s_Data.QuadVertexArray);
 }
