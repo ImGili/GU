@@ -32,6 +32,7 @@ struct Renderer2DData
     std::shared_ptr<VertexBuffer> QuadVertexBuffer;
     std::shared_ptr<VertexArray> QuadVertexArray;
     std::shared_ptr<Shader> QuadVertexShader;
+    uint32_t QuadIndicesCount = 0;
 };
 
 static Renderer2DData s_Data;
@@ -75,6 +76,7 @@ void Renderer2D::Init()
 void Renderer2D::BeginScene()
 {
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
+    s_Data.QuadIndicesCount = 0;
 }
 
 void Renderer2D::DrawQuad(const glm::mat4& transform)
@@ -84,6 +86,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform)
         s_Data.QuadVertexBufferDataPtr->Position  = s_Data.QuadVertexPositions[i];
         s_Data.QuadVertexBufferDataPtr++;
     }
+    s_Data.QuadIndicesCount += 6;
 }
 
 void Renderer2D::EndScene()
@@ -97,5 +100,5 @@ void Renderer2D::Flush()
     s_Data.QuadVertexArray->Bind();
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferDataBase, dataSize);
     s_Data.QuadVertexShader->Bind();
-    RenderCommand::DrawIndexed(s_Data.QuadVertexArray);
+    RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
 }
