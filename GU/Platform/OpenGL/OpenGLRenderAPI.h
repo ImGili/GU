@@ -5,6 +5,7 @@
 #pragma once
 #include"Renderer/RenderAPI.h"
 #include"Core/Core.h"
+#include<glad/glad.h>
 namespace GU
 {
     class GU_API OpenGLRenderAPI : public RenderAPI
@@ -14,5 +15,6 @@ namespace GU
         void SetClearColor(const glm::vec4& color) override;
         void Clear() override;
         void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0) override;
+        virtual void DrawArray(const std::shared_ptr<VertexArray>& vertexArray, uint32_t count, uint32_t drawFlag = GL_TRIANGLES) override;
     };
 }
