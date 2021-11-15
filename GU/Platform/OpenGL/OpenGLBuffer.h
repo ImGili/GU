@@ -10,6 +10,7 @@ namespace GU
     {
     public:
         OpenGLVertexBuffer(float* data, uint32_t size);
+        OpenGLVertexBuffer(uint32_t size);
         virtual ~OpenGLVertexBuffer();
         void Bind() override;
         void Unbind() override;
