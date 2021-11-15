@@ -113,7 +113,7 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.5 }, ImVec2{ 0.5, 0 });
+    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.5 }, ImVec2{ 0.5, 0 });
     // ImGui::ShowDemoWindow();
     //-----------Debug Console-----------------------------------
     static ImGuiAppConsole console;
