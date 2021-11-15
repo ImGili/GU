@@ -114,7 +114,7 @@ namespace GU
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
 
-        virtual void SetData(float* data, uint32_t size) = 0;
+        virtual void SetData(const void* data, uint32_t size) = 0;
         virtual void SetLayout(const BufferLayout& bufferLayout) = 0;
         virtual const BufferLayout& GetLayout() const = 0;
 

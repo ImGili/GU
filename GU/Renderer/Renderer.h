@@ -14,5 +14,6 @@ namespace GU
     {
     public:
         static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexarray, const glm::mat4& transform = glm::mat4(1));
+        static void Init();
     };
 }
