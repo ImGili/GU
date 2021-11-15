@@ -18,8 +18,11 @@ EditorLayer::EditorLayer()
 
 void EditorLayer::OnUpdate(TimeStep ts)
 {
-
-    m_OrthographicCameraController.OnUpdate(ts);
+    if (m_IsViewportFocus)
+    {
+        m_OrthographicCameraController.OnUpdate(ts);
+    }
+    
     if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
     {
         m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
@@ -104,6 +107,7 @@ void EditorLayer::OnImGuiRender()
 
     //=============viewport======================================
     ImGui::Begin("Viewport");
+    m_IsViewportFocus = ImGui::IsWindowFocused();
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
