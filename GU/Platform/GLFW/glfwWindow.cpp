@@ -2,20 +2,21 @@
  * @Author: ImGili
  * @Description: 
  */
-#include"WindowsWindow.h"
+#include"Platform/GLFW/glfwWindow.h"
 #include"Events/ApplicationEvent.h"
+#include"Platform/OpenGL/OpenGLContext.h"
 #include<iostream>
 using namespace GU;
-WindowsWindow::WindowsWindow(const WindowProps& props)
+glfwWindow::glfwWindow(const WindowProps& props)
 {
     Init(props);
 }
-void WindowsWindow::OnUpdate()
+void glfwWindow::OnUpdate()
 {
     glfwPollEvents();
     glfwSwapBuffers(m_window);
 }
-void WindowsWindow::Init(const WindowProps& props)
+void glfwWindow::Init(const WindowProps& props)
 {
     // glfw: initialize and configure
     // ------------------------------
@@ -23,6 +24,12 @@ void WindowsWindow::Init(const WindowProps& props)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    #ifdef GU_PLATFORM_MACOS
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
+    
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
     // glfw window creation
     // --------------------
@@ -32,12 +39,6 @@ void WindowsWindow::Init(const WindowProps& props)
     m_Context = GraphicsContext::Create(m_window);
     m_Context->Init();
     
-    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    // {
-    //     std::cout << "Failed to initialize GLAD" << std::endl;
-    //     return;
-    // }
-
     glfwSetWindowUserPointer(m_window, &m_wData);
     
     glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window){
@@ -47,20 +48,18 @@ void WindowsWindow::Init(const WindowProps& props)
     });
 }
 
-WindowsWindow::~WindowsWindow()
-{
-    glfwDestroyWindow(m_window);
 
-    glfwTerminate();
-}
 
-void WindowsWindow::SetEventCallback(const EventCallbackFn& callback)
+void glfwWindow::SetEventCallback(const EventCallbackFn& callback)
 {
     m_wData.callback = callback;
 }
 
-
-void* WindowsWindow::GetNativeWindow()
+void glfwWindow::MaxWindow()
 {
-    return (void*) m_window;
+    // 获取当前屏幕（monitor）
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    // 获取当前屏幕的模式
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwSetWindowMonitor(m_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
 }

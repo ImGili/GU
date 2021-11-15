@@ -126,9 +126,10 @@ void EditorLayer::OnImGuiRender()
     ImGui::End();
     ImGui::End();
 }
-
+#include"glfw/glfw3.h"
 void EditorLayer::OnAttach()
 {
+    Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 720;
     spec.Width = 1280;
@@ -153,6 +154,6 @@ void EditorLayer::OnAttach()
     m_VertexArray->AddVertexBuffer(m_Vertexbuffer);
     m_VertexArray->SetIndexBuffer(indexbuffer);
     m_Shader = Shader::Create("flatColor", "assets/shaders/flatColor/vertex.vert", "assets/shaders/flatColor/fragment.frag");
-    m_Shader->Bind();
-    m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
+    // m_Shader->Bind();
+    // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
 }

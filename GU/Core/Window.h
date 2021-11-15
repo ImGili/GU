@@ -40,6 +40,7 @@ namespace GU
         static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
         virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
         virtual void* GetNativeWindow() = 0;
+        virtual void MaxWindow() = 0;
     };
 
 }
