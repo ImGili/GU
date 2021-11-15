@@ -22,7 +22,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
     {
         m_OrthographicCameraController.OnUpdate(ts);
     }
-    
+
     if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
     {
         m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
@@ -31,6 +31,8 @@ void EditorLayer::OnUpdate(TimeStep ts)
     RenderCommand::Clear();
     m_Shader->Bind();
     m_Shader->SetMat4("u_ProjectionViewMatrix", m_OrthographicCameraController.GetCamera().GetProjecttionViewMatrix());
+    // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
+
     Renderer::Submit(m_Shader, m_VertexArray);
     m_FrameBuffer->Unbind();
 }
@@ -111,7 +113,7 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.5 }, ImVec2{ 0.5, 0 });
     // ImGui::ShowDemoWindow();
     //-----------Debug Console-----------------------------------
     static ImGuiAppConsole console;
