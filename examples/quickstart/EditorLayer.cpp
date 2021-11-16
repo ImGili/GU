@@ -37,7 +37,8 @@ void EditorLayer::OnUpdate(TimeStep ts)
     // Renderer::Submit(m_Shader, m_VertexArray);
 
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-    Renderer2D::DrawQuad(glm::mat4(1));
+    Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
+    Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }

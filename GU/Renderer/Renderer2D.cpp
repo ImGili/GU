@@ -18,13 +18,16 @@ using namespace GU;
 struct QuadVertex
 {
     glm::vec3 Position;
+    glm::vec4 Color;
 };
 
 struct Renderer2DData
 {
+    static const uint32_t aQuadIndices = 6;
+    static const uint32_t aQuadVertices = 4;
     static const uint32_t MaxQuad = 2000;
-    static const uint32_t MaxVertices = MaxQuad * 4;
-    static const uint32_t MaxIndices = MaxQuad * 6;
+    static const uint32_t MaxVertices = MaxQuad * aQuadVertices;
+    static const uint32_t MaxIndices = MaxQuad * aQuadIndices;
     QuadVertex* QuadVertexBufferDataBase = nullptr;
     QuadVertex* QuadVertexBufferDataPtr = nullptr;
 
@@ -51,7 +54,8 @@ void Renderer2D::Init()
     s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
     s_Data.QuadVertexArray = VertexArray::Create();
     s_Data.QuadVertexBuffer->SetLayout({
-        {ShaderDataType::Float3, "a_Position"}
+        {ShaderDataType::Float3, "a_Position"}, 
+        {ShaderDataType::Float4, "a_Color"}
     });
     s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -75,7 +79,7 @@ void Renderer2D::Init()
         quadIndices[i + 4] = offset + 3;
         quadIndices[i + 5] = offset + 0;
 
-        offset += 4;
+        offset += s_Data.aQuadVertices;
     }
     std::shared_ptr<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
     s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
@@ -91,14 +95,15 @@ void Renderer2D::BeginScene(const OrthographicCamera& camera)
     s_Data.CameraUniformBuffer->SetData(&s_Data.CameraUniformBufferData,sizeof(s_Data.CameraUniformBufferData));
 }
 
-void Renderer2D::DrawQuad(const glm::mat4& transform)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 {
     for (size_t i = 0; i < 4; i++)
     {
-        s_Data.QuadVertexBufferDataPtr->Position  = s_Data.QuadVertexPositions[i];
+        s_Data.QuadVertexBufferDataPtr->Position  = transform * s_Data.QuadVertexPositions[i];
+        s_Data.QuadVertexBufferDataPtr->Color  = color;
         s_Data.QuadVertexBufferDataPtr++;
     }
-    s_Data.QuadIndicesCount += 6;
+    s_Data.QuadIndicesCount += s_Data.aQuadIndices;
 }
 
 void Renderer2D::EndScene()
@@ -114,4 +119,10 @@ void Renderer2D::Flush()
     s_Data.QuadVertexShader->Bind();
     s_Data.CameraUniformBuffer->Bind();
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
+}
+
+void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec4& color)
+{
+    glm::mat4 transform = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0));
+    Renderer2D::DrawQuad(transform, color);
 }
