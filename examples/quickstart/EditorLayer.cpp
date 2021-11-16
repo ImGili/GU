@@ -123,6 +123,12 @@ void EditorLayer::OnImGuiRender()
     //-----------Debug Console-----------------------------------
     static ImGuiAppConsole console;
     console.Draw("Console", &p_open);
+
+    ImGui::Begin("BrowserPannel");
+    ImGui::Button("aaa");
+    ImGui::End();
+
+
     ImGui::End();
     ImGui::End();
 }
