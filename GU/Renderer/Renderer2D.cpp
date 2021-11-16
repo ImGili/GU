@@ -5,6 +5,7 @@
 #include"Renderer/Renderer2D.h"
 #include"Renderer/VertexArray.h"
 #include"Renderer/Buffer.h"
+#include"Renderer/UniformBuffer.h"
 #include"Renderer/Shader.h"
 #include"Renderer/RenderCommand.h"
 
@@ -33,6 +34,14 @@ struct Renderer2DData
     std::shared_ptr<VertexArray> QuadVertexArray;
     std::shared_ptr<Shader> QuadVertexShader;
     uint32_t QuadIndicesCount = 0;
+
+    struct CameraData
+    {
+        glm::mat4 ProjectionView;
+    };
+    CameraData CameraUniformBufferData;
+    std::shared_ptr<UniformBuffer> CameraUniformBuffer;
+
 };
 
 static Renderer2DData s_Data;
@@ -71,12 +80,15 @@ void Renderer2D::Init()
     std::shared_ptr<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
     s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
     delete[] quadIndices;
+    s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
 }
 
-void Renderer2D::BeginScene()
+void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
+    s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjecttionViewMatrix();
+    s_Data.CameraUniformBuffer->SetData(&s_Data.CameraUniformBufferData,sizeof(s_Data.CameraUniformBufferData));
 }
 
 void Renderer2D::DrawQuad(const glm::mat4& transform)
@@ -100,5 +112,6 @@ void Renderer2D::Flush()
     s_Data.QuadVertexArray->Bind();
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferDataBase, dataSize);
     s_Data.QuadVertexShader->Bind();
+    s_Data.CameraUniformBuffer->Bind();
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
 }

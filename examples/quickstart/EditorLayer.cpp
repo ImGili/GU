@@ -32,11 +32,11 @@ void EditorLayer::OnUpdate(TimeStep ts)
     RenderCommand::Clear();
     // m_Shader->Bind();
     // m_Shader->SetMat4("u_ProjectionViewMatrix", m_OrthographicCameraController.GetCamera().GetProjecttionViewMatrix());
-    // // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
+    // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
 
     // Renderer::Submit(m_Shader, m_VertexArray);
 
-    Renderer2D::BeginScene();
+    Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
     Renderer2D::DrawQuad(glm::mat4(1));
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
@@ -129,7 +129,7 @@ void EditorLayer::OnImGuiRender()
 #include"glfw/glfw3.h"
 void EditorLayer::OnAttach()
 {
-    Application::Get()->GetWindow().MaxWindow();
+    // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 720;
     spec.Width = 1280;

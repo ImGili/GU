@@ -5,6 +5,7 @@
 #pragma once
 #include"Core/Core.h"
 #include"glm/glm.hpp"
+#include"Renderer/OrthographicCamera.h"
 namespace GU
 {
     // TODO: 2D Renderer
@@ -13,7 +14,7 @@ namespace GU
     public:
         static void Init();
 
-        static void BeginScene();
+        static void BeginScene(const OrthographicCamera& camera);
 
         static void DrawQuad(const glm::mat4& tranfom);
 
