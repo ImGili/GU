@@ -17,6 +17,7 @@ namespace GU
         static void BeginScene(const OrthographicCamera& camera);
 
         static void DrawQuad(const glm::vec2& position, const glm::vec4& color = {1.0f, 0.5f, 0.2f, 1.0f});
+        static void DrawQuad(const glm::vec2& position, const glm::vec2 size, const glm::vec4& color = {1.0f, 0.5f, 0.2f, 1.0f});
         static void DrawQuad(const glm::mat4& tranfom, const glm::vec4& color = {1.0f, 0.5f, 0.2f, 1.0f});
 
         static void EndScene();

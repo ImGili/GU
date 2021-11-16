@@ -7,8 +7,10 @@
 #include"glm/glm.hpp"
 using namespace GU;
 OrthographicCameraController::OrthographicCameraController(float aspectRatio)
-    : m_AspectRatio(aspectRatio), m_OrthographicCamera(-(aspectRatio/2*10) , (aspectRatio/2*10) , -10, 10)
-{}
+    : m_AspectRatio(aspectRatio), m_OrthographicCamera(-(aspectRatio/2*10) , (aspectRatio/2*10) , -10, 10), m_CameraPosition({4, 4, 1})
+{
+    m_OrthographicCamera.SetPosition(m_CameraPosition);
+}
 void OrthographicCameraController::OnUpdate(TimeStep ts)
 {
     if (Input::IsKeyPressed(KeyCode::A))

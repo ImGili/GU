@@ -124,5 +124,11 @@ void Renderer2D::Flush()
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec4& color)
 {
     glm::mat4 transform = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0));
-    Renderer2D::DrawQuad(transform, color);
+    DrawQuad(transform, color);
+}
+
+void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2 size, const glm::vec4& color)
+{
+    glm::mat4 transform = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0)) * glm::scale(glm::mat4(1), glm::vec3(size.x, size.y, 1.0));
+    DrawQuad(transform, color);
 }

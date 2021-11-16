@@ -38,7 +38,8 @@ void EditorLayer::OnUpdate(TimeStep ts)
 
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
     Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
-    Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
+    Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
+    Renderer2D::DrawQuad(glm::vec2(5.0, 0.0), glm::vec2(2.0, 2.0),  glm::vec4(1.0, 1.0, 0.0, 1.0));
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
@@ -119,7 +120,7 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.5 }, ImVec2{ 0.5, 0 });
+    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.4 }, ImVec2{ 0.4, 0 });
     // ImGui::ShowDemoWindow();
     //-----------Debug Console-----------------------------------
     static ImGuiAppConsole console;
