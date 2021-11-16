@@ -13,7 +13,7 @@
 #include"Renderer/Renderer2D.h"
 #include<imgui.h>
 EditorLayer::EditorLayer()
-    :Layer("EditorLayer"), m_OrthographicCameraController(1)
+    :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f)
 {
 }
 
@@ -164,4 +164,9 @@ void EditorLayer::OnAttach()
     m_Shader = Shader::Create("flatColor", "assets/shaders/flatColor/vertex.vert", "assets/shaders/flatColor/fragment.frag");
     // m_Shader->Bind();
     // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
+}
+
+void EditorLayer::OnEvent(Event& e)
+{
+    m_OrthographicCameraController.OnEvent(e);
 }

@@ -22,6 +22,7 @@ public:
     void OnAttach() override;
     void OnUpdate(TimeStep ts) override;
     void OnImGuiRender() override;
+    void OnEvent(Event& e) override;
 private:
     std::shared_ptr<FrameBuffer> m_FrameBuffer;
     std::shared_ptr<Shader> m_Shader;

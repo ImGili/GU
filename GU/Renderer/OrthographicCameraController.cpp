@@ -3,13 +3,15 @@
  * @Description: 
  */
 #include"Renderer/OrthographicCameraController.h"
+#include"Events/MouseEvent.h"
 #include"Core/Input.h"
 #include"glm/glm.hpp"
+#include"Core/Log.h"
+#include <algorithm>
 using namespace GU;
 OrthographicCameraController::OrthographicCameraController(float aspectRatio)
-    : m_AspectRatio(aspectRatio), m_OrthographicCamera(-(aspectRatio/2*10) , (aspectRatio/2*10) , -10, 10), m_CameraPosition({4, 4, 1})
+    : m_AspectRatio(aspectRatio), m_ZoomLevel(1.0), m_OrthographicCamera(-aspectRatio * 1, aspectRatio * 1, -1, 1)
 {
-    m_OrthographicCamera.SetPosition(m_CameraPosition);
 }
 void OrthographicCameraController::OnUpdate(TimeStep ts)
 {
@@ -31,4 +33,22 @@ void OrthographicCameraController::OnUpdate(TimeStep ts)
     }
 
     m_OrthographicCamera.SetPosition(m_CameraPosition);
+}
+
+void OrthographicCameraController::OnEvent(Event& e)
+{
+    OnMouseScrolled(e);
+}
+
+void OrthographicCameraController::OnMouseScrolled(Event& e)
+{
+    if (e.GetEventType() == EventType::MouseScrolledEvent)
+    {
+        MouseScrolledEvent& event = static_cast<MouseScrolledEvent&>(e);
+        m_ZoomLevel -= event.GetYOffset() * 0.25f;
+        m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
+        m_OrthographicCamera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        event.Handled = true;
+        GU_INFO("OrthographicCameraController OnMouseScrolled{0}", event.GetXOffset());
+    }
 }

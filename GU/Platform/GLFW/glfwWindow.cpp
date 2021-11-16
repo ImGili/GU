@@ -4,7 +4,9 @@
  */
 #include"Platform/GLFW/glfwWindow.h"
 #include"Events/ApplicationEvent.h"
+#include"Events/MouseEvent.h"
 #include"Platform/OpenGL/OpenGLContext.h"
+#include"Core/Log.h"
 #include<iostream>
 using namespace GU;
 glfwWindow::glfwWindow(const WindowProps& props)
@@ -46,6 +48,12 @@ void glfwWindow::Init(const WindowProps& props)
         WindowsClosedEvnet event;
         wData.callback(event);
     });
+
+    glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset){
+        GU_INFO("{0}",yOffset);
+        WindowData& wData =  *(WindowData*)glfwGetWindowUserPointer(window);
+        MouseScrolledEvent event((float)xOffset, (float)yOffset);
+        wData.callback(event);});
 }
 
 

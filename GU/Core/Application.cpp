@@ -22,7 +22,7 @@ Application::Application()
     
     Renderer::Init();
 
-    m_window->SetEventCallback([this](Event& evnet){this->OnEvent(evnet);});
+    m_window->SetEventCallback([this](Event& event){this->OnEvent(event);});
     if (s_Instance != nullptr)
     {
         GU_DEBUGBREAK();
@@ -62,8 +62,17 @@ void Application::Run()
 
 void Application::OnEvent(Event& e)
 {
-    if(e.GetEvent() == EventType::WindowsCloseEvent)
+    if(e.GetEventType() == EventType::WindowsCloseEvent)
         m_Running = false;
+    for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
+    {
+        if (e.Handled)
+        {
+            break;
+        }
+        
+        (*it)->OnEvent(e);
+    }
 }
 
 void Application::PushLayer(Layer* layer)

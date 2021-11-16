@@ -16,6 +16,7 @@ namespace GU
         void SetPosition(glm::vec3 position) { m_Position = position; RecalculateViewMatrix();}
         void SetRotation(float rotation) { m_Rotation = rotation; RecalculateViewMatrix(); }
         const glm::mat4& GetProjecttionViewMatrix() const { return m_ProjectionViewMatrix;}
+        void SetProjection(float left, float right, float bottom, float top);
     private:
         glm::mat4 m_ProjectionMatrix;
         glm::mat4 m_ViewMatrix;
