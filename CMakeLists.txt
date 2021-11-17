@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(Gu)
+
+option(GU_BUILD_EXAMPLES "Build GUEngine Examples" ON)
+
 option(GU_BUILD_SHARED_LIBRARY ON)
 
 option(GU_DEBUG_ENABLE ON)
@@ -95,6 +98,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 # set_target_properties(${PROJECT_NAME} PROPERTIES
 #     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 
+if (GU_BUILD_EXAMPLES)
+    message("GU BUILD EXAMPLE")
+    add_subdirectory(examples/quickstart)
+    add_subdirectory(examples/aiquickstart)
+endif()
 
-add_subdirectory(examples/quickstart)
-add_subdirectory(examples/aiquickstart)
