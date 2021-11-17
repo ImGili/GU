@@ -11,6 +11,7 @@
 #include"Renderer/OrthographicCameraController.h"
 #include<glm/glm.hpp>
 #include<string>
+#include"AI/AgentSimulator.h"
 using namespace GU;
 
 class EditorLayer : public Layer
@@ -33,4 +34,5 @@ private:
     glm::vec2 m_ViewportSize = glm::vec2 (0.0f, 0.0f);
     OrthographicCameraController m_OrthographicCameraController;
     bool m_IsViewportFocus = false;
+    AgentSimulator m_AgentSimulator;
 };

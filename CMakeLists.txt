@@ -97,3 +97,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 
 
 add_subdirectory(examples/quickstart)
+add_subdirectory(examples/aiquickstart)
