@@ -46,6 +46,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Platform/OpenGL/*.cpp
                                     GU/ImGui/*.cpp
                                     GU/Renderer/*.cpp
+                                    GU/AI/*.cpp
                                     vendor/imgui/*.cpp
                                     vendor/imgui/backends/imgui_impl_opengl3.cpp
                                     vendor/imgui/backends/imgui_impl_glfw.cpp
