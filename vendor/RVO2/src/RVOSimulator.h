@@ -42,8 +42,8 @@
 #include <limits>
 #include <vector>
 
-#include "Export.h"
 #include "Vector2.h"
+#include"Core/Core.h"
 
 namespace RVO {
 	/**
@@ -57,7 +57,7 @@ namespace RVO {
 	/**
 	 * \brief      Defines a directed line.
 	 */
-	class RVO_EXPORT Line {
+	class GU_API Line {
 	public:
 		/**
 		 * \brief     A point on the directed line.
@@ -79,7 +79,7 @@ namespace RVO {
 	 *
 	 * The main class of the library that contains all simulation functionality.
 	 */
-	class RVO_EXPORT RVOSimulator {
+	class GU_API RVOSimulator {
 	public:
 		/**
 		 * \brief      Constructs a simulator instance.

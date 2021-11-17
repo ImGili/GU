@@ -49,6 +49,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     vendor/imgui/*.cpp
                                     vendor/imgui/backends/imgui_impl_opengl3.cpp
                                     vendor/imgui/backends/imgui_impl_glfw.cpp
+                                    vendor/RVO2/src/*.cpp
                                     )
 
 add_definitions(-DGLFW_INCLUDE_NONE
@@ -81,6 +82,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                 vendor/glm/
                                 vendor/imgui/
                                 vendor/spdlog/include/
+                                vendor/RVO2/src
              )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

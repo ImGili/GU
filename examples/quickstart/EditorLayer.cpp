@@ -12,6 +12,7 @@
 #include"Renderer/Renderer.h"
 #include"Renderer/Renderer2D.h"
 #include<imgui.h>
+#include<RVO.h>
 EditorLayer::EditorLayer()
     :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f)
 {
@@ -137,6 +138,7 @@ void EditorLayer::OnImGuiRender()
 #include"glfw/glfw3.h"
 void EditorLayer::OnAttach()
 {
+    RVO::RVOSimulator *sim = new RVO::RVOSimulator();
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 720;
