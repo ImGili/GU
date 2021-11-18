@@ -48,12 +48,13 @@ void Application::Run()
         m_LastFrameTime = time;
         for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
         {
+            (*it)->OnImGuiRender();
             (*it)->OnUpdate(timestep);
         }
-        for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
-        {
-            (*it)->OnImGuiRender();
-        }
+        // for (auto it = m_Layers.begin(); it!=m_Layers.end(); it++)
+        // {
+        //     (*it)->OnImGuiRender();
+        // }
         m_imGuiLayer->End();
         m_window->OnUpdate();
     }
