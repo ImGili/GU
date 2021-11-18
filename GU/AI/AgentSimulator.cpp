@@ -70,7 +70,7 @@ void AgentSimulator::AddAgents(std::initializer_list<Agent> agents)
 bool AgentSimulator::IsReachGoal(uint32_t i)
 {
 	
-	if (i < m_Agents.size() && m_Agents[i].DistanceGoal() <= 1)
+	if (i < m_Agents.size() && m_Agents[i].DistanceGoal() <= 20*20)
 	{
 		if (m_Agents[i].CurrentNode>(m_Agents[i].Goals.size()-1))
 		{
