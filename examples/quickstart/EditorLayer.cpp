@@ -11,6 +11,7 @@
 #include"glm/gtc/matrix_transform.hpp"
 #include"Renderer/Renderer.h"
 #include"Renderer/Renderer2D.h"
+#include"Renderer/Texture.h"
 #include<imgui.h>
 #include<cmath>
 #include"GLFW/glfw3.h"
@@ -120,6 +121,7 @@ void EditorLayer::OnImGuiRender()
 }
 void EditorLayer::OnAttach()
 {
+    std::shared_ptr<Texture> texture = Texture::Create(20, 20);
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 1280;

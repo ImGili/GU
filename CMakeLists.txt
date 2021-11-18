@@ -41,6 +41,7 @@ endif()
 
 file(GLOB VENDORS_SOURCES           vendor/glad/src/glad.c
                                     vendor/imgui/backends/imgui_demo.cpp
+                                    vendor/stb/stb_image.cpp
                                     )
 file(GLOB PROJECT_HEADERS           GU/*.h
                                     )
@@ -87,6 +88,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                 vendor/imgui/
                                 vendor/spdlog/include/
                                 vendor/RVO2/src
+                                vendor/stb
              )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
