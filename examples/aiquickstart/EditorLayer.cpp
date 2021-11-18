@@ -15,7 +15,7 @@
 #include<cmath>
 #include"GLFW/glfw3.h"
 EditorLayer::EditorLayer()
-    :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f, 25)
+    :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f, 100)
 {
 }
 
@@ -29,7 +29,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
 
     if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
     {
-        m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
@@ -40,7 +40,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
     // Renderer::Submit(m_Shader, m_VertexArray);
 
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-    Renderer2D::DrawQuad(glm::vec2(5.0, 0.0), glm::vec2(100.0, 100.0),  glm::vec4(1.0, 1.0, 0.0, 1.0));
+    Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), {100.0, 100.0},glm::vec4(1.0, 1.0, 0.0, 1.0));
     m_AgentSimulator.DrawAgents();
     // Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
@@ -124,7 +124,7 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.4 }, ImVec2{ 0.4, 0 });
+    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     // ImGui::ShowDemoWindow();
     //-----------Debug Console-----------------------------------
     static ImGuiAppConsole console;
