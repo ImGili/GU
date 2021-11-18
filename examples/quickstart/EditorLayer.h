@@ -8,6 +8,7 @@
 #include"Renderer/Shader.h"
 #include"Renderer/VertexArray.h"
 #include"Renderer/Buffer.h"
+#include "Renderer/Texture.h"
 #include"Renderer/OrthographicCameraController.h"
 #include<glm/glm.hpp>
 #include<string>
@@ -33,4 +34,5 @@ private:
     glm::vec2 m_ViewportSize = glm::vec2 (0.0f, 0.0f);
     OrthographicCameraController m_OrthographicCameraController;
     bool m_IsViewportFocus = false;
+    std::shared_ptr<Texture2D> m_Texture;
 };

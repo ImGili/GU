@@ -2,21 +2,20 @@
  * @Author: ImGili
  * @Description: 
  */
-#include"EditorLayer.h"
-#include"Core/Application.h"
-#include"Renderer/FrameBuffer.h"
-#include"Renderer/RenderCommand.h"
-#include"ImGui/ImGuiAppConsole.h"
-#include"glm/gtc/type_ptr.hpp"
-#include"glm/gtc/matrix_transform.hpp"
-#include"Renderer/Renderer.h"
-#include"Renderer/Renderer2D.h"
-#include"Renderer/Texture.h"
-#include<imgui.h>
-#include<cmath>
-#include"GLFW/glfw3.h"
+#include "EditorLayer.h"
+#include "Core/Application.h"
+#include "Renderer/FrameBuffer.h"
+#include "Renderer/RenderCommand.h"
+#include "ImGui/ImGuiAppConsole.h"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
+#include <imgui.h>
+#include <cmath>
+#include "GLFW/glfw3.h"
 EditorLayer::EditorLayer()
-    :Layer("EditorLayer"), m_OrthographicCameraController(1280 / 720.0f)
+    : Layer("EditorLayer"), m_OrthographicCameraController(1280 / 720.0f)
 {
 }
 
@@ -27,22 +26,25 @@ void EditorLayer::OnUpdate(TimeStep ts)
         m_OrthographicCameraController.OnUpdate(ts);
     }
 
-    if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
+    if (m_ViewportSize.x != 0 && m_ViewportSize.y != 0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
     {
         m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-    Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
-    Renderer2D::DrawQuad(glm::vec2(-5.0, 5.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
-    Renderer2D::DrawQuad(glm::vec2(5.0, 5.0), glm::vec4(0.0, 1.0, 1.0, 1.0));
-    Renderer2D::DrawQuad(glm::vec2(-5.0, -5.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
-    Renderer2D::DrawQuad(glm::vec2(5.0, -5.0), glm::vec4(1.0, 1.0, 0.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(-5.0, 5.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(5.0, 5.0), glm::vec4(0.0, 1.0, 1.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(-5.0, -5.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(5.0, -5.0), glm::vec4(1.0, 1.0, 0.0, 1.0));
+    m_Shader->Bind();
+    m_VertexArray->Bind();
+    m_Texture->Bind(0);
+    Renderer::Submit(m_Shader, m_VertexArray);
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
-
 
 void EditorLayer::OnImGuiRender()
 {
@@ -57,7 +59,7 @@ void EditorLayer::OnImGuiRender()
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
     if (opt_fullscreen)
     {
-        const ImGuiViewport* viewport = ImGui::GetMainViewport();
+        const ImGuiViewport *viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->WorkPos);
         ImGui::SetNextWindowSize(viewport->WorkSize);
         ImGui::SetNextWindowViewport(viewport->ID);
@@ -91,7 +93,7 @@ void EditorLayer::OnImGuiRender()
         ImGui::PopStyleVar(2);
 
     // Submit the DockSpace
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO &io = ImGui::GetIO();
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
     {
         ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -102,13 +104,14 @@ void EditorLayer::OnImGuiRender()
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("Exit")) Application::Get()->Close();
+            if (ImGui::MenuItem("Exit"))
+                Application::Get()->Close();
             ImGui::EndMenu();
         }
-        
+
         ImGui::EndMenuBar();
     }
-    
+
     ImGui::Begin("Editor");
     ImGui::Button("aaa");
     ImGui::End();
@@ -119,13 +122,13 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1}, ImVec2{1 , 0});
+    ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
     ImGui::End();
     ImGui::End();
 }
 void EditorLayer::OnAttach()
 {
-    std::shared_ptr<Texture2D> texture = Texture2D::Create(20, 20);
+    m_Texture = Texture2D::Create("assets/textures/container2.png");
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 1280;
@@ -133,29 +136,33 @@ void EditorLayer::OnAttach()
     m_FrameBuffer = FrameBuffer::Create(spec);
 
     m_VertexArray = VertexArray::Create();
+
     float vertices[] = {
-    	-0.5f, -0.5f, 0.0f,
-    	 0.5f, -0.5f, 0.0f,
-    	 0.0f,  0.5f, 0.0f
+        0.5f, 0.5f, 0.0f, 1.0f, 1.0f,  
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 
+        -0.5f, 0.5f, 0.0f, 0.0f, 1.0f   
     };
     m_Vertexbuffer = VertexBuffer::Create(vertices, sizeof(vertices));
     BufferLayout layout = {
-        { ShaderDataType::Float3, "a_Position" }
+        {ShaderDataType::Float3, "a_Position"},
+        {ShaderDataType::Float2, "a_TexCoord"}
     };
-    uint32_t indics[] = 
-    {
-        0, 1, 2
-    };
-    std::shared_ptr<IndexBuffer> indexbuffer = IndexBuffer::Create(indics, 3);
+    uint32_t indics[] =
+        {
+            0, 1, 3, // first triangle
+            1, 2, 3  // second triangl
+        };
+    std::shared_ptr<IndexBuffer> indexbuffer = IndexBuffer::Create(indics, 6);
     m_Vertexbuffer->SetLayout(layout);
     m_VertexArray->AddVertexBuffer(m_Vertexbuffer);
     m_VertexArray->SetIndexBuffer(indexbuffer);
-    m_Shader = Shader::Create("flatColor", "assets/shaders/flatColor/vertex.vert", "assets/shaders/flatColor/fragment.frag");
+    m_Shader = Shader::Create("flatColor", "assets/shaders/test.vert", "assets/shaders/test.frag");
     // m_Shader->Bind();
     // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
 }
 
-void EditorLayer::OnEvent(Event& e)
+void EditorLayer::OnEvent(Event &e)
 {
     m_OrthographicCameraController.OnEvent(e);
 }
