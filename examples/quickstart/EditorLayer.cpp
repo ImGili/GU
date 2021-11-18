@@ -29,6 +29,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
     if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
     {
         m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
@@ -39,9 +40,9 @@ void EditorLayer::OnUpdate(TimeStep ts)
     // Renderer::Submit(m_Shader, m_VertexArray);
 
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-    Renderer2D::DrawQuad(glm::vec2(5.0, 0.0), glm::vec2(2.0, 2.0),  glm::vec4(1.0, 1.0, 0.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(5.0, 0.0), glm::vec2(2.0, 2.0),  glm::vec4(1.0, 1.0, 0.0, 1.0));
     Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
-    Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
+    // Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }

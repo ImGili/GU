@@ -5,6 +5,7 @@
 #include"Platform/OpenGL/OpenGLFrameBuffer.h"
 #include"Core/Assert.h"
 #include<glad/glad.h>
+#include"Core/Log.h"
 using namespace GU;
 OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec )
     : m_Specification(spec)
@@ -46,7 +47,7 @@ OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec )
 void OpenGLFrameBuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
-    glViewport(0, 0, m_Specification.Width<m_Specification.Width ? m_Specification.Width : m_Specification.Height, m_Specification.Width<m_Specification.Width ? m_Specification.Width : m_Specification.Height);
+    glViewport(0, 0, m_Specification.Width, m_Specification.Height);
 }
 void OpenGLFrameBuffer::Unbind()
 {
@@ -65,6 +66,7 @@ uint32_t OpenGLFrameBuffer::GetColorAttachmentRendererID() const
 
 void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
 {
+    // GU_INFO("width:{0}, height:{1}", width, height);
     m_Specification.Width=width;
     m_Specification.Height = height;
 }

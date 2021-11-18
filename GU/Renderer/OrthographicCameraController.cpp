@@ -10,7 +10,7 @@
 #include <algorithm>
 using namespace GU;
 OrthographicCameraController::OrthographicCameraController(float aspectRatio)
-    : m_AspectRatio(aspectRatio), m_ZoomLevel(15), m_OrthographicCamera(-aspectRatio * 15, aspectRatio * 15, -15, 15)
+    : m_AspectRatio(aspectRatio), m_ZoomLevel(1), m_OrthographicCamera(-aspectRatio * 1, aspectRatio * 1, -1, 1)
 {
 }
 void OrthographicCameraController::OnUpdate(TimeStep ts)
@@ -51,4 +51,10 @@ void OrthographicCameraController::OnMouseScrolled(Event& e)
         event.Handled = true;
         GU_INFO("m_ZoomLevel{0}", m_ZoomLevel);
     }
+}
+
+void OrthographicCameraController::OnResize(float width, float height)
+{
+    m_AspectRatio = width / height;
+    m_OrthographicCamera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 }

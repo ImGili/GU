@@ -19,6 +19,7 @@ namespace GU
         void OnUpdate(TimeStep ts);
         void OnEvent(Event& e);
         void OnMouseScrolled(Event& e);
+        void OnResize(float width, float height);
     private:
         OrthographicCamera m_OrthographicCamera;
         float m_AspectRatio;
