@@ -15,7 +15,7 @@ namespace GU
 
         void Bind() override;
         void Unbind() override;
-        void Resize(uint32_t width, uint32_t height);
+        void Resize(uint32_t width, uint32_t height) override;
         uint32_t GetColorAttachmentRendererID() const override;
     private:
         uint32_t m_RendererID;
