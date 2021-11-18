@@ -14,7 +14,7 @@ namespace GU
     class GU_API OrthographicCameraController
     {
     public:
-        OrthographicCameraController(float aspectRatio);
+        OrthographicCameraController(float aspectRatio, float zoomlevle = 1.0f);
         const OrthographicCamera& GetCamera() const { return m_OrthographicCamera;}
         void OnUpdate(TimeStep ts);
         void OnEvent(Event& e);

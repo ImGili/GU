@@ -1,4 +1,4 @@
-# Gu
+# Gu [![License](https://img.shields.io/github/license/ImGili/GUEngine.svg)](https://github.com/ImGili/GUEngine/blob/master/LICENSE)
 我自己的OpenGL封装
 ![logo](docs/imgs/logo.png)
 

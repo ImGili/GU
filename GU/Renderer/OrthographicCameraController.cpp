@@ -9,8 +9,8 @@
 #include"Core/Log.h"
 #include <algorithm>
 using namespace GU;
-OrthographicCameraController::OrthographicCameraController(float aspectRatio)
-    : m_AspectRatio(aspectRatio), m_ZoomLevel(1), m_OrthographicCamera(-aspectRatio * 1, aspectRatio * 1, -1, 1)
+OrthographicCameraController::OrthographicCameraController(float aspectRatio, float zoomlevle)
+    : m_AspectRatio(aspectRatio), m_ZoomLevel(zoomlevle), m_OrthographicCamera(-aspectRatio * zoomlevle, aspectRatio * zoomlevle, -zoomlevle, zoomlevle)
 {
 }
 void OrthographicCameraController::OnUpdate(TimeStep ts)

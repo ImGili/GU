@@ -13,9 +13,9 @@
 #include"Renderer/Renderer2D.h"
 #include<imgui.h>
 #include<cmath>
-#include"glfw/glfw3.h"
+#include"GLFW/glfw3.h"
 EditorLayer::EditorLayer()
-    :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f)
+    :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f, 25)
 {
 }
 

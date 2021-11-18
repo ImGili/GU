@@ -35,4 +35,10 @@ private:
     OrthographicCameraController m_OrthographicCameraController;
     bool m_IsViewportFocus = false;
     AgentSimulator m_AgentSimulator;
+
+    enum class SceneState
+    {
+        Edit = 0, Play = 1
+    };
+    SceneState m_SceneState = SceneState::Edit;
 };
