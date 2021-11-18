@@ -13,9 +13,9 @@
 #include"Renderer/Renderer2D.h"
 #include<imgui.h>
 #include<cmath>
-#include"glfw/glfw3.h"
+#include"GLFW/glfw3.h"
 EditorLayer::EditorLayer()
-    :Layer("EditorLayer"), m_OrthographicCameraController(1280.0f / 720.0f)
+    :Layer("EditorLayer"), m_OrthographicCameraController(1280 / 720.0f)
 {
 }
 
@@ -26,23 +26,14 @@ void EditorLayer::OnUpdate(TimeStep ts)
         m_OrthographicCameraController.OnUpdate(ts);
     }
 
-    if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0)
+    if (m_ViewportSize.x != 0 && m_ViewportSize.y !=0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
     {
-        m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
-    // m_Shader->Bind();
-    // m_Shader->SetMat4("u_ProjectionViewMatrix", m_OrthographicCameraController.GetCamera().GetProjecttionViewMatrix());
-    // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
-
-    // Renderer::Submit(m_Shader, m_VertexArray);
-
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-    // Renderer2D::DrawQuad(glm::vec2(5.0, 0.0), glm::vec2(2.0, 2.0),  glm::vec4(1.0, 1.0, 0.0, 1.0));
     Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
-    // Renderer2D::DrawQuad(glm::vec2(2.0, 0.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
@@ -123,17 +114,7 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 0.4 }, ImVec2{ 0.4, 0 });
-    // ImGui::ShowDemoWindow();
-    //-----------Debug Console-----------------------------------
-    static ImGuiAppConsole console;
-    console.Draw("Console", &p_open);
-
-    ImGui::Begin("BrowserPannel");
-    ImGui::Button("aaa");
-    ImGui::End();
-
-
+    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y });
     ImGui::End();
     ImGui::End();
 }
@@ -141,8 +122,8 @@ void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
-    spec.Height = 720;
-    spec.Width = 1280;
+    spec.Height = 1280;
+    spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);
 
     m_VertexArray = VertexArray::Create();

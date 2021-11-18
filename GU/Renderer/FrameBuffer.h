@@ -20,5 +20,6 @@ namespace GU
         virtual uint32_t GetColorAttachmentRendererID() const = 0;
         virtual void Resize(uint32_t width, uint32_t height) = 0;
         static std::shared_ptr<FrameBuffer> Create(const FrameBufferSpecification& spec);
+        virtual const FrameBufferSpecification& GetSpec() const = 0;
     };
 }

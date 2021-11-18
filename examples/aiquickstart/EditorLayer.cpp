@@ -140,17 +140,19 @@ void EditorLayer::OnImGuiRender()
 }
 void EditorLayer::OnAttach()
 {
-    uint32_t f = 15;
-    uint32_t r = 25;
-    for (size_t i = 0; i < f; i++)
-    {
-        glm::vec2 position = glm::vec2(r*cos(i*(360/f)), r*sin(i*(360/f)));
-        glm::vec2 goal = glm::vec2(r*cos(i*(360/f) - 180.0), r*sin(i*(360/f)- 180.0));
-        m_AgentSimulator.AddAgents({
-        { position, {goal}, {0.0, 0.0, 1.0} },
+    // uint32_t f = 200;
+    // uint32_t r = 25;
+    // for (size_t i = 0; i < f; i++)
+    // {
+    //     glm::vec2 position = glm::vec2(r*cos(i*(360/f)), r*sin(i*(360/f)));
+    //     glm::vec2 goal = glm::vec2(r*cos(i*(360/f) - 180.0), r*sin(i*(360/f)- 180.0));
+    //     m_AgentSimulator.AddAgents({
+    //     { position, {goal}, {0.0, 0.0, 1.0} },
+    //     });
+    // }
+    m_AgentSimulator.AddAgents({
+        { {0.0, 0.0}, {{0.0, 25.0}, {0, 0}}, {0.0, 0.0, 1.0} },
         });
-    }
-    
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 720;

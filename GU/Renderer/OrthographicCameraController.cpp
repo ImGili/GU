@@ -49,7 +49,6 @@ void OrthographicCameraController::OnMouseScrolled(Event& e)
         m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
         m_OrthographicCamera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
         event.Handled = true;
-        GU_INFO("m_ZoomLevel{0}", m_ZoomLevel);
     }
 }
 
