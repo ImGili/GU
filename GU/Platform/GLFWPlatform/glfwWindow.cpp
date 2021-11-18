@@ -2,7 +2,7 @@
  * @Author: ImGili
  * @Description: 
  */
-#include"Platform/GLFW/glfwWindow.h"
+#include"Platform/GLFWPlatform/glfwWindow.h"
 #include"Events/ApplicationEvent.h"
 #include"Events/MouseEvent.h"
 #include"Platform/OpenGL/OpenGLContext.h"

@@ -5,7 +5,7 @@
 #pragma once
 #include"Core/Core.h"
 #include"Core/Window.h"
-#include"glfw/glfw3.h"
+#include"GLFW/glfw3.h"
 #include"Renderer/GraphicsContext.h"
 namespace GU
 {

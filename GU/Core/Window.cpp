@@ -3,7 +3,7 @@
  * @Description: 
  */
 #include"Window.h"
-#include"Platform/GLFW/glfwWindow.h"
+#include"Platform/GLFWPlatform/glfwWindow.h"
 #include<memory>
 #include<iostream>
 namespace GU

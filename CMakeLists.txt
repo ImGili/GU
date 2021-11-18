@@ -45,7 +45,7 @@ file(GLOB VENDORS_SOURCES           vendor/glad/src/glad.c
 file(GLOB PROJECT_HEADERS           GU/*.h
                                     )
 file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
-                                    GU/Platform/GLFW/*.cpp
+                                    GU/Platform/GLFWPlatform/*.cpp
                                     GU/Platform/OpenGL/*.cpp
                                     GU/ImGui/*.cpp
                                     GU/Renderer/*.cpp

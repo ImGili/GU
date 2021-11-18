@@ -4,7 +4,7 @@
  */
 #pragma once
 #include"Core/Core.h"
-#include<glfw/glfw3.h>
+#include<GLFW/glfw3.h>
 namespace GU
 {
     enum KeyCode
