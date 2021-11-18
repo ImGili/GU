@@ -121,7 +121,7 @@ void EditorLayer::OnImGuiRender()
 }
 void EditorLayer::OnAttach()
 {
-    std::shared_ptr<Texture> texture = Texture2D::Create(20, 20);
+    // std::shared_ptr<Texture> texture = Texture2D::Create(20, 20);
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 1280;

@@ -19,7 +19,7 @@ namespace GU
     class GU_API Texture2D : public Texture
     {
     public:
-        static std::shared_ptr<Texture> Create(uint32_t width, uint32_t height);
-        static std::shared_ptr<Texture> Create(const std::string& path);
-    }
+        static std::shared_ptr<Texture2D> Create(uint32_t width, uint32_t height);
+        static std::shared_ptr<Texture2D> Create(const std::string& path);
+    };
 }
