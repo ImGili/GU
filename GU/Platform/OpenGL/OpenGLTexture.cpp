@@ -4,6 +4,7 @@
  */
 #include"Platform/OpenGL/OpenGLTexture.h"
 #include"Core/Assert.h"
+#include"Core/Log.h"
 #include<stb_image.h>
 using namespace GU;
 OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
@@ -12,14 +13,15 @@ OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
     m_InternalFormat = GL_RGBA8;
     m_DataFormat = GL_RGBA;
 
-    glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-    glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+    glGenTextures(1, &m_RendererID);
+    glBindTexture(GL_TEXTURE_2D, m_RendererID);
+    glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Width, m_Height, 0, m_DataFormat, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-    glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 {
@@ -53,13 +55,13 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
         GU_ASSERT(internalFormat & dataFormat, "Format not supported!");
 
         glGenTextures(1, &m_RendererID);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+        glBindTexture(GL_TEXTURE_2D, m_RendererID);
         glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Width, m_Height, 0, m_DataFormat, GL_UNSIGNED_BYTE, data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
         stbi_image_free(data);
     }
