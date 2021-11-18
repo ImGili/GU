@@ -8,11 +8,11 @@
 #include<glad/glad.h>
 namespace GU
 {
-    class GU_API OpenGLTexture : public Texture
+    class GU_API OpenGLTexture2D : public Texture2D
     {
     public:
-        OpenGLTexture(uint32_t width, uint32_t height);
-        OpenGLTexture(const std::string& path);
+        OpenGLTexture2D(uint32_t width, uint32_t height);
+        OpenGLTexture2D(const std::string& path);
 
         void Bind(uint32_t slot) override;
 

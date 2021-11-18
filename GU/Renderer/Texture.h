@@ -14,7 +14,12 @@ namespace GU
         virtual ~Texture() = default;
         virtual void Bind(uint32_t slot) = 0;
         virtual void SetData(void* data, uint32_t size) = 0;
+    };
+
+    class GU_API Texture2D : public Texture
+    {
+    public:
         static std::shared_ptr<Texture> Create(uint32_t width, uint32_t height);
         static std::shared_ptr<Texture> Create(const std::string& path);
-    };
+    }
 }

@@ -6,7 +6,7 @@
 #include"Core/Assert.h"
 #include<stb_image.h>
 using namespace GU;
-OpenGLTexture::OpenGLTexture(uint32_t width, uint32_t height)
+OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
     : m_Width(width), m_Height(height)
 {
     m_InternalFormat = GL_RGBA8;
@@ -21,7 +21,7 @@ OpenGLTexture::OpenGLTexture(uint32_t width, uint32_t height)
     glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
-OpenGLTexture::OpenGLTexture(const std::string& path)
+OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 {
     int width, height, channels;
     stbi_set_flip_vertically_on_load(1);
@@ -64,12 +64,12 @@ OpenGLTexture::OpenGLTexture(const std::string& path)
         stbi_image_free(data);
     }
 }
-void OpenGLTexture::Bind(uint32_t slot)
+void OpenGLTexture2D::Bind(uint32_t slot)
 {
     glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, m_RendererID);
 }
-void OpenGLTexture::SetData(void* data, uint32_t size)
+void OpenGLTexture2D::SetData(void* data, uint32_t size)
 {
     uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
     glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Width, m_Height, 0, m_DataFormat, GL_UNSIGNED_BYTE, data);
