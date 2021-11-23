@@ -13,6 +13,10 @@ add_subdirectory(vendor/glfw)
 
 add_subdirectory(vendor/spdlog)
 
+option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+option(ASSIMP_BUILD_SAMPLES OFF)
+option(ASSIMP_BUILD_TESTS OFF)
+add_subdirectory(vendor/assimp)
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /source-charset:utf-8 /execution-charset:gbk")
@@ -42,6 +46,7 @@ endif()
 file(GLOB VENDORS_SOURCES           vendor/glad/src/glad.c
                                     vendor/imgui/backends/imgui_demo.cpp
                                     vendor/stb/stb_image.cpp
+                                    vendor/assimp/include/
                                     )
 file(GLOB PROJECT_HEADERS           GU/*.h
                                     )
@@ -96,6 +101,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                 ${GLFW_LIBRARIES} 
                                 ${GLAD_LIBRARIES}
                                 spdlog::spdlog
+                                assimp
                       )
 # set_target_properties(${PROJECT_NAME} PROPERTIES
 #     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})

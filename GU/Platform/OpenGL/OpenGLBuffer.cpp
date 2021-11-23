@@ -50,7 +50,7 @@ const BufferLayout& OpenGLVertexBuffer::GetLayout() const
 
 //============OpenGLIndexBuffer==========================
 
-OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indics, uint32_t count)
+OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indics, uint32_t count)
     : m_Count(count)
 {
     glGenBuffers(1, &m_RendererID);

@@ -10,6 +10,7 @@
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/RenderCommand.h"
+#include "Renderer/Mesh.h"
 #include <imgui.h>
 #include <iostream>
 #include <glad/glad.h>
@@ -30,6 +31,15 @@ void ExampleLayer::OnUpdate(TimeStep ts)
 
 void ExampleLayer::OnAttach()
 {
+    std::vector<MeshVertex> meshVertex;
+    std::vector<uint32_t> meshIndics;
+    meshVertex.push_back({{0.0, 0.5, 0.0}});
+    meshVertex.push_back({{-0.5, -0.5, 0.0}});
+    meshVertex.push_back({{0.5, -0.5, 0.0}});
+    meshIndics.push_back(0);
+    meshIndics.push_back(1);
+    meshIndics.push_back(2);
+    std::shared_ptr<Mesh> mesh = Mesh::Create(meshVertex, meshIndics);
     m_VertexArray = VertexArray::Create();
     float vertices[3 * 3] = {
     	-0.5f, -0.5f, 0.0f,
