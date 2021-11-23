@@ -28,7 +28,7 @@ namespace GU
     {
     public:
         OpenGLIndexBuffer() = default;
-        OpenGLIndexBuffer(uint32_t* indics, uint32_t count);
+        OpenGLIndexBuffer(const uint32_t* indics, uint32_t count);
         ~OpenGLIndexBuffer() = default;
         void Bind() override;
         void Unbind() override;

@@ -40,7 +40,7 @@ std::shared_ptr<VertexBuffer> VertexBuffer::Create(uint32_t size)
     return nullptr;
 }
 
-std::shared_ptr<IndexBuffer> IndexBuffer::Create(uint32_t* indics, uint32_t count)
+std::shared_ptr<IndexBuffer> IndexBuffer::Create(const uint32_t* indics, uint32_t count)
 {
     switch (RenderAPI::GetAPI())
     {
