@@ -5,6 +5,7 @@
 #include"Renderer/Renderer3D.h"
 #include"Renderer/Renderer.h"
 #include"Renderer/Shader.h"
+#include"Core/Log.h"
 using namespace GU;
 
 struct Renderer3DData
@@ -17,6 +18,7 @@ static Renderer3DData s_Data;
 
 void Renderer3D::Init()
 {
+    GU_INFO("Renderer3D init()");
     s_Data.m_Shader = Shader::Create("MeshShader", "assets/shaders/mesh/vertex.vert", "assets/shaders/mesh/fragment.frag");
 }
 

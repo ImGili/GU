@@ -5,7 +5,7 @@
 #include"Platform/OpenGL/OpenGLBuffer.h"
 #include"glad/glad.h"
 using namespace GU;
-OpenGLVertexBuffer::OpenGLVertexBuffer(float* data, uint32_t size)
+OpenGLVertexBuffer::OpenGLVertexBuffer(const void* data, uint32_t size)
 {
     glGenBuffers(1, &m_RendererID);
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);

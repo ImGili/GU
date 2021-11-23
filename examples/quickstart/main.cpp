@@ -5,7 +5,7 @@ class ExampleApplication : public GU::Application
 {
 public:
     ExampleApplication(){
-        PushLayer(new EditorLayer());
+        PushLayer(new ExampleLayer());
     }
 
     ~ExampleApplication()
