@@ -27,14 +27,13 @@ void ExampleLayer::OnImGuiRender()
 }
 void ExampleLayer::OnUpdate(TimeStep ts)
 {
-    m_VertexArray->Bind();
+    // m_VertexArray->Bind();
+    m_Mesh->GetVertexArray()->Bind();
     m_Shader->Bind();
-    glm::mat4 view = glm::translate(glm::mat4(1), glm::vec3(0.0, 0.0, -0.5));
-    // glm::mat4 projection = glm::perspective((float)glm::radians(45.0), 1.778f, 0.1f, 100.0f);
-    // m_Shader->SetMat4("u_ProjectionViewMatrix", projection * view);
+    
     m_Shader->SetMat4("u_ProjectionViewMatrix", m_EditorCamera.GetProjectionViewMatrix());
 
-    RenderCommand::DrawIndexed(m_VertexArray);
+    RenderCommand::DrawIndexed(m_Mesh->GetVertexArray());
     // Renderer3D::BeginScene();
     // Renderer3D::DrawMesh(m_Mesh);
     // Renderer3D::EndScene();
