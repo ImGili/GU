@@ -13,7 +13,7 @@ namespace GU
         EditorCamera();
         EditorCamera(float fov, float aspectRatio, float nearClip, float farClip);
 
-        const glm::mat4& GetProjectionViewMatrix() const { return m_ProjectionMatrix*m_ViewMatrix; }
+        glm::mat4 GetProjectionViewMatrix() const { return m_ProjectionMatrix*m_ViewMatrix;}
     private:
         float m_FOV = 45.0f, m_AspectRatio = 1.778f, m_NearClip = 0.1f, m_FarClip = 1000.0f;
         float m_Pitch = 0.0f, m_Yaw = 0.0f;

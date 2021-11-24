@@ -8,25 +8,25 @@
 #include <glm/gtx/quaternion.hpp>
 using namespace GU;
 EditorCamera::EditorCamera(float fov, float aspectRatio, float nearClip, float farClip)
-    : m_FOV(fov), m_AspectRatio(aspectRatio), m_NearClip(nearClip), m_FarClip(farClip), m_ProjectionMatrix(glm::perspective(fov, aspectRatio, nearClip, farClip))
+    : m_FOV(fov), m_AspectRatio(aspectRatio), m_NearClip(nearClip), m_FarClip(farClip), m_ProjectionMatrix(glm::perspective((float)glm::radians(fov), aspectRatio, nearClip, farClip))
 {
     UpdateView();
 }
 
 EditorCamera::EditorCamera()
-    : m_FOV(45.0), m_AspectRatio(1.778f), m_NearClip(0.1f), m_FarClip(1000.0f), m_ProjectionMatrix(glm::perspective(45.0f, 1.778f, 0.1f, 1000.0f))
+    : m_FOV(45.0), m_AspectRatio(1.778f), m_NearClip(0.1f), m_FarClip(1000.0f), m_ProjectionMatrix(glm::perspective((float)glm::radians(45.0f), 1.778f, 0.1f, 1000.0f))
 {
     UpdateView();
 }
 
 glm::quat EditorCamera::GetOrientation() const
 {
-    return glm::quat(glm::vec3(-m_Pitch, -m_Yaw, 0.0));
+    return glm::quat(glm::vec3(-m_Pitch, -m_Yaw, 0.0f));
 }
 
 glm::vec3 EditorCamera::GetForwardDirection() const
 {
-    return glm::rotate(GetOrientation(), glm::vec3(0.0, 0.0, -1.0));
+    return glm::rotate(GetOrientation(), glm::vec3(0.0f, 0.0f, -1.0f));
 }
 
 glm::vec3 EditorCamera::GetRightDirection() const
