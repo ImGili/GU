@@ -9,7 +9,7 @@ namespace GU
     class GU_API OpenGLVertexBuffer : public VertexBuffer
     {
     public:
-        OpenGLVertexBuffer(float* data, uint32_t size);
+        OpenGLVertexBuffer(const void* data, uint32_t size);
         OpenGLVertexBuffer(uint32_t size);
         virtual ~OpenGLVertexBuffer();
         void Bind() override;

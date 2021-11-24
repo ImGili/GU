@@ -9,7 +9,7 @@
 #include"Core/Assert.h"
 using namespace GU;
 
-std::shared_ptr<VertexBuffer> VertexBuffer::Create(float* data, uint32_t size)
+std::shared_ptr<VertexBuffer> VertexBuffer::Create(const void* data, uint32_t size)
 {
     switch (RenderAPI::GetAPI())
     {

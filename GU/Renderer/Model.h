@@ -17,6 +17,7 @@ namespace GU
         Model(const char* path);
 
         static std::shared_ptr<Model> Create(const char* path);
+        const std::shared_ptr<Mesh>& GetMesh() const;
 
     private:
         std::shared_ptr<Mesh> m_Mesh;

@@ -118,7 +118,7 @@ namespace GU
         virtual void SetLayout(const BufferLayout& bufferLayout) = 0;
         virtual const BufferLayout& GetLayout() const = 0;
 
-        static std::shared_ptr<VertexBuffer> Create(float* data, uint32_t size);
+        static std::shared_ptr<VertexBuffer> Create(const void* data, uint32_t size);
         static std::shared_ptr<VertexBuffer> Create(uint32_t size);
     };
 

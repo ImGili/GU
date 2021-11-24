@@ -10,8 +10,8 @@ Mesh::Mesh(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& ida
     m_MeshIndices = idata;
 
     m_IndexBuffer = IndexBuffer::Create(idata.data(), idata.size());
-    m_VertexBuffer = VertexBuffer::Create(vdata.size());
-    m_VertexBuffer->SetData(vdata.data(), vdata.size());
+    m_VertexBuffer = VertexBuffer::Create(vdata.size()*sizeof(MeshVertex));
+    m_VertexBuffer->SetData(vdata.data(), vdata.size()*sizeof(MeshVertex));
     m_VertexBuffer->SetLayout({
         { ShaderDataType::Float3, "a_Position" }
     });
