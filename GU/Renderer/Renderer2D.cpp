@@ -91,7 +91,14 @@ void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
-    s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjecttionViewMatrix();
+    s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjectionViewMatrix();
+    s_Data.CameraUniformBuffer->SetData(&s_Data.CameraUniformBufferData,sizeof(s_Data.CameraUniformBufferData));
+}
+void Renderer2D::BeginScene(const EditorCamera& camera)
+{
+    s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
+    s_Data.QuadIndicesCount = 0;
+    s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjectionViewMatrix();
     s_Data.CameraUniformBuffer->SetData(&s_Data.CameraUniformBufferData,sizeof(s_Data.CameraUniformBufferData));
 }
 

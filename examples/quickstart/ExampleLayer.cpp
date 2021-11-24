@@ -26,12 +26,12 @@ void ExampleLayer::OnImGuiRender()
 }
 void ExampleLayer::OnUpdate(TimeStep ts)
 {
-    // m_VertexArray->Bind();
-    // m_Shader->Bind();
-    // RenderCommand::DrawIndexed(m_VertexArray);
-    Renderer3D::BeginScene();
-    Renderer3D::DrawMesh(m_Mesh);
-    Renderer3D::EndScene();
+    m_VertexArray->Bind();
+    m_Shader->Bind();
+    RenderCommand::DrawIndexed(m_VertexArray);
+    // Renderer3D::BeginScene();
+    // Renderer3D::DrawMesh(m_Mesh);
+    // Renderer3D::EndScene();
 }
 
 void ExampleLayer::OnAttach()
@@ -69,7 +69,7 @@ void ExampleLayer::OnAttach()
 }
 
 ExampleLayer::ExampleLayer()
-    : Layer("ExampleLayer")
+    : Layer("ExampleLayer"), m_EditorCamera(45.0f, 1.778f, 0.1f, 1000.0f)
 {
 }
 ExampleLayer::~ExampleLayer()
