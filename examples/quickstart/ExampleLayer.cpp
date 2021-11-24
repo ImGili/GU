@@ -12,6 +12,7 @@
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Mesh.h"
 #include "Renderer/Renderer3D.h"
+#include "Renderer/Model.h"
 #include <imgui.h>
 #include <iostream>
 #include <glad/glad.h>
@@ -35,6 +36,7 @@ void ExampleLayer::OnUpdate(TimeStep ts)
 
 void ExampleLayer::OnAttach()
 {
+    std::shared_ptr<Model> model= Model::Create("assets/models/test.obj");
     std::vector<MeshVertex> meshVertex;
     std::vector<uint32_t> meshIndics;
     meshVertex.push_back({{-0.5f, -0.5f, 0.0f}});
@@ -43,7 +45,8 @@ void ExampleLayer::OnAttach()
     meshIndics.push_back(0);
     meshIndics.push_back(1);
     meshIndics.push_back(2);
-    m_Mesh = Mesh::Create(meshVertex, meshIndics);
+    // m_Mesh = Mesh::Create(meshVertex, meshIndics);
+    m_Mesh = model->GetMesh();
     m_VertexArray = VertexArray::Create();
     float vertices[3 * 3] = {
     	-0.5f, -0.5f, 0.0f,
