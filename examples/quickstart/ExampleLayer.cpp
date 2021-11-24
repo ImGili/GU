@@ -28,15 +28,15 @@ void ExampleLayer::OnImGuiRender()
 void ExampleLayer::OnUpdate(TimeStep ts)
 {
     // m_VertexArray->Bind();
-    m_Mesh->GetVertexArray()->Bind();
-    m_Shader->Bind();
+    // m_Mesh->GetVertexArray()->Bind();
+    // m_Shader->Bind();
     
-    m_Shader->SetMat4("u_ProjectionViewMatrix", m_EditorCamera.GetProjectionViewMatrix());
+    // m_Shader->SetMat4("u_ProjectionViewMatrix", m_EditorCamera.GetProjectionViewMatrix());
 
-    RenderCommand::DrawIndexed(m_Mesh->GetVertexArray());
-    // Renderer3D::BeginScene();
-    // Renderer3D::DrawMesh(m_Mesh);
-    // Renderer3D::EndScene();
+    // RenderCommand::DrawIndexed(m_Mesh->GetVertexArray());
+    Renderer3D::BeginScene(m_EditorCamera);
+    Renderer3D::DrawMesh(m_Mesh);
+    Renderer3D::EndScene();
 }
 
 void ExampleLayer::OnAttach()
