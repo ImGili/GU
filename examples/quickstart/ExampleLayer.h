@@ -14,6 +14,7 @@ public:
     void OnImGuiRender() override;
     void OnAttach() override;
     void OnUpdate(TimeStep ts) override;
+    void OnEvent(Event& e) override;
 private:
     std::shared_ptr<Shader> m_Shader;
     std::shared_ptr<VertexBuffer> m_Vertexbuffer;

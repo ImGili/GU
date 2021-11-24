@@ -34,9 +34,15 @@ void ExampleLayer::OnUpdate(TimeStep ts)
     // m_Shader->SetMat4("u_ProjectionViewMatrix", m_EditorCamera.GetProjectionViewMatrix());
 
     // RenderCommand::DrawIndexed(m_Mesh->GetVertexArray());
+    m_EditorCamera.OnUpdate(ts);
     Renderer3D::BeginScene(m_EditorCamera);
     Renderer3D::DrawMesh(m_Mesh);
     Renderer3D::EndScene();
+}
+
+void ExampleLayer::OnEvent(Event& e)
+{
+    m_EditorCamera.OnEvent(e);
 }
 
 void ExampleLayer::OnAttach()
