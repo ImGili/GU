@@ -13,10 +13,11 @@ namespace GU
 {
     struct GU_API MeshVertex
     {
-        MeshVertex(const glm::vec3& position)
-            : Position(position)
+        MeshVertex(const glm::vec3& position, const glm::vec2& texcoord)
+            : Position(position), TexCoord(texcoord)
         {}
         glm::vec3 Position;
+        glm::vec2 TexCoord;
     };
     
     class GU_API Mesh {

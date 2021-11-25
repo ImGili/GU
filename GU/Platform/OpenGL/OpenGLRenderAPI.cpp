@@ -7,7 +7,7 @@
 using namespace GU;
 void OpenGLRenderAPI::Init()
 {
-
+    glEnable(GL_DEPTH_TEST);
 }
 
 void OpenGLRenderAPI::SetClearColor(const glm::vec4& color)
@@ -17,7 +17,7 @@ void OpenGLRenderAPI::SetClearColor(const glm::vec4& color)
 
 void OpenGLRenderAPI::Clear()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void OpenGLRenderAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount)

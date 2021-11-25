@@ -5,7 +5,12 @@ layout (std140) uniform Camera
 {
    mat4 ProjectionView;
 }; 
+out VS_OUT
+{
+   vec2 TexCoord;
+} vs_out;
 void main()
 {
+   vs_out.TexCoord = a_TexCoord;
    gl_Position = ProjectionView * vec4(a_Position, 1.0);
 }

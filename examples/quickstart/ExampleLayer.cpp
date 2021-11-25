@@ -12,6 +12,7 @@
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Mesh.h"
 #include "Renderer/Renderer3D.h"
+#include "Renderer/Renderer.h"
 #include "Renderer/Model.h"
 #include <imgui.h>
 #include <iostream>
@@ -29,42 +30,24 @@ void ExampleLayer::OnUpdate(TimeStep ts)
 {
     // m_VertexArray->Bind();
     // m_Mesh->GetVertexArray()->Bind();
-    // m_Shader->Bind();
-    
-    // m_Shader->SetMat4("u_ProjectionViewMatrix", m_EditorCamera.GetProjectionViewMatrix());
-
-    // RenderCommand::DrawIndexed(m_Mesh->GetVertexArray());
-    m_EditorCamera.OnUpdate(ts);
-    Renderer3D::BeginScene(m_EditorCamera);
-    Renderer3D::DrawMesh(m_Mesh);
-    Renderer3D::EndScene();
+    m_Shader->Bind();
+    m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
+    Renderer::Submit(m_Shader, m_VertexArray);
 }
 
 void ExampleLayer::OnEvent(Event& e)
 {
-    m_EditorCamera.OnEvent(e);
 }
 
 void ExampleLayer::OnAttach()
 {
-    std::shared_ptr<Model> model= Model::Create("assets/models/test.obj");
-    std::vector<MeshVertex> meshVertex;
-    std::vector<uint32_t> meshIndics;
-    meshVertex.push_back({{-0.5f, -0.5f, 0.0f}});
-    meshVertex.push_back({{0.5f, -0.5f, 0.0f}});
-    meshVertex.push_back({{0.0f,  0.5f, 0.0f}});
-    meshIndics.push_back(0);
-    meshIndics.push_back(1);
-    meshIndics.push_back(2);
-    // m_Mesh = Mesh::Create(meshVertex, meshIndics);
-    m_Mesh = model->GetMesh();
     m_VertexArray = VertexArray::Create();
     float vertices[3 * 3] = {
     	-0.5f, -0.5f, 0.0f,
     	 0.5f, -0.5f, 0.0f,
     	 0.0f,  0.5f, 0.0f
     };
-    m_Vertexbuffer = VertexBuffer::Create(meshVertex.data(), meshVertex.size()*sizeof(MeshVertex));
+    m_Vertexbuffer = VertexBuffer::Create(vertices, sizeof(vertices));
     BufferLayout layout = {
         { ShaderDataType::Float3, "a_Position" }
     };
@@ -76,11 +59,11 @@ void ExampleLayer::OnAttach()
     m_Vertexbuffer->SetLayout(layout);
     m_VertexArray->AddVertexBuffer(m_Vertexbuffer);
     m_VertexArray->SetIndexBuffer(indexbuffer);
-    m_Shader = Shader::Create("aaa", "assets/shaders/mesh/vertex.vert", "assets/shaders/mesh/fragment.frag");
+    m_Shader = Shader::Create("flatColor", "assets/shaders/flatColor/vertex.vert", "assets/shaders/flatColor/fragment.frag");
 }
 
 ExampleLayer::ExampleLayer()
-    : Layer("ExampleLayer"), m_EditorCamera(45.0f, 1.778f, 0.1f, 1000.0f)
+    : Layer("ExampleLayer")
 {
 }
 ExampleLayer::~ExampleLayer()

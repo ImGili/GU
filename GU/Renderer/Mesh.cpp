@@ -13,7 +13,8 @@ Mesh::Mesh(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& ida
     m_VertexBuffer = VertexBuffer::Create(vdata.size()*sizeof(MeshVertex));
     m_VertexBuffer->SetData(vdata.data(), vdata.size()*sizeof(MeshVertex));
     m_VertexBuffer->SetLayout({
-        { ShaderDataType::Float3, "a_Position" }
+        { ShaderDataType::Float3, "a_Position" },
+        { ShaderDataType::Float2, "a_TexCoord" }
     });
     m_VertexArray = VertexArray::Create();
     m_VertexArray->AddVertexBuffer(m_VertexBuffer);

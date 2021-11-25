@@ -14,7 +14,7 @@ namespace GU
     public:
         static void Init();
         static void BeginScene(EditorCamera camera);
-        static void DrawMesh(const std::shared_ptr<Mesh>& Mesh);
+        static void DrawModel(const std::shared_ptr<Model>& model);
         static void EndScene();
 
     private:

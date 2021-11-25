@@ -21,7 +21,7 @@ endif()
 
 
 add_executable(${PROJECT_NAME} 
-                main.cpp ExampleLayer.h ExampleLayer.cpp EditorLayer.h EditorLayer.cpp )
+                main.cpp ExampleLayer.h ExampleLayer.cpp EditorLayer.h EditorLayer.cpp Example3DLayer.h Example3DLayer.cpp)
 
 
 target_link_libraries(${PROJECT_NAME} 

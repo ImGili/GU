@@ -17,6 +17,7 @@ void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_p
 
 void Renderer::Init()
 {
+    RenderCommand::Init();
     Renderer2D::Init();
     Renderer3D::Init();
 }

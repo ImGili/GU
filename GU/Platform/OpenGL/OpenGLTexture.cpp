@@ -65,6 +65,9 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 
         stbi_image_free(data);
     }
+    else{
+        GU_ERROR("Texture can't read img from {0}!", path);
+    }
 }
 void OpenGLTexture2D::Bind(uint32_t slot)
 {
