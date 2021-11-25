@@ -20,10 +20,7 @@ namespace GU
 
         static std::shared_ptr<Model> Create(const std::string& path);
         const std::shared_ptr<Mesh>& GetMesh() const;
-        const std::shared_ptr<Texture2D>& GetTexture() const{ return m_Texture; }
-
     private:
         std::shared_ptr<Mesh> m_Mesh;
-        std::shared_ptr<Texture2D> m_Texture;
     };
 }

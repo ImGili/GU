@@ -50,6 +50,6 @@ void Renderer3D::EndScene()
 void Renderer3D::Flush()
 {
     s_Data.CameraUniformBuffer->Bind();
-    s_Data.m_Model->GetTexture()->Bind(0);
+    s_Data.m_Model->GetMesh()->GetTexture()->Bind(0);
     Renderer::Submit(s_Data.m_Shader, s_Data.m_Model->GetMesh()->GetVertexArray());
 }

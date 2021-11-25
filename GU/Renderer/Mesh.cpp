@@ -4,7 +4,8 @@
  */
 #include"Renderer/Mesh.h"
 using namespace GU;
-Mesh::Mesh(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& idata)
+Mesh::Mesh(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& idata,const std::shared_ptr<Texture2D>& Texture)
+    : m_Texture(Texture)
 {
     m_MeshVertexs = vdata;
     m_MeshIndices = idata;
@@ -21,7 +22,7 @@ Mesh::Mesh(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& ida
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 }
 
-std::shared_ptr<Mesh> Mesh::Create(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& idata)
+std::shared_ptr<Mesh> Mesh::Create(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& idata,const std::shared_ptr<Texture2D>& texture)
 {
-    return std::make_shared<Mesh>(vdata, idata);
+    return std::make_shared<Mesh>(vdata, idata, texture);
 }

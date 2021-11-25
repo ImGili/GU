@@ -37,18 +37,15 @@ Model::Model(const std::string& path)
             meshIndics.push_back(face.mIndices[j]);
         }
     }
-    m_Mesh = Mesh::Create(meshVertexs, meshIndics);
 
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
     aiString str;
     material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
+    GU_ASSERT(str.length>0, "Model must have texture img!");
     std::string directory = path.substr(0, path.find_last_of('/'));
     std::string filename = directory + '/' + str.data;
-    if (str.length>0)
-    {
-        m_Texture = Texture2D::Create(filename);
-    }
+    m_Mesh = Mesh::Create(meshVertexs, meshIndics, Texture2D::Create(filename));
 }
 
 
