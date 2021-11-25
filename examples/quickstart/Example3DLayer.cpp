@@ -40,7 +40,7 @@ void Example3DLayer::OnEvent(Event& e)
 
 void Example3DLayer::OnAttach()
 {
-    m_Model = Model::Create("assets/models/test.obj");
+    m_Model = Model::Create("assets/models/nanosuit/nanosuit.obj");
 }
 
 Example3DLayer::Example3DLayer()
