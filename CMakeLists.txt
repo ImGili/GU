@@ -56,6 +56,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/ImGui/*.cpp
                                     GU/Renderer/*.cpp
                                     GU/AI/*.cpp
+                                    GU/Scene/*.cpp
                                     vendor/imgui/*.cpp
                                     vendor/imgui/backends/imgui_impl_opengl3.cpp
                                     vendor/imgui/backends/imgui_impl_glfw.cpp
@@ -96,6 +97,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                 vendor/spdlog/include/
                                 vendor/RVO2/src
                                 vendor/stb
+                                vendor/entt
              )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

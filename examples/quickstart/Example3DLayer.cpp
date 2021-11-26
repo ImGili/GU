@@ -14,6 +14,7 @@
 #include "Renderer/Renderer3D.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Model.h"
+#include "Scene/Scene.h"
 #include <imgui.h>
 #include <iostream>
 #include <glad/glad.h>
@@ -40,6 +41,8 @@ void Example3DLayer::OnEvent(Event& e)
 
 void Example3DLayer::OnAttach()
 {
+    Scene* scene = new Scene();
+    Entity entity = scene->CreateEntity("aaa");
     m_Model = Model::Create("assets/models/nanosuit/nanosuit.obj");
 }
 
