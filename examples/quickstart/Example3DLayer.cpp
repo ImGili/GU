@@ -15,6 +15,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Model.h"
 #include "Scene/Scene.h"
+#include "Scene/Component.h"
 #include <imgui.h>
 #include <iostream>
 #include <glad/glad.h>
@@ -43,6 +44,7 @@ void Example3DLayer::OnAttach()
 {
     Scene* scene = new Scene();
     Entity entity = scene->CreateEntity("aaa");
+    bool sss = entity.HasComponent<TagComponent>();
     m_Model = Model::Create("assets/models/nanosuit/nanosuit.obj");
 }
 
