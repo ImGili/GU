@@ -6,7 +6,7 @@
 #include"Renderer/RenderAPI.h"
 #include"Platform/OpenGL/OpenGLUniformBuffer.h"
 using namespace GU;
-std::shared_ptr<UniformBuffer> UniformBuffer::Create(uint32_t size, uint32_t binding)
+std::shared_ptr<UniformBuffer> UniformBuffer::Create(uint32_t size)
 {
     switch (RenderAPI::GetAPI())
     {
@@ -14,7 +14,7 @@ std::shared_ptr<UniformBuffer> UniformBuffer::Create(uint32_t size, uint32_t bin
         GU_ASSERT(false, "RenderAPI is None")
         break;
     case RenderAPI::API::OpenGL:
-        return std::make_shared<OpenGLUniformBuffer>(size, binding);
+        return std::make_shared<OpenGLUniformBuffer>(size);
         break;
     default:
         break;

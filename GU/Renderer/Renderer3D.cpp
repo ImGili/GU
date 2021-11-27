@@ -29,7 +29,7 @@ void Renderer3D::Init()
 {
     GU_INFO("Renderer3D init()");
     s_Data.m_Shader = Shader::Create("MeshShader", "assets/shaders/model/vertex.vert", "assets/shaders/model/fragment.frag");
-    s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer3DData::CameraData), 0);
+    s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer3DData::CameraData));
 }
 
 void Renderer3D::BeginScene(EditorCamera camera)

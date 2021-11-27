@@ -84,11 +84,12 @@ void Renderer2D::Init()
     std::shared_ptr<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
     s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
     delete[] quadIndices;
-    s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
+    s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData));
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
+    glDisable(GL_DEPTH_TEST);
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
     s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjectionViewMatrix();
@@ -116,6 +117,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 void Renderer2D::EndScene()
 {
     Flush();
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer2D::Flush()

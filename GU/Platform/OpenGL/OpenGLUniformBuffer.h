@@ -9,9 +9,9 @@ namespace GU
     class GU_API OpenGLUniformBuffer : public UniformBuffer
     {
     public:
-        OpenGLUniformBuffer(uint32_t size, uint32_t binding = 0);
+        OpenGLUniformBuffer(uint32_t size);
         void SetData(const void* data, uint32_t size, uint32_t offset = 0) override;
-        void Bind() override;
+        void Bind(uint32_t binding = 0) override;
         void Unbind() override;
         ~OpenGLUniformBuffer();
     private:
