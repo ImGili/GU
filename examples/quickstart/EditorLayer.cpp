@@ -38,10 +38,6 @@ void EditorLayer::OnUpdate(TimeStep ts)
     // Renderer2D::DrawQuad(glm::vec2(5.0, 5.0), glm::vec4(0.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(-5.0, -5.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(5.0, -5.0), glm::vec4(1.0, 1.0, 0.0, 1.0));
-    m_Shader->Bind();
-    m_VertexArray->Bind();
-    m_Texture->Bind(0);
-    Renderer::Submit(m_Shader, m_VertexArray);
     Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
@@ -128,38 +124,11 @@ void EditorLayer::OnImGuiRender()
 }
 void EditorLayer::OnAttach()
 {
-    m_Texture = Texture2D::Create("assets/textures/container2.png");
     // Application::Get()->GetWindow().MaxWindow();
     FrameBufferSpecification spec;
     spec.Height = 1280;
     spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);
-
-    m_VertexArray = VertexArray::Create();
-
-    float vertices[] = {
-        0.5f, 0.5f, 0.0f, 1.0f, 1.0f,  
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 
-        -0.5f, 0.5f, 0.0f, 0.0f, 1.0f   
-    };
-    m_Vertexbuffer = VertexBuffer::Create(vertices, sizeof(vertices));
-    BufferLayout layout = {
-        {ShaderDataType::Float3, "a_Position"},
-        {ShaderDataType::Float2, "a_TexCoord"}
-    };
-    uint32_t indics[] =
-        {
-            0, 1, 3, // first triangle
-            1, 2, 3  // second triangl
-        };
-    std::shared_ptr<IndexBuffer> indexbuffer = IndexBuffer::Create(indics, 6);
-    m_Vertexbuffer->SetLayout(layout);
-    m_VertexArray->AddVertexBuffer(m_Vertexbuffer);
-    m_VertexArray->SetIndexBuffer(indexbuffer);
-    m_Shader = Shader::Create("flatColor", "assets/shaders/test.vert", "assets/shaders/test.frag");
-    // m_Shader->Bind();
-    // m_Shader->SetMat4("u_ProjectionViewMatrix", glm::mat4(1));
 }
 
 void EditorLayer::OnEvent(Event &e)
