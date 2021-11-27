@@ -42,9 +42,6 @@ void Example3DLayer::OnEvent(Event& e)
 
 void Example3DLayer::OnAttach()
 {
-    Scene* scene = new Scene();
-    Entity entity = scene->CreateEntity("aaa");
-    bool sss = entity.HasComponent<TagComponent>();
     m_Model = Model::Create("assets/models/nanosuit/nanosuit.obj");
 }
 

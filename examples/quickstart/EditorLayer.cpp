@@ -11,6 +11,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
+#include"Scene/Component.h"
 #include <imgui.h>
 #include <cmath>
 #include "GLFW/glfw3.h"
@@ -33,7 +34,8 @@ void EditorLayer::OnUpdate(TimeStep ts)
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
     Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-    Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
+    m_ActiveScene->OnUpdate(ts);
+    // Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(-5.0, 5.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(5.0, 5.0), glm::vec4(0.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(-5.0, -5.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
@@ -125,6 +127,8 @@ void EditorLayer::OnImGuiRender()
 void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
+    m_ActiveScene = std::make_shared<Scene>();
+    auto entity = m_ActiveScene->CreateEntity("aaa");
     FrameBufferSpecification spec;
     spec.Height = 1280;
     spec.Width = 720;
