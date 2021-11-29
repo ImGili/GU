@@ -12,6 +12,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include"Scene/Component.h"
+#include"Scene/Scene.h"
 #include <imgui.h>
 #include <cmath>
 #include "GLFW/glfw3.h"
@@ -128,7 +129,25 @@ void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
     m_ActiveScene = std::make_shared<Scene>();
-    auto entity = m_ActiveScene->CreateEntity("aaa");
+     
+    Entity entity1 = m_ActiveScene->CreateEntity();
+    entity1.AddComponent<ColorComponet>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f});
+    entity1.AddComponent<V2PositionComponet>(glm::vec2{1.0, 1.0});
+    Entity entity2 = m_ActiveScene->CreateEntity();
+    entity2.AddComponent<ColorComponet>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
+    entity2.AddComponent<V2PositionComponet>(glm::vec2{-1.0, -1.0});
+    Entity entity3 = m_ActiveScene->CreateEntity();
+    entity3.AddComponent<ColorComponet>(glm::vec4{0.0f, 0.0f, 1.0f, 1.0f});
+    entity3.AddComponent<V2PositionComponet>(glm::vec2{0.0, 0.0});
+
+    // Entity entity = m_ActiveScene->CreateEntity();
+    // entity.AddComponent<TagComponent>();
+    // entity.AddComponent<V2PositionComponet>();
+    // entity.AddComponent<ColorComponet>();
+    // m_ActiveScene->m_Registry.emplace<TagComponent>(entity.m_EntityHandle);
+    // m_ActiveScene->m_Registry.emplace<V2PositionComponet>(entity.m_EntityHandle);
+    
+    // m_ActiveScene->m_Registry.emplace<V2PositionComponet>(entity.m_EntityHandle, glm::vec2{0.0, 0.0});
     FrameBufferSpecification spec;
     spec.Height = 1280;
     spec.Width = 720;

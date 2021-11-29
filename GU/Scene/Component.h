@@ -19,8 +19,10 @@ namespace GU
     
     struct GU_API ColorComponet
     {
-        glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
-        ColorComponet() = default;
+        glm::vec4 Color;
+        ColorComponet()
+            : Color({1.0f, 1.0f, 1.0f, 1.0f})
+        {}
         ColorComponet(const ColorComponet&) = default;
         ColorComponet(const glm::vec4& color)
             : Color(color){}
@@ -28,8 +30,10 @@ namespace GU
 
     struct GU_API V2PositionComponet
     {
-        glm::vec2 Position{ 0.0f, 0.0f };
-        V2PositionComponet() = default;
+        glm::vec2 Position;
+        V2PositionComponet()
+            : Position({0.0f, 0.0f})
+        {}
         V2PositionComponet(const V2PositionComponet&) = default;
         V2PositionComponet(const glm::vec2& position)
             : Position(position){}

@@ -13,6 +13,7 @@
 #include"Scene/Scene.h"
 #include<glm/glm.hpp>
 #include<string>
+#include<entt.hpp>
 using namespace GU;
 
 class EditorLayer : public Layer
@@ -33,4 +34,5 @@ private:
     OrthographicCameraController m_OrthographicCameraController;
     bool m_IsViewportFocus = false;
     std::shared_ptr<Scene> m_ActiveScene;
+    Entity testEntity;
 };
