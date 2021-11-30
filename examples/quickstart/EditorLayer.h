@@ -34,5 +34,4 @@ private:
     OrthographicCameraController m_OrthographicCameraController;
     bool m_IsViewportFocus = false;
     std::shared_ptr<Scene> m_ActiveScene;
-    Entity testEntity;
 };

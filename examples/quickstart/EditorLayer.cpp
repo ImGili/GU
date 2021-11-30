@@ -13,6 +13,7 @@
 #include "Renderer/Renderer2D.h"
 #include"Scene/Component.h"
 #include"Scene/Scene.h"
+#include"Scene/Entity.h"
 #include <imgui.h>
 #include <cmath>
 #include "GLFW/glfw3.h"

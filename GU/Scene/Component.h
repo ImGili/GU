@@ -26,6 +26,7 @@ namespace GU
         ColorComponet(const ColorComponet&) = default;
         ColorComponet(const glm::vec4& color)
             : Color(color){}
+        operator glm::vec4&() { return Color; }
     };
 
     struct GU_API V2PositionComponet
@@ -37,6 +38,7 @@ namespace GU
         V2PositionComponet(const V2PositionComponet&) = default;
         V2PositionComponet(const glm::vec2& position)
             : Position(position){}
+        operator glm::vec2&() { return Position; }
     };
     struct SpriteRendererComponent
 	{
