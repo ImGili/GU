@@ -11,7 +11,7 @@
 #include"glm/glm.hpp"
 namespace GU
 {
-    class GU_API OrthographicCameraController
+    class OrthographicCameraController
     {
     public:
         OrthographicCameraController(float aspectRatio, float zoomlevle = 1.0f);

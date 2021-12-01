@@ -3,8 +3,6 @@ project(Gu)
 
 option(GU_BUILD_EXAMPLES "Build GUEngine Examples" ON)
 
-option(GU_BUILD_SHARED_LIBRARY ON)
-
 option(GU_DEBUG_ENABLE ON)
 option(GLFW_BUILD_DOCS OFF)
 option(GLFW_BUILD_EXAMPLES OFF)
@@ -66,17 +64,15 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 add_definitions(-DGU_ENABLE_DEBUG)
-add_definitions(-DGLAD_GLAPI_EXPORT)
 
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} STATIC
                                 ${PROJECT_SOURCES} 
                                 ${PROJECT_HEADERS}
                                 ${VENDORS_SOURCES}
             )
 if(MSVC)
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
-                COMPILE_FLAGS "-DGU_PLATFORM_WINDOWS -DGU_BUILD_DLL")
-add_definitions(-DASSIMP_BUILD_DLL_EXPORT)
+                COMPILE_FLAGS "-DGU_PLATFORM_WINDOWS")
 elseif(APPLE)
 add_definitions(-DGU_PLATFORM_MACOS)
 endif()

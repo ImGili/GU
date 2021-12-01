@@ -6,7 +6,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API RenderAPI
+    class RenderAPI
     {
     public:
         enum class API

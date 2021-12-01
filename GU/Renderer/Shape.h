@@ -10,7 +10,7 @@
 namespace GU
 {
     // TODO: implement Line shape class
-    class GU_API Line
+    class Line
     {
     public:
         Line();

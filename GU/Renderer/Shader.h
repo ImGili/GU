@@ -9,7 +9,7 @@
 #include<glm/glm.hpp>
 namespace GU
 {
-    class GU_API Shader
+    class Shader
     {
     public:
         virtual ~Shader() = default;

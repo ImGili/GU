@@ -9,7 +9,7 @@
 #include<vector>
 namespace GU
 {
-    class GU_API OpenGLVertexArray : public VertexArray
+    class OpenGLVertexArray : public VertexArray
     {
     public:
         OpenGLVertexArray();

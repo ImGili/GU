@@ -7,7 +7,7 @@
 #include<glm/glm.hpp>
 namespace GU
 {
-    class GU_API OrthographicCamera
+    class OrthographicCamera
     {
     public:
         OrthographicCamera(float left, float rigth, float bottom, float top);

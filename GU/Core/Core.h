@@ -1,12 +1,4 @@
-#ifdef GU_PLATFORM_WINDOWS
-	#ifdef GU_BUILD_DLL
-		#define GU_API __declspec(dllexport)
-	#else
-		#define GU_API __declspec(dllimport)
-	#endif
-#else
-    #define GU_API
-#endif
+#define GU_API
 
 #ifdef GU_ENABLE_DEBUG
 #ifdef GU_PLATFORM_WINDOWS

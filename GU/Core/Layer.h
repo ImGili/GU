@@ -9,7 +9,7 @@
 #include<string>
 namespace GU
 {
-    class GU_API Layer
+    class Layer
     {
     public:
         Layer(const char* name);

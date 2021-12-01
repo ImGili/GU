@@ -7,7 +7,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API UniformBuffer
+    class UniformBuffer
     {
     public:
         virtual ~UniformBuffer() = default;

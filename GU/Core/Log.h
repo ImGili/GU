@@ -5,7 +5,7 @@
 #include"Core.h"
 namespace GU
 {
-    class GU_API Log
+    class Log
     {
     public:
         static void Init();

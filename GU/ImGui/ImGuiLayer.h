@@ -9,7 +9,7 @@
 
 namespace GU
 {
-    class GU_API ImGuiLayer : public Layer
+    class ImGuiLayer : public Layer
     {
     public:
         ImGuiLayer();

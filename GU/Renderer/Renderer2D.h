@@ -10,7 +10,7 @@
 namespace GU
 {
     // TODO: 2D Renderer
-    class GU_API Renderer2D
+    class Renderer2D
     {
     public:
         static void Init();

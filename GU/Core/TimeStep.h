@@ -6,7 +6,7 @@
 #include"Core/Core.h"
 namespace GU
 {
-    class GU_API TimeStep
+    class TimeStep
     {
     public:
         TimeStep(float time = 0.0f)

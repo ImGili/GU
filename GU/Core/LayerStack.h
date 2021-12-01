@@ -8,7 +8,7 @@
 #include <vector>
 namespace GU
 {
-    class GU_API LayerStack
+    class LayerStack
     {
     private:
         std::vector<Layer*> m_Layers;

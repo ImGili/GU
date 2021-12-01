@@ -12,7 +12,7 @@
 #include<string>
 namespace GU
 {
-    struct GU_API MeshVertex
+    struct MeshVertex
     {
         MeshVertex(const glm::vec3& position, const glm::vec2& texcoord)
             : Position(position), TexCoord(texcoord)
@@ -21,7 +21,7 @@ namespace GU
         glm::vec2 TexCoord;
     };
     
-    class GU_API Mesh {
+    class Mesh {
     public:
         Mesh(const std::vector<MeshVertex>& vdata,const std::vector<uint32_t>& idata,const std::shared_ptr<Texture2D>& Texture);
         static std::shared_ptr<Mesh> Create(const std::vector<MeshVertex>& vdata, const std::vector<uint32_t>& idata,const std::shared_ptr<Texture2D>& Texture);

@@ -7,7 +7,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API GraphicsContext
+    class GraphicsContext
     {
     public:
         virtual ~GraphicsContext() = default;

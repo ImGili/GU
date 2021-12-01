@@ -9,7 +9,7 @@
 #include <GLFW/glfw3.h>
 namespace GU
 {
-    class GU_API OpenGLContext : public GraphicsContext
+    class OpenGLContext : public GraphicsContext
     {
     public:
         OpenGLContext(GLFWwindow* window);

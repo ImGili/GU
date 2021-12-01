@@ -9,7 +9,7 @@
 #include<cstdio>
 namespace GU
 {
-    struct GU_API ImGuiAppConsole
+    struct ImGuiAppConsole
     {
         char InputBuf[256];
         ImVector<char *> Items;

@@ -8,7 +8,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API VertexArray
+    class VertexArray
     {
     public:
         virtual ~VertexArray() = default;

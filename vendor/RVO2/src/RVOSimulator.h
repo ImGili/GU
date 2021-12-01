@@ -57,7 +57,7 @@ namespace RVO {
 	/**
 	 * \brief      Defines a directed line.
 	 */
-	class GU_API Line {
+	class Line {
 	public:
 		/**
 		 * \brief     A point on the directed line.
@@ -79,7 +79,7 @@ namespace RVO {
 	 *
 	 * The main class of the library that contains all simulation functionality.
 	 */
-	class GU_API RVOSimulator {
+	class RVOSimulator {
 	public:
 		/**
 		 * \brief      Constructs a simulator instance.

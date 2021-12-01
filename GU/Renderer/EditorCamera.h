@@ -10,7 +10,7 @@
 #include<utility>
 namespace GU
 {
-    class GU_API EditorCamera
+    class EditorCamera
     {
     public:
         EditorCamera();

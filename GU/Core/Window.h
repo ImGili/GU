@@ -25,7 +25,7 @@ namespace GU
     };
 
     
-    class GU_API Window
+    class Window
     {
     private:
 

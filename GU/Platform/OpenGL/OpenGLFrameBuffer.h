@@ -6,7 +6,7 @@
 #include"Renderer/FrameBuffer.h"
 namespace GU
 {
-    class GU_API OpenGLFrameBuffer : public FrameBuffer
+    class OpenGLFrameBuffer : public FrameBuffer
     {
     public:
         OpenGLFrameBuffer(const FrameBufferSpecification& spec);

@@ -6,7 +6,7 @@
 #include"Renderer/Buffer.h"
 namespace GU
 {
-    class GU_API OpenGLVertexBuffer : public VertexBuffer
+    class OpenGLVertexBuffer : public VertexBuffer
     {
     public:
         OpenGLVertexBuffer(const void* data, uint32_t size);
@@ -24,7 +24,7 @@ namespace GU
         BufferLayout m_Layout;
     };
 
-    class GU_API OpenGLIndexBuffer : public IndexBuffer
+    class OpenGLIndexBuffer : public IndexBuffer
     {
     public:
         OpenGLIndexBuffer() = default;

@@ -8,7 +8,7 @@
 #include<glad/glad.h>
 namespace GU
 {
-    class GU_API OpenGLRenderAPI : public RenderAPI
+    class OpenGLRenderAPI : public RenderAPI
     {
     public:
         void Init() override;

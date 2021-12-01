@@ -10,7 +10,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API RenderCommand
+    class RenderCommand
     {
     public:
         static void Init();

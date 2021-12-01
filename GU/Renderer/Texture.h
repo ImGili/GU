@@ -8,7 +8,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API Texture
+    class Texture
     {
     public:
         virtual ~Texture() = default;
@@ -16,7 +16,7 @@ namespace GU
         virtual void SetData(void* data, uint32_t size) = 0;
     };
 
-    class GU_API Texture2D : public Texture
+    class Texture2D : public Texture
     {
     public:
         static std::shared_ptr<Texture2D> Create(uint32_t width, uint32_t height);

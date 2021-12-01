@@ -29,12 +29,14 @@ target_link_libraries(${PROJECT_NAME}
             Gu
 )
 
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/vendor/entt
+)
+
 if(MSVC)
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
                 COMPILE_FLAGS "-DGU_PLATFORM_WINDOWS")
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/build/Debug/Gud.dll $<TARGET_FILE_DIR:${PROJECT_NAME}>/)
 endif()
 
 add_custom_command(

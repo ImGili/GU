@@ -7,7 +7,7 @@
 #include<vector>
 namespace GU
 {
-    class GU_API Application
+    class Application
     {
     public:
         Application();

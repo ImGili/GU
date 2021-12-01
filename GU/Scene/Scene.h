@@ -11,7 +11,7 @@
 namespace GU
 {
     class Entity;
-    class GU_API Scene
+    class Scene
     {
     public:
         Scene();

@@ -10,7 +10,7 @@
 #include<vector>
 namespace GU
 {
-    enum class GU_API ShaderDataType
+    enum class ShaderDataType
     {
         None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
     };
@@ -36,7 +36,7 @@ namespace GU
 		GU_ASSERT(false, "Unknown ShaderDataType!");
 		return 0;
 	}
-    struct GU_API BufferElement
+    struct BufferElement
     {
         std::string Name;
         ShaderDataType Type;
@@ -73,7 +73,7 @@ namespace GU
 
     };
 
-    class GU_API BufferLayout
+    class BufferLayout
     {
     public:
         BufferLayout() = default;
@@ -107,7 +107,7 @@ namespace GU
         uint32_t m_Stride = 0;
     };
 
-    class GU_API VertexBuffer
+    class VertexBuffer
     {
     public:
         virtual ~VertexBuffer() = default;
@@ -122,7 +122,7 @@ namespace GU
         static std::shared_ptr<VertexBuffer> Create(uint32_t size);
     };
 
-	class GU_API IndexBuffer
+	class IndexBuffer
 	{
 	public:
 		virtual ~IndexBuffer() = default;

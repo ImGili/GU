@@ -9,7 +9,7 @@
 #include"Renderer/EditorCamera.h"
 namespace GU
 {
-    class GU_API Renderer3D
+    class Renderer3D
     {
     public:
         static void Init();

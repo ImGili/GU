@@ -8,7 +8,7 @@
 #include"Scene/Scene.h"
 namespace GU
 {
-    class GU_API Entity
+    class Entity
     {
     public:
         Entity() = default;

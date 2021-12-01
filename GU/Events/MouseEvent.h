@@ -7,7 +7,7 @@
 #include"Events/Event.h"
 namespace GU
 {
-    class GU_API MouseScrolledEvent : public Event
+    class MouseScrolledEvent : public Event
     {
     public:
         MouseScrolledEvent(const float xOffset, const float yOffset)

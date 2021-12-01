@@ -11,12 +11,12 @@
 #include<sstream>
 namespace GU
 {
-    struct GU_API ProfileResult{
+    struct ProfileResult{
         std::string Name;
         long long Start, End;
     };
 
-    class GU_API Instrumentor
+    class Instrumentor
     {
     public:
         Instrumentor() = default;
@@ -69,7 +69,7 @@ namespace GU
 			m_OutputStream.flush();
         }
     };
-    class GU_API InstrumentorTimer
+    class InstrumentorTimer
     {
     public:
         InstrumentorTimer(const char* name)

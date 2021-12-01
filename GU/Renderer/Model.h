@@ -14,7 +14,7 @@
 namespace GU
 {
     // TODO: 单一mesh的模型
-    class GU_API Model
+    class Model
     {
     public:
         Model(const std::string& path);

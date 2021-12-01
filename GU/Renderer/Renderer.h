@@ -10,7 +10,7 @@
 #include<memory>
 namespace GU
 {
-    class GU_API Renderer
+    class Renderer
     {
     public:
         static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexarray, const glm::mat4& transform = glm::mat4(1));

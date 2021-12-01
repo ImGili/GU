@@ -8,7 +8,7 @@
 #include<glm/glm.hpp>
 namespace GU
 {
-    class GU_API OpenGLShader : public Shader
+    class OpenGLShader : public Shader
     {
     public:
         OpenGLShader(const char* name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);

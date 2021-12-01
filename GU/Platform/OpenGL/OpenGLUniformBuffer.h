@@ -6,7 +6,7 @@
 #include"Renderer/UniformBuffer.h"
 namespace GU
 {
-    class GU_API OpenGLUniformBuffer : public UniformBuffer
+    class OpenGLUniformBuffer : public UniformBuffer
     {
     public:
         OpenGLUniformBuffer(uint32_t size);

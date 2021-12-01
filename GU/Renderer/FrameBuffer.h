@@ -7,12 +7,12 @@
 #include<memory>
 namespace GU
 {
-    struct GU_API FrameBufferSpecification
+    struct FrameBufferSpecification
     {
         uint32_t Width, Height;
     };
     
-    class GU_API FrameBuffer
+    class FrameBuffer
     {
     public:
         virtual void Bind() = 0;
