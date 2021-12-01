@@ -8,7 +8,7 @@
 #include<string>
 namespace GU
 {
-    struct GU_API TagComponent
+    struct TagComponent
     {
         std::string Tag;
         TagComponent() = default;
@@ -17,7 +17,7 @@ namespace GU
             : Tag(tag){}
     };
     
-    struct GU_API ColorComponet
+    struct ColorComponet
     {
         glm::vec4 Color;
         ColorComponet()
@@ -29,7 +29,7 @@ namespace GU
         operator glm::vec4&() { return Color; }
     };
 
-    struct GU_API V2PositionComponet
+    struct V2PositionComponet
     {
         glm::vec2 Position;
         V2PositionComponet()
