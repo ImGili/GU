@@ -11,11 +11,11 @@ namespace GU
     public:
         Camera() = default;
         Camera(const glm::mat4& projection)
-            : Projection(projection)
+            : m_Projection(projection)
         {}
         virtual ~Camera() = default;
-        const glm::mat4& GetProjection() const { return Projection; }
+        const glm::mat4& GetProjection() const { return m_Projection; }
     protected:
-        glm::mat4 Projection = glm::mat4(1);
+        glm::mat4 m_Projection = glm::mat4(1);
     };
 }
