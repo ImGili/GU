@@ -4,30 +4,34 @@
  */
 #pragma once
 #include"Renderer/Camera.h"
+#include<glm/gtc/matrix_transform.hpp>
 namespace GU
 {
     class SceneCamera : public Camera
-    {
-    public:
-        SceneCamera() { ReCalculateProjection(); }
+	{
+	public:
+		SceneCamera();
+		virtual ~SceneCamera() = default;
 
-        void SetViewPortSize(uint32_t width, uint32_t height);
+		void SetViewportSize(uint32_t width, uint32_t height);
+        void SetOrthographic(float size, float nearClip, float farClip);
 
-        void SetOrthographic(float size, float near, float far);
+		float GetOrthographicSize() const { return m_OrthographicSize; }
+		void SetOrthographicSize(float size) { m_OrthographicSize = size; RecalculateProjection(); }
+		float GetOrthographicNearClip() const { return m_OrthographicNear; }
+		void SetOrthographicNearClip(float nearClip) { m_OrthographicNear = nearClip; RecalculateProjection(); }
+		float GetOrthographicFarClip() const { return m_OrthographicFar; }
+		void SetOrthographicFarClip(float farClip) { m_OrthographicFar = farClip; RecalculateProjection(); }
 
-        void SetOrthographicNearClip(float nearClip) { m_OrthographicNear = nearClip; ReCalculateProjection(); }
-        float GetOrthographicNearClip() const { return m_OrthographicNear; }
-        void SetOrthographicFarClip(float farClip) { m_OrthographicFar = farClip; ReCalculateProjection(); }
-        float GetOrthographicFarClip() const { return m_OrthographicFar; }
-        void SetOrthographicSize(float size) { m_OrthographicSize = size; ReCalculateProjection(); }
-        float GetOrthographicSize() const { return m_OrthographicSize; }
+	private:
+		void RecalculateProjection();
+	private:
 
-    private:
-        void ReCalculateProjection();
-    private:
+		float m_PerspectiveNear = 0.01f, m_PerspectiveFar = 1000.0f;
 
-        float m_OrthographicSize = 10.0f;
-        float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;
-        float m_AspectRatio = 0.0f;
-    };
+		float m_OrthographicSize = 10.0f;
+		float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;
+
+		float m_AspectRatio = 0.0f;
+	};
 }

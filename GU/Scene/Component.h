@@ -5,6 +5,7 @@
 #pragma once
 #include"Core/Core.h"
 #include"Renderer/Camera.h"
+#include"Scene/SceneCamera.h"
 #include<glm/glm.hpp>
 #include<string>
 namespace GU
@@ -21,7 +22,7 @@ namespace GU
 
     struct CameraComponent
     {
-        Camera Camera;
+        SceneCamera Camera;
         bool Primary = true;
         CameraComponent() = default;
         CameraComponent(const CameraComponent& ) = default;

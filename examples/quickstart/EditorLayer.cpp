@@ -32,6 +32,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
     if (m_ViewportSize.x != 0 && m_ViewportSize.y != 0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
     {
         m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+        m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
@@ -130,9 +131,8 @@ void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
     m_ActiveScene = std::make_shared<Scene>();
-    m_CameraEntity = m_ActiveScene->CreateEntity("CameraEntity");
-    auto cc = m_CameraEntity.AddComponent<CameraComponent>();
-    cc.Camera = {glm::ortho(-15.0f, 15.0f, -1.0f, 1.0f, 0.1f, 100.0f)};
+    m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
+    auto& cc = m_CameraEntity.AddComponent<CameraComponent>();
     Entity entity1 = m_ActiveScene->CreateEntity();
     entity1.AddComponent<ColorComponet>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f});
     entity1.AddComponent<V2PositionComponet>(glm::vec2{1.0, 1.0});

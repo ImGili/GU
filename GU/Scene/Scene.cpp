@@ -24,19 +24,51 @@ Entity Scene::CreateEntity(const std::string& name)
 
 void Scene::OnUpdate(TimeStep ts)
 {
-    auto view = m_Registry.view<CameraComponent, TransformComponent>();
-    for (auto entity : view)
+    Camera* mainCamera = nullptr;
+    glm::mat4 cameraTransform;
     {
-        auto [camera, transform] = view.get<CameraComponent, TransformComponent>(entity);
-        Renderer2D::BeginScene(camera.Camera, transform.Transform);
+        auto view = m_Registry.view<TransformComponent, CameraComponent>();
+        for (auto entity : view)
+        {
+            auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+            
+            if (camera.Primary)
+            {
+                mainCamera = &camera.Camera;
+                cameraTransform = transform.Transform;
+                break;
+            }
+        }
+    }
+
+    if (mainCamera)
+    {
+        Renderer2D::BeginScene(*mainCamera, cameraTransform);
+
+        auto group = m_Registry.group<ColorComponet>(entt::get<V2PositionComponet>);
+        for (auto entity : group)
+        {
+
+            auto [position, color] = group.get<V2PositionComponet, ColorComponet>(entity);
+            Renderer2D::DrawQuad(position, color);
+        }
+
+        Renderer2D::EndScene();
     }
     
-    auto group = m_Registry.group<ColorComponet>(entt::get<V2PositionComponet>);
-    for (auto entity : group)
-    {
+}
 
-        auto [position, color] = group.get<V2PositionComponet, ColorComponet>(entity);
-        Renderer2D::DrawQuad(position, color);
+void Scene::OnViewportResize(uint32_t width, uint32_t height)
+{
+    m_ViewportWidth = width;
+    m_ViewportHeight = height;
+
+    // Resize our non-FixedAspectRatio cameras
+    auto view = m_Registry.view<CameraComponent>();
+    for (auto entity : view)
+    {
+        auto& cameraComponent = view.get<CameraComponent>(entity);
+        cameraComponent.Camera.SetViewportSize(width, height);
     }
-    Renderer2D::EndScene();
+
 }
