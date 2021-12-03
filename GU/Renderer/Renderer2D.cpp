@@ -97,11 +97,22 @@ void Renderer2D::BeginScene(const OrthographicCamera& camera)
 }
 void Renderer2D::BeginScene(const EditorCamera& camera)
 {
+    glDisable(GL_DEPTH_TEST);
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
     s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjectionViewMatrix();
     s_Data.CameraUniformBuffer->SetData(&s_Data.CameraUniformBufferData,sizeof(s_Data.CameraUniformBufferData));
 }
+
+void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+{
+    glDisable(GL_DEPTH_TEST);
+    s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
+    s_Data.QuadIndicesCount = 0;
+    s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjection() * glm::inverse(transform);
+    s_Data.CameraUniformBuffer->SetData(&s_Data.CameraUniformBufferData,sizeof(s_Data.CameraUniformBufferData));
+}
+
 
 void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 {

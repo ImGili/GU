@@ -11,6 +11,7 @@
 #include"Renderer/Texture.h"
 #include"Renderer/OrthographicCameraController.h"
 #include"Scene/Scene.h"
+#include"Scene/Entity.h"
 #include<glm/glm.hpp>
 #include<string>
 #include<entt.hpp>
@@ -34,4 +35,5 @@ private:
     OrthographicCameraController m_OrthographicCameraController;
     bool m_IsViewportFocus = false;
     std::shared_ptr<Scene> m_ActiveScene;
+    Entity m_CameraEntity;
 };

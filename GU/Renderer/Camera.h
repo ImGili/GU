@@ -13,7 +13,8 @@ namespace GU
         Camera(const glm::mat4& projection)
             : Projection(projection)
         {}
-        virtual ~Camera() - default;
+        virtual ~Camera() = default;
+        const glm::mat4& GetProjection() const { return Projection; }
     protected:
         glm::mat4 Projection = glm::mat4(1);
     };

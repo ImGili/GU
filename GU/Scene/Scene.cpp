@@ -24,6 +24,13 @@ Entity Scene::CreateEntity(const std::string& name)
 
 void Scene::OnUpdate(TimeStep ts)
 {
+    auto view = m_Registry.view<CameraComponent, TransformComponent>();
+    for (auto entity : view)
+    {
+        auto [camera, transform] = view.get<CameraComponent, TransformComponent>(entity);
+        Renderer2D::BeginScene(camera.Camera, transform.Transform);
+    }
+    
     auto group = m_Registry.group<ColorComponet>(entt::get<V2PositionComponet>);
     for (auto entity : group)
     {
@@ -31,4 +38,5 @@ void Scene::OnUpdate(TimeStep ts)
         auto [position, color] = group.get<V2PositionComponet, ColorComponet>(entity);
         Renderer2D::DrawQuad(position, color);
     }
+    Renderer2D::EndScene();
 }

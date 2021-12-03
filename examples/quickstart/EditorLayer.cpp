@@ -35,14 +35,14 @@ void EditorLayer::OnUpdate(TimeStep ts)
     }
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
-    Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
+    // Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
     m_ActiveScene->OnUpdate(ts);
     // Renderer2D::DrawQuad(glm::vec2(0.0, 0.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(-5.0, 5.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(5.0, 5.0), glm::vec4(0.0, 1.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(-5.0, -5.0), glm::vec4(1.0, 0.0, 1.0, 1.0));
     // Renderer2D::DrawQuad(glm::vec2(5.0, -5.0), glm::vec4(1.0, 1.0, 0.0, 1.0));
-    Renderer2D::EndScene();
+    // Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
 
@@ -130,7 +130,9 @@ void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
     m_ActiveScene = std::make_shared<Scene>();
-     
+    m_CameraEntity = m_ActiveScene->CreateEntity("CameraEntity");
+    auto cc = m_CameraEntity.AddComponent<CameraComponent>();
+    cc.Camera = {glm::ortho(-15.0f, 15.0f, -1.0f, 1.0f, 0.1f, 100.0f)};
     Entity entity1 = m_ActiveScene->CreateEntity();
     entity1.AddComponent<ColorComponet>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f});
     entity1.AddComponent<V2PositionComponet>(glm::vec2{1.0, 1.0});

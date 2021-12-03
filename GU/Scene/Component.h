@@ -4,6 +4,7 @@
  */
 #pragma once
 #include"Core/Core.h"
+#include"Renderer/Camera.h"
 #include<glm/glm.hpp>
 #include<string>
 namespace GU
@@ -16,6 +17,14 @@ namespace GU
         TransformComponent(const TransformComponent& ) = default;
         TransformComponent(const glm::mat4& transform)
             : Transform(transform){}
+    };
+
+    struct CameraComponent
+    {
+        Camera Camera;
+        bool Primary = true;
+        CameraComponent() = default;
+        CameraComponent(const CameraComponent& ) = default;
     };
 
     struct TagComponent
