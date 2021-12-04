@@ -36,4 +36,5 @@ private:
     bool m_IsViewportFocus = false;
     std::shared_ptr<Scene> m_ActiveScene;
     Entity m_CameraEntity;
+    Entity m_SecondCameraEntity;
 };
