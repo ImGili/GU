@@ -4,6 +4,7 @@
  */
 #include "EditorLayer.h"
 #include "Core/Application.h"
+#include "Core/Input.h"
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/RenderCommand.h"
 #include "ImGui/ImGuiAppConsole.h"
@@ -14,6 +15,7 @@
 #include"Scene/Component.h"
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
+#include"Scene/ScriptableEntity.h"
 #include <imgui.h>
 #include <cmath>
 #include "GLFW/glfw3.h"
@@ -159,6 +161,28 @@ void EditorLayer::OnAttach()
     m_SecondCameraEntity.AddComponent<CameraComponent>();
     auto& scc = m_SecondCameraEntity.GetComponent<CameraComponent>();
     scc.Primary = false;
+    class CameraController : public ScriptableEntity
+    {
+    public:
+        virtual ~CameraController() = default;
+
+        virtual void OnCreate() {}
+        virtual void OnUpdate(TimeStep ts) {
+            auto& translation = GetComponent<TransformComponent>().Translation;
+            float speed = 5.0f;
+            if(Input::IsKeyPressed(KeyCode::A))
+                translation.x -= speed * ts;
+            if(Input::IsKeyPressed(KeyCode::D))
+                translation.x += speed * ts;
+            if(Input::IsKeyPressed(KeyCode::S))
+                translation.y -= speed * ts;
+            if(Input::IsKeyPressed(KeyCode::W))
+                translation.y += speed * ts;
+        }
+        virtual void OnDestroy() {}
+    };
+
+    m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
     Entity entity1 = m_ActiveScene->CreateEntity();
     entity1.AddComponent<ColorComponet>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f});
