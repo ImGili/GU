@@ -12,6 +12,8 @@
 #include"Renderer/OrthographicCameraController.h"
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
+
+#include"Panels/SceneHierarchyPanel.h"
 #include<glm/glm.hpp>
 #include<string>
 #include<entt.hpp>
@@ -37,4 +39,5 @@ private:
     std::shared_ptr<Scene> m_ActiveScene;
     Entity m_CameraEntity;
     Entity m_SecondCameraEntity;
+    SceneHierarchyPanel m_SceneHierarchyPanel;
 };

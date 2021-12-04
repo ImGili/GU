@@ -136,6 +136,8 @@ void EditorLayer::OnImGuiRender()
         m_SecondCameraEntity.GetComponent<CameraComponent>().Camera.SetOrthographicSize(cameraOrthoSize);
         ImGui::End();
     }
+
+    m_SceneHierarchyPanel.OnImGuiRender();
     // {
     //     ImGui::ShowDemoWindow();
     // }
@@ -194,6 +196,7 @@ void EditorLayer::OnAttach()
     entity3.AddComponent<ColorComponet>(glm::vec4{0.0f, 0.0f, 1.0f, 1.0f});
     entity3.AddComponent<V2PositionComponet>(glm::vec2{0.0, 0.0});
 
+    m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     // Entity entity = m_ActiveScene->CreateEntity();
     // entity.AddComponent<TagComponent>();
     // entity.AddComponent<V2PositionComponet>();

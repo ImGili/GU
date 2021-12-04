@@ -19,9 +19,17 @@ else()
     endif()
 endif()
 
+file(GLOB PROJECT_SOURCES           
+                            *.cpp
+                            Panels/*.cpp
+                                    )
+file(GLOB PROJECT_HEADERS           
+                            *.h
+                            Panels/*.h
+)
 
 add_executable(${PROJECT_NAME} 
-                main.cpp ExampleLayer.h ExampleLayer.cpp EditorLayer.h EditorLayer.cpp Example3DLayer.h Example3DLayer.cpp)
+                ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 
 target_link_libraries(${PROJECT_NAME} 
@@ -29,10 +37,6 @@ target_link_libraries(${PROJECT_NAME}
             Gu
 )
 
-target_include_directories(${PROJECT_NAME} 
-    PRIVATE
-    ${CMAKE_SOURCE_DIR}/vendor/entt
-)
 
 if(MSVC)
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES

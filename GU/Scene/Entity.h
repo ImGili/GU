@@ -39,6 +39,9 @@ namespace GU
         Entity( const entt::entity& handle, Scene* scene )
             : m_EntityHandle(handle), m_Scene(scene)
         {}
+
+        operator uint32_t() const { return (uint32_t) m_EntityHandle; }
+        bool operator==(const Entity& other) const { return other.m_EntityHandle == m_EntityHandle && m_Scene==other.m_Scene; }
     private:
         entt::entity m_EntityHandle; 
         Scene* m_Scene;

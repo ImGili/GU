@@ -26,5 +26,6 @@ namespace GU
 
     private:
         friend class Entity;
+		friend class SceneHierarchyPanel;
     };
 }
