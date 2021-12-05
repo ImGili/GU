@@ -54,8 +54,27 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     }
     if (entity.HasComponent<TransformComponent>())
     {
-        auto& transform = entity.GetComponent<TransformComponent>().Translation;
-        ImGui::DragFloat3("transform", glm::value_ptr(transform), 0.1f);
+        if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+        {
+            auto& transform = entity.GetComponent<TransformComponent>().Translation;
+            ImGui::DragFloat3("transform", glm::value_ptr(transform), 0.1f);
+            ImGui::TreePop();
+        }
     }
+    if (entity.HasComponent<CameraComponent>())
+    {
+        auto& cc = entity.GetComponent<CameraComponent>();
+        SceneCamera& camera = cc.Camera;
+        float orthoSize = camera.GetOrthographicSize();
+        ImGui::DragFloat("OrthoSize", &orthoSize, 0.1f, 0.0, 20.0);
+        camera.SetOrthographicSize(orthoSize);
+        float orthoNearClip = camera.GetOrthographicNearClip();
+        ImGui::DragFloat("orthoNearClip", &orthoNearClip, 0.1f, 0.0, 20.0);
+        camera.SetOrthographicNearClip(orthoNearClip);
+        float orthoFarClip = camera.GetOrthographicFarClip();
+        ImGui::DragFloat("orthoFarClip", &orthoFarClip, 0.1f, 0.0, 20.0);
+        camera.SetOrthographicFarClip(orthoFarClip);
+    }
+    
     
 }
