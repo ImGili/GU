@@ -68,15 +68,23 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
         auto& cc = entity.GetComponent<CameraComponent>();
         SceneCamera& camera = cc.Camera;
         float orthoSize = camera.GetOrthographicSize();
-        ImGui::DragFloat("OrthoSize", &orthoSize, 0.1f, 0.0, 20.0);
-        camera.SetOrthographicSize(orthoSize);
         float orthoNearClip = camera.GetOrthographicNearClip();
-        ImGui::DragFloat("orthoNearClip", &orthoNearClip, 0.1f, 0.0, 20.0);
-        camera.SetOrthographicNearClip(orthoNearClip);
         float orthoFarClip = camera.GetOrthographicFarClip();
+        ImGui::DragFloat("OrthoSize", &orthoSize, 0.1f, 0.0, 20.0);
+        ImGui::DragFloat("orthoNearClip", &orthoNearClip, 0.1f, 0.0, 20.0);
         ImGui::DragFloat("orthoFarClip", &orthoFarClip, 0.1f, 0.0, 20.0);
+        ImGui::Checkbox("Primary", &cc.Primary);
+        camera.SetOrthographicSize(orthoSize);
+        camera.SetOrthographicNearClip(orthoNearClip);
         camera.SetOrthographicFarClip(orthoFarClip);
     }
+
+    if (entity.HasComponent<SpriteRendererComponent>())
+    {
+        auto& spt = entity.GetComponent<SpriteRendererComponent>();
+        ImGui::ColorEdit4("Color", glm::value_ptr(spt.Color));
+    }
+    
     
     
 }

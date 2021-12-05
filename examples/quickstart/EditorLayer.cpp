@@ -115,27 +115,27 @@ void EditorLayer::OnImGuiRender()
         ImGui::EndMenuBar();
     }
 
-    {
-        ImGui::Begin("Editor");
-        // Select Camera
-        static int cameraSelected = -1;
-        if(ImGui::Selectable("Cmaera A", cameraSelected == 1))
-        {
-            m_CameraEntity.GetComponent<CameraComponent>().Primary = true;
-            m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = false;
-            cameraSelected = 1;
-        }
-        if(ImGui::Selectable("Cmaera B", cameraSelected == 2))
-        {
-            m_CameraEntity.GetComponent<CameraComponent>().Primary = false;
-            m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = true;
-            cameraSelected = 2;
-        }
-        static float cameraOrthoSize = 15.0f;
-        ImGui::DragFloat("OrthoSize", &cameraOrthoSize, 0.1, 0.0f, 20.0f);
-        m_SecondCameraEntity.GetComponent<CameraComponent>().Camera.SetOrthographicSize(cameraOrthoSize);
-        ImGui::End();
-    }
+    // {
+    //     ImGui::Begin("Editor");
+    //     // Select Camera
+    //     static int cameraSelected = -1;
+    //     if(ImGui::Selectable("Cmaera A", cameraSelected == 1))
+    //     {
+    //         m_CameraEntity.GetComponent<CameraComponent>().Primary = true;
+    //         m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = false;
+    //         cameraSelected = 1;
+    //     }
+    //     if(ImGui::Selectable("Cmaera B", cameraSelected == 2))
+    //     {
+    //         m_CameraEntity.GetComponent<CameraComponent>().Primary = false;
+    //         m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = true;
+    //         cameraSelected = 2;
+    //     }
+    //     static float cameraOrthoSize = 15.0f;
+    //     ImGui::DragFloat("OrthoSize", &cameraOrthoSize, 0.1, 0.0f, 20.0f);
+    //     m_SecondCameraEntity.GetComponent<CameraComponent>().Camera.SetOrthographicSize(cameraOrthoSize);
+    //     ImGui::End();
+    // }
 
     m_SceneHierarchyPanel.OnImGuiRender();
     // {
