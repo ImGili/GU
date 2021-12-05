@@ -53,29 +53,6 @@ namespace GU
             : Tag(tag){}
     };
     
-    struct ColorComponet
-    {
-        glm::vec4 Color;
-        ColorComponet()
-            : Color({1.0f, 1.0f, 1.0f, 1.0f})
-        {}
-        ColorComponet(const ColorComponet&) = default;
-        ColorComponet(const glm::vec4& color)
-            : Color(color){}
-        operator glm::vec4&() { return Color; }
-    };
-
-    struct V2PositionComponet
-    {
-        glm::vec2 Position;
-        V2PositionComponet()
-            : Position({0.0f, 0.0f})
-        {}
-        V2PositionComponet(const V2PositionComponet&) = default;
-        V2PositionComponet(const glm::vec2& position)
-            : Position(position){}
-        operator glm::vec2&() { return Position; }
-    };
     struct SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };

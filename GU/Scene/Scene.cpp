@@ -57,12 +57,12 @@ void Scene::OnUpdate(TimeStep ts)
     {
         Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
-        auto group = m_Registry.group<ColorComponet>(entt::get<V2PositionComponet>);
+        auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
         for (auto entity : group)
         {
 
-            auto [position, color] = group.get<V2PositionComponet, ColorComponet>(entity);
-            Renderer2D::DrawQuad(position, color);
+            auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+            Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
         }
 
         Renderer2D::EndScene();

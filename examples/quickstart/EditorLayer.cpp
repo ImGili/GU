@@ -187,15 +187,17 @@ void EditorLayer::OnAttach()
     m_SecondCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
     Entity entity1 = m_ActiveScene->CreateEntity();
-    entity1.AddComponent<ColorComponet>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f});
-    entity1.AddComponent<V2PositionComponet>(glm::vec2{1.0, 1.0});
+    entity1.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f});
+    auto& transform1 = entity1.GetComponent<TransformComponent>().Translation;
+    transform1 = { 0.0, 0.0, 0.0 };
     Entity entity2 = m_ActiveScene->CreateEntity();
-    entity2.AddComponent<ColorComponet>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
-    entity2.AddComponent<V2PositionComponet>(glm::vec2{-1.0, -1.0});
+    entity2.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
+    auto& transform2 = entity2.GetComponent<TransformComponent>().Translation;
+    transform1 = { 1.0, 1.0, 0.0 };
     Entity entity3 = m_ActiveScene->CreateEntity();
-    entity3.AddComponent<ColorComponet>(glm::vec4{0.0f, 0.0f, 1.0f, 1.0f});
-    entity3.AddComponent<V2PositionComponet>(glm::vec2{0.0, 0.0});
-
+    entity3.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 0.0f, 1.0f, 1.0f});
+    auto& transform3 = entity3.GetComponent<TransformComponent>().Translation;
+    transform3 = { -1.0, -1.0, 0.0 };
     m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     // Entity entity = m_ActiveScene->CreateEntity();
     // entity.AddComponent<TagComponent>();

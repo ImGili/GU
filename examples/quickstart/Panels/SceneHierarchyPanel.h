@@ -20,7 +20,6 @@ namespace GU
 
         void OnImGuiRender();
 
-
     private:
         /**
          * @brief Draw entity tree
@@ -28,6 +27,7 @@ namespace GU
          * @param entity 
          */
         void DrawEntityNode(Entity entity);
+        void DrawComponents(Entity entity);
         std::shared_ptr<Scene> m_Context;
         Entity m_SelectionEntity;
     };
