@@ -14,6 +14,8 @@ void SceneHierarchyPanel::OnImGuiRender()
             DrawEntityNode(entity);
         }
     );
+    if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+			m_SelectionEntity = {};
     ImGui::End();
 
     ImGui::Begin("Properties");
