@@ -84,3 +84,8 @@ void Scene::OnViewportResize(uint32_t width, uint32_t height)
     }
 
 }
+
+void Scene::DeleteEntity(Entity entity)
+{
+    m_Registry.destroy(entity);
+}

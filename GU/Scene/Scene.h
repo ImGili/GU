@@ -18,6 +18,7 @@ namespace GU
         ~Scene();
         void OnUpdate(TimeStep ts);
         Entity CreateEntity(const std::string& name = std::string());
+        void DeleteEntity(Entity entity);
 
         void OnViewportResize(uint32_t width, uint32_t height);
     private:
