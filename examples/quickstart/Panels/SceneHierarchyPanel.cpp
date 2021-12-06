@@ -37,36 +37,7 @@ void SceneHierarchyPanel::OnImGuiRender()
     {
         DrawComponents(m_SelectionEntity);
 
-        if(ImGui::Button("Add Component"))
-            ImGui::OpenPopup("AddComponent");
-        if(ImGui::BeginPopup("AddComponent"))
-        {
-            if (ImGui::MenuItem("Add Camera"))
-            {
-                if (!m_SelectionEntity.HasComponent<CameraComponent>())
-                {
-                    m_SelectionEntity.AddComponent<CameraComponent>();
-                }
-                ImGui::CloseCurrentPopup();
-            }
-            if (ImGui::MenuItem("Add Sprite"))
-            {
-                if (!m_SelectionEntity.HasComponent<SpriteRendererComponent>())
-                {
-                    m_SelectionEntity.AddComponent<SpriteRendererComponent>();
-                }
-                ImGui::CloseCurrentPopup();
-            }
-            if (ImGui::MenuItem("Add TransformComponent"))
-            {
-                if (!m_SelectionEntity.HasComponent<TransformComponent>())
-                {
-                    m_SelectionEntity.AddComponent<TransformComponent>();
-                }
-                ImGui::CloseCurrentPopup();
-            }
-            ImGui::EndPopup();
-        }
+        
     }
     ImGui::End();
 }
@@ -222,6 +193,40 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     {
         tag = std::string(buffer);
     }
+    ImGui::SameLine();
+    ImGui::PushItemWidth(-1);
+    if(ImGui::Button("Add Component"))
+            ImGui::OpenPopup("AddComponent");
+    if(ImGui::BeginPopup("AddComponent"))
+    {
+        if (ImGui::MenuItem("Add Camera"))
+        {
+            if (!m_SelectionEntity.HasComponent<CameraComponent>())
+            {
+                m_SelectionEntity.AddComponent<CameraComponent>();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        if (ImGui::MenuItem("Add Sprite"))
+        {
+            if (!m_SelectionEntity.HasComponent<SpriteRendererComponent>())
+            {
+                m_SelectionEntity.AddComponent<SpriteRendererComponent>();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        if (ImGui::MenuItem("Add TransformComponent"))
+        {
+            if (!m_SelectionEntity.HasComponent<TransformComponent>())
+            {
+                m_SelectionEntity.AddComponent<TransformComponent>();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
+    ImGui::PopItemWidth();
+
     DrawComponent<TransformComponent>("TransformComponent", entity, [](auto& component){
         DrawVec3Control("Translation", component.Translation);
         DrawVec3Control("Scale", component.Scale);
