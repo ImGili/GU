@@ -8,6 +8,7 @@
 #include"Renderer/UniformBuffer.h"
 #include"Renderer/Shader.h"
 #include"Renderer/RenderCommand.h"
+#include"Renderer/Texture.h"
 
 #include<glm/glm.hpp>
 #include<glm/gtc/type_ptr.hpp>
@@ -19,6 +20,8 @@ struct QuadVertex
 {
     glm::vec3 Position;
     glm::vec4 Color;
+    glm::vec2 TexCoord;
+    float TexIndex;
 };
 
 struct Renderer2DData
@@ -28,6 +31,9 @@ struct Renderer2DData
     static const uint32_t MaxQuad = 2000;
     static const uint32_t MaxVertices = MaxQuad * aQuadVertices;
     static const uint32_t MaxIndices = MaxQuad * aQuadIndices;
+
+    static const uint32_t MaxTextureSlots = 32;
+
     QuadVertex* QuadVertexBufferDataBase = nullptr;
     QuadVertex* QuadVertexBufferDataPtr = nullptr;
 
@@ -37,6 +43,10 @@ struct Renderer2DData
     std::shared_ptr<VertexArray> QuadVertexArray;
     std::shared_ptr<Shader> QuadVertexShader;
     uint32_t QuadIndicesCount = 0;
+
+    std::array<std::shared_ptr<Texture2D>, MaxTextureSlots> TextureSlots;
+    uint32_t TextureSlotIndex = 1;
+    std::shared_ptr<Texture2D> WhiteTexture;
 
     struct CameraData
     {
@@ -54,8 +64,10 @@ void Renderer2D::Init()
     s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
     s_Data.QuadVertexArray = VertexArray::Create();
     s_Data.QuadVertexBuffer->SetLayout({
-        {ShaderDataType::Float3, "a_Position"}, 
-        {ShaderDataType::Float4, "a_Color"}
+        { ShaderDataType::Float3, "a_Position"     },
+        { ShaderDataType::Float4, "a_Color"        },
+        { ShaderDataType::Float2, "a_TexCoord"     },
+        { ShaderDataType::Float,  "a_TexIndex"     }
     });
     s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -85,6 +97,11 @@ void Renderer2D::Init()
     s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
     delete[] quadIndices;
     s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData));
+
+    s_Data.WhiteTexture = Texture2D::Create(1, 1);
+    uint32_t whiteTextureData = 0xffffffff;
+    s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(whiteTextureData));
+    s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -116,11 +133,14 @@ void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 
 void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 {
+    constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
     for (size_t i = 0; i < 4; i++)
     {
         s_Data.QuadVertexBufferDataPtr->Position  = transform * s_Data.QuadVertexPositions[i];
         s_Data.QuadVertexBufferDataPtr->Color  = color;
         s_Data.QuadVertexBufferDataPtr++;
+        s_Data.QuadVertexBufferDataPtr->TexIndex = 0;
+        s_Data.QuadVertexBufferDataPtr->TexCoord = textureCoords[i];
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
 }
