@@ -37,7 +37,7 @@ namespace GU
         }
 
         template<typename T>
-        bool RemoveComponent()
+        void RemoveComponent()
         {
             GU_ASSERT(HasComponent<T>(), "Entity does not have component!");
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
