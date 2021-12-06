@@ -75,6 +75,7 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 {
     auto& tag = entity.GetComponent<TagComponent>().Tag;
     ImGuiTreeNodeFlags flags = ((m_SelectionEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+    flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
     bool opended = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity,flags, tag.c_str());
     if (ImGui::IsItemClicked())
     {
@@ -168,16 +169,19 @@ static void DrawVec3Control(const std::string& label, glm::vec3& values, float r
 template<typename T, typename UIFunction>
 static void DrawComponent(const std::string& name, Entity entity, UIFunction uifunction)
 {
-    const ImGuiTreeNodeFlags treenodeflags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
-    ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
     if (entity.HasComponent<T>())
     {
-        // ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
+        const ImGuiTreeNodeFlags treenodeflags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
+        ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
+        float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+        ImGui::Separator();
+        ImGui::PopStyleVar();
         auto& component = entity.GetComponent<T>();
         bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treenodeflags, name.c_str());
         // ImGui::PopStyleVar();
         bool isremove = false;
-        ImGui::SameLine(contentRegionAvailable.x);
+        ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
         if (ImGui::Button("+"))
         {
             ImGui::OpenPopup("Component Setting");
