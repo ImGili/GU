@@ -36,6 +36,13 @@ namespace GU
             return m_Scene->m_Registry.any_of<T>(m_EntityHandle);
         }
 
+        template<typename T>
+        bool RemoveComponent()
+        {
+            GU_ASSERT(HasComponent<T>(), "Entity does not have component!");
+			m_Scene->m_Registry.remove<T>(m_EntityHandle);
+        }
+
         Entity( const entt::entity& handle, Scene* scene )
             : m_EntityHandle(handle), m_Scene(scene)
         {}

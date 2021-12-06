@@ -57,6 +57,14 @@ void SceneHierarchyPanel::OnImGuiRender()
                 }
                 ImGui::CloseCurrentPopup();
             }
+            if (ImGui::MenuItem("Add TransformComponent"))
+            {
+                if (!m_SelectionEntity.HasComponent<TransformComponent>())
+                {
+                    m_SelectionEntity.AddComponent<TransformComponent>();
+                }
+                ImGui::CloseCurrentPopup();
+            }
             ImGui::EndPopup();
         }
     }
@@ -148,6 +156,55 @@ static void DrawVec3Control(const std::string& label, glm::vec3& values, float r
     ImGui::PopID();
 }
 
+/**
+ * @brief draw single component with lamda function uifunction
+ * 
+ * @tparam T 
+ * @tparam UIFunction 
+ * @param name 
+ * @param entity 
+ * @param uifunction 
+ */
+template<typename T, typename UIFunction>
+static void DrawComponent(const std::string& name, Entity entity, UIFunction uifunction)
+{
+    const ImGuiTreeNodeFlags treenodeflags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
+    if (entity.HasComponent<T>())
+    {
+        auto& component = entity.GetComponent<T>();
+        bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treenodeflags, name.c_str());
+        bool isremove = false;
+        ImGui::SameLine();
+        if (ImGui::Button("+"))
+        {
+            ImGui::OpenPopup("Component Setting");
+        }
+        if(ImGui::BeginPopup("Component Setting"))
+        {
+            if (ImGui::MenuItem("Remove component"))
+            {
+                isremove = true;
+            }
+            ImGui::EndPopup();
+        }
+        if (open)
+        {
+            ImGui::TreePop();
+            uifunction(component);
+        }
+        if (isremove)
+        {
+            entity.RemoveComponent<T>();
+        }
+    }
+}
+
+
+/**
+ * @brief draw entity's component
+ * 
+ * @param entity 
+ */
 void SceneHierarchyPanel::DrawComponents(Entity entity)
 {
     auto& tag = entity.GetComponent<TagComponent>().Tag;
@@ -158,40 +215,26 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     {
         tag = std::string(buffer);
     }
-    const ImGuiTreeNodeFlags treenodeflags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
-    if (entity.HasComponent<TransformComponent>())
-    {
-        if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), treenodeflags, "Transform"))
-        {
-            auto& transform = entity.GetComponent<TransformComponent>();
-            DrawVec3Control("Translation", transform.Translation);
-            DrawVec3Control("Scale", transform.Scale);
-            DrawVec3Control("Rotation", transform.Rotation);
-            ImGui::TreePop();
-        }
-    }
-    if (entity.HasComponent<CameraComponent>())
-    {
-        auto& cc = entity.GetComponent<CameraComponent>();
-        SceneCamera& camera = cc.Camera;
+    DrawComponent<TransformComponent>("TransformComponent", entity, [](auto& component){
+        DrawVec3Control("Translation", component.Translation);
+        DrawVec3Control("Scale", component.Scale);
+        DrawVec3Control("Rotation", component.Rotation);
+    });
+    DrawComponent<CameraComponent>("CameraComponent", entity, [](auto& component){
+        SceneCamera& camera = component.Camera;
         float orthoSize = camera.GetOrthographicSize();
         float orthoNearClip = camera.GetOrthographicNearClip();
         float orthoFarClip = camera.GetOrthographicFarClip();
         ImGui::DragFloat("OrthoSize", &orthoSize, 0.1f, 0.0, 20.0);
         ImGui::DragFloat("orthoNearClip", &orthoNearClip, 0.1f, 0.0, 20.0);
         ImGui::DragFloat("orthoFarClip", &orthoFarClip, 0.1f, 0.0, 20.0);
-        ImGui::Checkbox("Primary", &cc.Primary);
+        ImGui::Checkbox("Primary", &component.Primary);
         camera.SetOrthographicSize(orthoSize);
         camera.SetOrthographicNearClip(orthoNearClip);
         camera.SetOrthographicFarClip(orthoFarClip);
-    }
+    });
 
-    if (entity.HasComponent<SpriteRendererComponent>())
-    {
-        auto& spt = entity.GetComponent<SpriteRendererComponent>();
-        ImGui::ColorEdit4("Color", glm::value_ptr(spt.Color));
-    }
-    
-    
-    
+    DrawComponent<SpriteRendererComponent>("SpriteRendererComponent", entity, [](auto& component){
+        ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+    });       
 }
