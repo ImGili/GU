@@ -89,3 +89,18 @@ void Scene::DeleteEntity(Entity entity)
 {
     m_Registry.destroy(entity);
 }
+
+template<typename T>
+void Scene::OnComponentAdd(Entity entity, T component)
+{
+
+}
+
+template<>
+void Scene::OnComponentAdd(Entity entity, CameraComponent component)
+{
+    if (m_ViewportWidth > 0 && m_ViewportHeight > 0)
+    {
+        component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
+    }
+}
