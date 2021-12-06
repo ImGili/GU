@@ -72,6 +72,7 @@ void Renderer2D::Init()
     s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
     s_Data.QuadVertexShader = Shader::Create("quadShader", "assets/shaders/texture/vertex.vert", "assets/shaders/texture/fragment.frag");
+    s_Data.QuadVertexShader->SetInt("u_Textures[0]", 0);
     s_Data.QuadVertexBufferDataBase = new QuadVertex[Renderer2DData::MaxVertices];
 
     s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };

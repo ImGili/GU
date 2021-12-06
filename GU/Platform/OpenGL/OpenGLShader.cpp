@@ -145,8 +145,17 @@ void OpenGLShader::SetMat4(const std::string &name, const glm::mat4& value) cons
     int flag = glGetUniformLocation(m_RendererID, name.c_str());
     if (flag != -1)
     {
-        glUniformMatrix4fv(glGetUniformLocation(m_RendererID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value)); 
+        glUniformMatrix4fv(flag, 1, GL_FALSE, glm::value_ptr(value)); 
     }
 
     
+}
+
+void OpenGLShader::SetInt(const std::string &name, uint32_t value) const
+{
+    int flag = glGetUniformLocation(m_RendererID, name.c_str());
+    if (flag != -1)
+    {
+        glUniform1i(flag, value);
+    }
 }

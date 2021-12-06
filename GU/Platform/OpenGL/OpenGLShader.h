@@ -17,6 +17,7 @@ namespace GU
         void Unbind() override;
 
         void SetMat4(const std::string &name, const glm::mat4& value) const override;
+        virtual void SetInt(const std::string &name, uint32_t value) const override;
     private:
         void CheckCompileErrors(unsigned int shader, std::string type);
         uint32_t m_RendererID;
