@@ -171,10 +171,12 @@ static void DrawComponent(const std::string& name, Entity entity, UIFunction uif
     const ImGuiTreeNodeFlags treenodeflags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
     if (entity.HasComponent<T>())
     {
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
         auto& component = entity.GetComponent<T>();
         bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treenodeflags, name.c_str());
+        ImGui::PopStyleVar();
         bool isremove = false;
-        ImGui::SameLine();
+        ImGui::SameLine(ImGui::GetContentRegionAvail().x);
         if (ImGui::Button("+"))
         {
             ImGui::OpenPopup("Component Setting");
