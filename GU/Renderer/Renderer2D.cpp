@@ -158,6 +158,11 @@ void Renderer2D::Flush()
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferDataBase, dataSize);
     s_Data.QuadVertexShader->Bind();
     s_Data.CameraUniformBuffer->Bind();
+    for (size_t i = 0; i < s_Data.TextureSlotIndex; i++)
+    {
+        s_Data.TextureSlots[i]->Bind(i);
+    }
+    
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
 }
 
