@@ -8,6 +8,62 @@
 #include"Core/Log.h"
 #include<yaml-cpp/yaml.h>
 #include<fstream>
+
+namespace YAML
+{
+    template<>
+	struct convert<glm::vec3>
+	{
+		static Node encode(const glm::vec3& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.push_back(rhs.z);
+			node.SetStyle(EmitterStyle::Flow);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::vec3& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 3)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			rhs.z = node[2].as<float>();
+			return true;
+		}
+	};
+
+    template<>
+	struct convert<glm::vec4>
+	{
+		static Node encode(const glm::vec4& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.push_back(rhs.z);
+			node.push_back(rhs.w);
+			node.SetStyle(EmitterStyle::Flow);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::vec4& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 4)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			rhs.z = node[2].as<float>();
+			rhs.w = node[3].as<float>();
+			return true;
+		}
+	};
+}
+
 namespace GU
 {
 
@@ -79,7 +135,7 @@ namespace GU
         if (entity.HasComponent<SpriteRendererComponent>())
         {
             auto& spriteComponent = entity.GetComponent<SpriteRendererComponent>();
-            out << YAML::Key << "SpriteComponent";
+            out << YAML::Key << "SpriteRendererComponent";
             out << YAML::BeginMap;
             out << YAML::Key << "Color" << YAML::Value << spriteComponent.Color;
             out << YAML::EndMap;
@@ -99,6 +155,7 @@ namespace GU
             if (!entity)
                 return false;
             SerializeEntity(out, entity);
+            return true;
         });
         out << YAML::EndSeq;
         out << YAML::EndMap;
@@ -110,6 +167,61 @@ namespace GU
 
     bool SceneSerializer::Deserializer(const char* filepath)
     {
+        YAML::Node node;
+        try
+        {
+            node = YAML::LoadFile(filepath);
+        }
+        catch(const std::exception& e)
+        {
+            GU_ERROR("{0}", e.what());
+        }
+        std::string sceneName = node["Scene"].as<std::string>();
+        GU_INFO("deserialize scene {0}", sceneName);
+
+        auto entities = node["Entities"];
+        for (auto entity : entities)
+        {
+            // Create Entity
+            std::string name;
+            auto tagComponent = entity["TagComonent"];
+            if (tagComponent)
+                name = tagComponent["Tag"].as<std::string>();
+            
+            GU_INFO("Deserialize Entity name: {0}", name);
+
+            Entity deserializeEntity = m_Scene->CreateEntity(name);
+
+            // set transform component
+            auto transform = entity["TransformComponent"];
+            if (transform)
+            {
+                auto& tc = deserializeEntity.GetComponent<TransformComponent>();
+                tc.Translation = transform["Translation"].as<glm::vec3>();
+                tc.Scale = transform["Scale"].as<glm::vec3>();
+                tc.Rotation = transform["Rotation"].as<glm::vec3>();
+            }
+            
+            // set SpriteRendererComponent
+            auto sprite = entity["SpriteRendererComponent"];
+            if (sprite)
+            {
+                auto& sc = deserializeEntity.AddComponent<SpriteRendererComponent>();
+                sc.Color = sprite["Color"].as<glm::vec4>();
+            }
+
+            // set CameraComponent
+            auto cameraComponent = entity["CameraComponent"];
+            if (cameraComponent)
+            {
+                auto& cc = deserializeEntity.AddComponent<CameraComponent>();
+                auto cameraProps = cameraComponent["Camera"];
+                cc.Primary = cameraComponent["Primary"].as<bool>();
+                cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
+                cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicNearClip"].as<float>());
+                cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFarClip"].as<float>());
+            }
+        }
         
     }
 

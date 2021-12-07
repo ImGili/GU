@@ -114,6 +114,18 @@ void EditorLayer::OnImGuiRender()
         {
             if (ImGui::MenuItem("Exit"))
                 Application::Get()->Close();
+
+            if (ImGui::MenuItem("Open...", "Ctrl+O"))
+            {
+                SceneSerializer sceneserializer(m_ActiveScene);
+                sceneserializer.Deserializer("assets/scenes/test.gu");
+            }
+
+            if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+            {
+                SceneSerializer sceneserializer(m_ActiveScene);
+                sceneserializer.Serializer("assets/scenes/test.gu");
+            }
             ImGui::EndMenu();
         }
 
@@ -161,6 +173,8 @@ void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
     m_ActiveScene = std::make_shared<Scene>();
+
+#if 0
     m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
     auto& cc = m_CameraEntity.AddComponent<CameraComponent>();
 
@@ -205,21 +219,16 @@ void EditorLayer::OnAttach()
     entity3.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 0.0f, 1.0f, 1.0f});
     auto& transform3 = entity3.GetComponent<TransformComponent>().Translation;
     transform3 = { -1.0, -1.0, 0.0 };
+#endif
     m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-    // Entity entity = m_ActiveScene->CreateEntity();
-    // entity.AddComponent<TagComponent>();
-    // entity.AddComponent<V2PositionComponet>();
-    // entity.AddComponent<ColorComponet>();
-    // m_ActiveScene->m_Registry.emplace<TagComponent>(entity.m_EntityHandle);
-    // m_ActiveScene->m_Registry.emplace<V2PositionComponet>(entity.m_EntityHandle);
     
-    // m_ActiveScene->m_Registry.emplace<V2PositionComponet>(entity.m_EntityHandle, glm::vec2{0.0, 0.0});
     FrameBufferSpecification spec;
     spec.Height = 1280;
     spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);
-    SceneSerializer sceneserializer(m_ActiveScene);
-    sceneserializer.Serializer("assets/scenes/test.gu");
+
+
+    
 }
 
 void EditorLayer::OnEvent(Event &e)
