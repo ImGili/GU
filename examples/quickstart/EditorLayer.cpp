@@ -196,6 +196,8 @@ void EditorLayer::OnAttach()
     transform1 = { 0.0, 0.0, 0.0 };
     Entity entity2 = m_ActiveScene->CreateEntity();
     entity2.AddComponent<SpriteRendererComponent>(glm::vec4{1.0f, 0.0f, 0.0f, 1.0f});
+    auto& sprite = entity2.GetComponent<SpriteRendererComponent>();
+    sprite.Texture = Texture2D::Create("assets/textures/container2.png");
     auto& transform2 = entity2.GetComponent<TransformComponent>().Translation;
     transform1 = { 1.0, 1.0, 0.0 };
     Entity entity3 = m_ActiveScene->CreateEntity();

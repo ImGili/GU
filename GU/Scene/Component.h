@@ -57,7 +57,7 @@ namespace GU
     struct SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
-        std::shared_ptr<Texture2D> texture;
+        std::shared_ptr<Texture2D> Texture;
 		float TilingFactor = 1.0f;
 
 		SpriteRendererComponent() = default;

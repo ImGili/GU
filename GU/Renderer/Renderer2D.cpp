@@ -32,7 +32,7 @@ struct Renderer2DData
     static const uint32_t MaxVertices = MaxQuad * aQuadVertices;
     static const uint32_t MaxIndices = MaxQuad * aQuadIndices;
 
-    static const uint32_t MaxTextureSlots = 1;
+    static const uint32_t MaxTextureSlots = 32;
 
     QuadVertex* QuadVertexBufferDataBase = nullptr;
     QuadVertex* QuadVertexBufferDataPtr = nullptr;
@@ -72,7 +72,9 @@ void Renderer2D::Init()
     s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
     s_Data.QuadVertexShader = Shader::Create("quadShader", "assets/shaders/texture/vertex.vert", "assets/shaders/texture/fragment.frag");
+    s_Data.QuadVertexShader->Bind();
     s_Data.QuadVertexShader->SetInt("u_Textures[0]", 0);
+    s_Data.QuadVertexShader->SetInt("u_Textures[1]", 1);
     s_Data.QuadVertexBufferDataBase = new QuadVertex[Renderer2DData::MaxVertices];
 
     s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
@@ -207,9 +209,9 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2 size, const
 
 void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite)
 {
-    if (sprite.texture)
+    if (sprite.Texture)
     {
-        DrawQuad(transform, sprite.texture, sprite.Color);
+        DrawQuad(transform, sprite.Texture, sprite.Color);
     }
     else
     {
