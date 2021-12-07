@@ -16,6 +16,9 @@ option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(vendor/assimp)
 
+# 添加yaml-cpp
+add_subdirectory(vendor/yaml-cpp)
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /source-charset:utf-8 /execution-charset:gbk /std:c++17")
 else()
@@ -94,6 +97,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                 vendor/RVO2/src
                                 vendor/stb
                                 vendor/entt
+                                vendor/yaml-cpp/include
              )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
@@ -102,6 +106,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                 ${GLAD_LIBRARIES}
                                 spdlog::spdlog
                                 assimp
+                                yaml-cpp::yaml-cpp
                       )
 # set_target_properties(${PROJECT_NAME} PROPERTIES
 #     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})

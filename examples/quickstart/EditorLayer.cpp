@@ -16,6 +16,7 @@
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
 #include"Scene/ScriptableEntity.h"
+#include"Scene/SceneSerializer.h"
 #include <imgui.h>
 #include <cmath>
 #include "GLFW/glfw3.h"
@@ -217,6 +218,8 @@ void EditorLayer::OnAttach()
     spec.Height = 1280;
     spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);
+    SceneSerializer sceneserializer(m_ActiveScene);
+    sceneserializer.Serializer("assets/scenes/test.gu");
 }
 
 void EditorLayer::OnEvent(Event &e)
