@@ -7,6 +7,7 @@
 #include"Renderer/Camera.h"
 #include"Scene/SceneCamera.h"
 #include"Scene/ScriptableEntity.h"
+#include"Renderer/Texture.h"
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -56,6 +57,7 @@ namespace GU
     struct SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+        std::shared_ptr<Texture2D> texture;
 		float TilingFactor = 1.0f;
 
 		SpriteRendererComponent() = default;

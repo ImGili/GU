@@ -145,6 +145,33 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
 }
+void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color)
+{
+    uint32_t textureIndex = 0;
+    for (size_t i = 0; i < s_Data.TextureSlotIndex; i++)
+    {
+        if (texture==s_Data.TextureSlots[i])
+        {
+            textureIndex = i;
+        }
+    }
+    if (textureIndex == 0)
+    {
+        textureIndex = s_Data.TextureSlotIndex;
+        s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+        s_Data.TextureSlotIndex++;
+    }
+    constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
+    for (size_t i = 0; i < 4; i++)
+    {
+        s_Data.QuadVertexBufferDataPtr->Position  = transform * s_Data.QuadVertexPositions[i];
+        s_Data.QuadVertexBufferDataPtr->Color  = color;
+        s_Data.QuadVertexBufferDataPtr->TexIndex = textureIndex;
+        s_Data.QuadVertexBufferDataPtr->TexCoord = textureCoords[i];
+        s_Data.QuadVertexBufferDataPtr++;
+    }
+    s_Data.QuadIndicesCount += s_Data.aQuadIndices;
+}
 
 void Renderer2D::EndScene()
 {
@@ -163,8 +190,6 @@ void Renderer2D::Flush()
     {
         s_Data.TextureSlots[i]->Bind(i);
     }
-    // s_Data.WhiteTexture->Bind(0);
-    
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
 }
 
@@ -178,4 +203,16 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2 size, const
 {
     glm::mat4 transform = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0)) * glm::scale(glm::mat4(1), glm::vec3(size.x, size.y, 1.0));
     DrawQuad(transform, color);
+}
+
+void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite)
+{
+    if (sprite.texture)
+    {
+        DrawQuad(transform, sprite.texture, sprite.Color);
+    }
+    else
+    {
+        DrawQuad(transform, sprite.Color);
+    }
 }

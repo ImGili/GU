@@ -60,9 +60,8 @@ void Scene::OnUpdate(TimeStep ts)
         auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
         for (auto entity : group)
         {
-
             auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+            Renderer2D::DrawSprite(transform.GetTransform(), sprite);
         }
 
         Renderer2D::EndScene();
