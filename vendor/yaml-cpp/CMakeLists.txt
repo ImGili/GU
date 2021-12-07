@@ -37,6 +37,7 @@ if (YAML_BUILD_SHARED_LIBS)
 else()
   set(yaml-cpp-type STATIC)
   set(yaml-cpp-label-postfix "static")
+  message("yaml-cpp static")
   add_definitions(-DYAML_CPP_STATIC_DEFINE)
 endif()
 

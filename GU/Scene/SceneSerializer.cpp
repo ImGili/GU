@@ -222,7 +222,7 @@ namespace GU
                 cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFarClip"].as<float>());
             }
         }
-        
+        return true;
     }
 
 }

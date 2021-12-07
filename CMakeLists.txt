@@ -17,6 +17,9 @@ option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(vendor/assimp)
 
 # 添加yaml-cpp
+# option(YAML_CPP_BUILD_TESTS OFF)
+# option(YAML_CPP_BUILD_TOOLS OFF)
+option(YAML_BUILD_SHARED_LIBS OFF)
 add_subdirectory(vendor/yaml-cpp)
 
 if(MSVC)
@@ -66,7 +69,8 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
-add_definitions(-DGU_ENABLE_DEBUG)
+add_definitions(-DGU_ENABLE_DEBUG -DYAML_CPP_STATIC_DEFINE)
+
 
 add_library(${PROJECT_NAME} STATIC
                                 ${PROJECT_SOURCES} 
