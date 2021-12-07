@@ -12,7 +12,7 @@ out VS_OUT
 {
    vec4 Color;
 	vec2 TexCoord;
-   float v_TexIndex ;
+   float v_TexIndex;
 } vs_out;
 void main()
 {

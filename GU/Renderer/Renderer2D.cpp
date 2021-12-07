@@ -32,7 +32,7 @@ struct Renderer2DData
     static const uint32_t MaxVertices = MaxQuad * aQuadVertices;
     static const uint32_t MaxIndices = MaxQuad * aQuadIndices;
 
-    static const uint32_t MaxTextureSlots = 32;
+    static const uint32_t MaxTextureSlots = 1;
 
     QuadVertex* QuadVertexBufferDataBase = nullptr;
     QuadVertex* QuadVertexBufferDataPtr = nullptr;
@@ -99,7 +99,7 @@ void Renderer2D::Init()
     delete[] quadIndices;
     s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData));
 
-    s_Data.WhiteTexture = Texture2D::Create(1, 1);
+    s_Data.WhiteTexture = Texture2D::Create(1,1);
     uint32_t whiteTextureData = 0xffffffff;
     s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(whiteTextureData));
     s_Data.TextureSlots[0] = s_Data.WhiteTexture;
@@ -139,9 +139,9 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
     {
         s_Data.QuadVertexBufferDataPtr->Position  = transform * s_Data.QuadVertexPositions[i];
         s_Data.QuadVertexBufferDataPtr->Color  = color;
-        s_Data.QuadVertexBufferDataPtr++;
         s_Data.QuadVertexBufferDataPtr->TexIndex = 0;
         s_Data.QuadVertexBufferDataPtr->TexCoord = textureCoords[i];
+        s_Data.QuadVertexBufferDataPtr++;
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
 }
@@ -163,6 +163,7 @@ void Renderer2D::Flush()
     {
         s_Data.TextureSlots[i]->Bind(i);
     }
+    // s_Data.WhiteTexture->Bind(0);
     
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
 }
