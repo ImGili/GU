@@ -235,7 +235,7 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     DrawComponent<CameraComponent>("CameraComponent", entity, [](auto& component){
         SceneCamera& camera = component.Camera;
         const char* items[] = {  "Orthographic", "Perspective" };
-        static int item_current_idx = 0; // Here we store our selection data as an index.
+        static int item_current_idx = camera.GetProjectionType(); // Here we store our selection data as an index.
         const char* combo_preview_value = items[item_current_idx];  // Pass in the preview value visible before opening the combo (it could be anything)
         if (ImGui::BeginCombo("Camera Type", combo_preview_value, 0))
         {

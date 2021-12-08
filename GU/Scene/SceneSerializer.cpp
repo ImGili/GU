@@ -121,7 +121,7 @@ namespace GU
             // Camera
             out << YAML::Key << "Camera";
             out << YAML::BeginMap;
-            out << YAML::Key << "ProjectionType"      << YAML::Value            << (int)camera.GetOrthographicSize();
+            out << YAML::Key << "ProjectionType"      << YAML::Value            << (int)camera.GetProjectionType();
 
             out << YAML::Key << "PerspectiveFOV"      << YAML::Value          << camera.GetPerspectiveFOV();
             out << YAML::Key << "PerspectiveNearClip"  << YAML::Value          << camera.GetPerspectiveNearClip();
