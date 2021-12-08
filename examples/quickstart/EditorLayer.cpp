@@ -7,11 +7,11 @@
 #include "Core/Input.h"
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/RenderCommand.h"
-#include "ImGui/ImGuiAppConsole.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
+#include "ImGuiAddon/FileBrowser/ImGuiFileBrowser.h"
 #include"Scene/Component.h"
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
@@ -19,6 +19,7 @@
 #include"Scene/SceneSerializer.h"
 #include <imgui.h>
 #include <cmath>
+#include<iostream>
 #include "GLFW/glfw3.h"
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_OrthographicCameraController(1280 / 720.0f)
@@ -49,7 +50,6 @@ void EditorLayer::OnUpdate(TimeStep ts)
     // Renderer2D::EndScene();
     m_FrameBuffer->Unbind();
 }
-
 void EditorLayer::OnImGuiRender()
 {
 
@@ -107,52 +107,55 @@ void EditorLayer::OnImGuiRender()
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
     }
     style.WindowMinSize.x = minWinStyle;
-
+    bool open = false, save = false;
     if (ImGui::BeginMenuBar())
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("Exit"))
-                Application::Get()->Close();
-
+            if (ImGui::MenuItem("New...", "Ctrl+N"))
+            {
+                m_ActiveScene = std::make_shared<Scene>();
+                m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+            }
             if (ImGui::MenuItem("Open...", "Ctrl+O"))
             {
-                SceneSerializer sceneserializer(m_ActiveScene);
-                sceneserializer.Deserializer("assets/scenes/test.gu");
+                open = true;
+                ImGui::OpenPopup("Open File");
             }
-
             if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
             {
-                SceneSerializer sceneserializer(m_ActiveScene);
-                sceneserializer.Serializer("assets/scenes/test.gu");
+                save = true;
             }
+            if (ImGui::MenuItem("Exit"))
+                Application::Get()->Close();
             ImGui::EndMenu();
         }
 
         ImGui::EndMenuBar();
     }
+    //Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
+    if(open)
+        ImGui::OpenPopup("Open File");
+    if(save)
+        ImGui::OpenPopup("Save File");
+        
+    /* Optional third parameter. Support opening only compressed rar/zip files. 
+     * Opening any other file will show error, return false and won't close the dialog.
+     */
+    static imgui_addons::ImGuiFileBrowser file_dialog;
 
-    // {
-    //     ImGui::Begin("Editor");
-    //     // Select Camera
-    //     static int cameraSelected = -1;
-    //     if(ImGui::Selectable("Cmaera A", cameraSelected == 1))
-    //     {
-    //         m_CameraEntity.GetComponent<CameraComponent>().Primary = true;
-    //         m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = false;
-    //         cameraSelected = 1;
-    //     }
-    //     if(ImGui::Selectable("Cmaera B", cameraSelected == 2))
-    //     {
-    //         m_CameraEntity.GetComponent<CameraComponent>().Primary = false;
-    //         m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = true;
-    //         cameraSelected = 2;
-    //     }
-    //     static float cameraOrthoSize = 15.0f;
-    //     ImGui::DragFloat("OrthoSize", &cameraOrthoSize, 0.1, 0.0f, 20.0f);
-    //     m_SecondCameraEntity.GetComponent<CameraComponent>().Camera.SetOrthographicSize(cameraOrthoSize);
-    //     ImGui::End();
-    // }
+    if(file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".gu"))
+    {
+        m_ActiveScene = std::make_shared<Scene>();
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+        SceneSerializer sceneserializer(m_ActiveScene);
+        sceneserializer.Deserializer(file_dialog.selected_path.c_str());
+    }
+    if(file_dialog.showFileDialog("Save File", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".gu"))
+    {
+        SceneSerializer sceneserializer(m_ActiveScene);
+        sceneserializer.Serializer(file_dialog.selected_path.c_str());
+    }
 
     m_SceneHierarchyPanel.OnImGuiRender();
     // {

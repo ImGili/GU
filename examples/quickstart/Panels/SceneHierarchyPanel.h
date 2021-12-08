@@ -16,7 +16,8 @@ namespace GU
 
         ~SceneHierarchyPanel() = default;
 
-        void SetContext(const std::shared_ptr<Scene>& context) { m_Context = context; }
+        
+        void SetContext(const std::shared_ptr<Scene>& context) { m_Context = context;m_SelectionEntity = {}; }
 
         void OnImGuiRender();
 

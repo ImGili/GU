@@ -57,7 +57,8 @@ file(GLOB PROJECT_HEADERS           GU/*.h
 file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Platform/GLFWPlatform/*.cpp
                                     GU/Platform/OpenGL/*.cpp
-                                    GU/ImGui/*.cpp
+                                    GU/ImGuiAddon/*.cpp
+                                    GU/ImGuiAddon/FileBrowser/*.cpp
                                     GU/Renderer/*.cpp
                                     GU/AI/*.cpp
                                     GU/Scene/*.cpp

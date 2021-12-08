@@ -36,8 +36,6 @@ void SceneHierarchyPanel::OnImGuiRender()
     if (m_SelectionEntity)
     {
         DrawComponents(m_SelectionEntity);
-
-        
     }
     ImGui::End();
 }
