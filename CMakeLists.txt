@@ -59,6 +59,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Platform/OpenGL/*.cpp
                                     GU/ImGuiAddon/*.cpp
                                     GU/ImGuiAddon/FileBrowser/*.cpp
+                                    GU/ImGuiAddon/Gizmos/*.cpp
                                     GU/Renderer/*.cpp
                                     GU/AI/*.cpp
                                     GU/Scene/*.cpp

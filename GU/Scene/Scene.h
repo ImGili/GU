@@ -20,6 +20,8 @@ namespace GU
         Entity CreateEntity(const std::string& name = std::string());
         void DeleteEntity(Entity entity);
         void OnViewportResize(uint32_t width, uint32_t height);
+
+        Entity GetPrimaryCamera();
     private:
         template<typename T>
         void OnComponentAdd(Entity entity, T component);

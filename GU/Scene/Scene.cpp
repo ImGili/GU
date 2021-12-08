@@ -103,3 +103,15 @@ void Scene::OnComponentAdd(Entity entity, CameraComponent component)
         component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
     }
 }
+
+Entity Scene::GetPrimaryCamera()
+{
+    auto view = m_Registry.view<CameraComponent>();
+    for (auto entity : view)
+    {
+        const auto& camera = view.get<CameraComponent>(entity);
+        if (camera.Primary)
+            return Entity{entity, this};
+    }
+    return {};
+}

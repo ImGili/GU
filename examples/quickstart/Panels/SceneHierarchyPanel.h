@@ -21,6 +21,8 @@ namespace GU
 
         void OnImGuiRender();
 
+        Entity GetSelectedEntity() { return m_SelectionEntity; }
+
     private:
         /**
          * @brief Draw entity tree
