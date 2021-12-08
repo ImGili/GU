@@ -159,9 +159,9 @@ void EditorLayer::OnImGuiRender()
     }
 
     m_SceneHierarchyPanel.OnImGuiRender();
-    {
-        ImGui::ShowDemoWindow();
-    }
+    // {
+    //     ImGui::ShowDemoWindow();
+    // }
 
     //=============viewport======================================
     ImGui::Begin("Viewport");
