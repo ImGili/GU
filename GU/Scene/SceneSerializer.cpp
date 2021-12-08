@@ -121,6 +121,12 @@ namespace GU
             // Camera
             out << YAML::Key << "Camera";
             out << YAML::BeginMap;
+            out << YAML::Key << "ProjectionType"      << YAML::Value            << (int)camera.GetOrthographicSize();
+
+            out << YAML::Key << "PerspectiveFOV"      << YAML::Value          << camera.GetPerspectiveFOV();
+            out << YAML::Key << "PerspectiveNearClip"  << YAML::Value          << camera.GetPerspectiveNearClip();
+            out << YAML::Key << "PerspectiveFarClip"   << YAML::Value          << camera.GetPerspectiveFarClip();
+
             out << YAML::Key << "OrthographicSize"      << YAML::Value          << camera.GetOrthographicSize();
             out << YAML::Key << "OrthographicNearClip"  << YAML::Value          << camera.GetOrthographicNearClip();
             out << YAML::Key << "OrthographicFarClip"   << YAML::Value          << camera.GetOrthographicFarClip();
@@ -217,6 +223,10 @@ namespace GU
                 auto& cc = deserializeEntity.AddComponent<CameraComponent>();
                 auto cameraProps = cameraComponent["Camera"];
                 cc.Primary = cameraComponent["Primary"].as<bool>();
+                cc.Camera.SetProjectionType((SceneCamera::ProjectionType)cameraProps["ProjectionType"].as<int>());
+                cc.Camera.SetPerspectiveFOV(cameraProps["PerspectiveFOV"].as<float>());
+                cc.Camera.SetPerspectiveNearClip(cameraProps["PerspectiveNearClip"].as<float>());
+                cc.Camera.SetPerspectiveFarClip(cameraProps["PerspectiveFarClip"].as<float>());
                 cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
                 cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicNearClip"].as<float>());
                 cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFarClip"].as<float>());

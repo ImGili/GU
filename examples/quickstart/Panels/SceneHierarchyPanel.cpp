@@ -234,16 +234,52 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     });
     DrawComponent<CameraComponent>("CameraComponent", entity, [](auto& component){
         SceneCamera& camera = component.Camera;
-        float orthoSize = camera.GetOrthographicSize();
-        float orthoNearClip = camera.GetOrthographicNearClip();
-        float orthoFarClip = camera.GetOrthographicFarClip();
-        ImGui::DragFloat("OrthoSize", &orthoSize, 0.1f, 0.0, 20.0);
-        ImGui::DragFloat("orthoNearClip", &orthoNearClip, 0.1f, 0.0, 20.0);
-        ImGui::DragFloat("orthoFarClip", &orthoFarClip, 0.1f, 0.0, 20.0);
-        ImGui::Checkbox("Primary", &component.Primary);
-        camera.SetOrthographicSize(orthoSize);
-        camera.SetOrthographicNearClip(orthoNearClip);
-        camera.SetOrthographicFarClip(orthoFarClip);
+        const char* items[] = {  "Orthographic", "Perspective" };
+        static int item_current_idx = 0; // Here we store our selection data as an index.
+        const char* combo_preview_value = items[item_current_idx];  // Pass in the preview value visible before opening the combo (it could be anything)
+        if (ImGui::BeginCombo("Camera Type", combo_preview_value, 0))
+        {
+            for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+            {
+                const bool is_selected = (item_current_idx == n);
+                if (ImGui::Selectable(items[n], is_selected))
+                    item_current_idx = n;
+
+                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+        if (item_current_idx == 0)
+        {
+            camera.SetProjectionType(SceneCamera::ProjectionType::Orthographic);
+            float orthoSize = camera.GetOrthographicSize();
+            float orthoNearClip = camera.GetOrthographicNearClip();
+            float orthoFarClip = camera.GetOrthographicFarClip();
+            ImGui::DragFloat("OrthoSize", &orthoSize, 0.1f, 0.0, 20.0);
+            ImGui::DragFloat("NearClip", &orthoNearClip, 0.1f, 0.0, 20.0);
+            ImGui::DragFloat("FarClip", &orthoFarClip, 0.1f, 0.0, 20.0);
+            ImGui::Checkbox("Primary", &component.Primary);
+            camera.SetOrthographicSize(orthoSize);
+            camera.SetOrthographicNearClip(orthoNearClip);
+            camera.SetOrthographicFarClip(orthoFarClip);
+        }
+        if (item_current_idx == 1)
+        {
+            camera.SetProjectionType(SceneCamera::ProjectionType::Perspective);
+            float Fov = glm::degrees(camera.GetPerspectiveFOV());
+            float perspecNearClip = camera.GetPerspectiveNearClip();
+            float perspecFarClip = camera.GetPerspectiveFarClip();
+            ImGui::DragFloat("FOV", &Fov, 0.1f, 0.0, 360);
+            ImGui::DragFloat("NearClip", &perspecNearClip, 0.1f, 0.0, 20.0);
+            ImGui::DragFloat("FarClip", &perspecFarClip, 0.1f, 0.0, 20.0);
+            ImGui::Checkbox("Primary", &component.Primary);
+            camera.SetPerspectiveFOV(glm::radians(Fov));
+            camera.SetPerspectiveFarClip(perspecFarClip);
+            camera.SetPerspectiveNearClip(perspecNearClip);
+        }
+        
     });
 
     DrawComponent<SpriteRendererComponent>("SpriteRendererComponent", entity, [](auto& component){
