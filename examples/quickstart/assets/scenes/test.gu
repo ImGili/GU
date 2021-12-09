@@ -36,7 +36,7 @@ Entities:
       Rotation: [0, 0, 0]
     CameraComponent:
       Camera:
-        ProjectionType: 10
+        ProjectionType: 1
         PerspectiveFOV: 0.785398185
         PerspectiveNearClip: 0.00999999978
         PerspectiveFarClip: 1000
