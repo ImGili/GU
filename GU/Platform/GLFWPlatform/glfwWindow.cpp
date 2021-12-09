@@ -5,6 +5,7 @@
 #include"Platform/GLFWPlatform/glfwWindow.h"
 #include"Events/ApplicationEvent.h"
 #include"Events/MouseEvent.h"
+#include"Events/KeyEvent.h"
 #include"Platform/OpenGL/OpenGLContext.h"
 #include"Core/Log.h"
 #include<iostream>
@@ -54,6 +55,21 @@ void glfwWindow::Init(const WindowProps& props)
         WindowData& wData =  *(WindowData*)glfwGetWindowUserPointer(window);
         MouseScrolledEvent event((float)xOffset, (float)yOffset);
         wData.callback(event);});
+    glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode , int action, int mod){
+        WindowData& wData =  *(WindowData*)glfwGetWindowUserPointer(window);
+        switch (action)
+        {
+        case GLFW_PRESS:
+        {
+            KeyPressedEvent event(key);
+            wData.callback(event);
+            break;
+        }
+        
+        default:
+            break;
+        }
+    });
 }
 
 

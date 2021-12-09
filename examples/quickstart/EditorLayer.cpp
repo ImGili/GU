@@ -5,6 +5,7 @@
 #include "EditorLayer.h"
 #include "Core/Application.h"
 #include "Core/Input.h"
+#include "Core/Base.h"
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/RenderCommand.h"
 #include "glm/gtc/type_ptr.hpp"
@@ -267,4 +268,10 @@ void EditorLayer::OnAttach()
 void EditorLayer::OnEvent(Event &e)
 {
     m_OrthographicCameraController.OnEvent(e);
+    EventProcess eventprocess(e);
+}
+
+void EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+{
+
 }
