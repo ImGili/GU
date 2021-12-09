@@ -2,41 +2,14 @@ Scene: Utitled
 Entities:
   - Entity: 12312321412
     TagComonent:
-      Tag: Empty Entity
-    TransformComponent:
-      Translation: [0, 1.60000002, -2.29999995]
-      Scale: [1, 1, 1]
-      Rotation: [0, 0, 0]
-    SpriteRendererComponent:
-      Color: [0.59803921, 0.219867349, 0.219867349, 1]
-  - Entity: 12312321412
-    TagComonent:
-      Tag: Empty Entity
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Scale: [1, 1, 1]
-      Rotation: [0, 0, 0]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-  - Entity: 12312321412
-    TagComonent:
-      Tag: Empty Entity
-    TransformComponent:
-      Translation: [-1.39999998, 3.5999999, 0]
-      Scale: [1, 1, 1]
-      Rotation: [0, 0, 0]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-  - Entity: 12312321412
-    TagComonent:
       Tag: Camera
     TransformComponent:
       Translation: [0, 0, 15.5]
       Scale: [1, 1, 1]
-      Rotation: [0, 0, 0]
+      Rotation: [0.0890117884, 0, 0]
     CameraComponent:
       Camera:
-        ProjectionType: 1
+        ProjectionType: 0
         PerspectiveFOV: 0.785398185
         PerspectiveNearClip: 0.00999999978
         PerspectiveFarClip: 1000
@@ -44,3 +17,30 @@ Entities:
         OrthographicNearClip: -1
         OrthographicFarClip: 1
       Primary: true
+  - Entity: 12312321412
+    TagComonent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [-2.49226189, 5.39599991, -4.56880856]
+      Scale: [1, 1, 1]
+      Rotation: [0, 0, 0]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+  - Entity: 12312321412
+    TagComonent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [-0.629826903, -0.9115628, 9.38157086e-07]
+      Scale: [1, 1, 1]
+      Rotation: [0, 0, 0]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+  - Entity: 12312321412
+    TagComonent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [1.28223896, 1.41011131, 5.83223248]
+      Scale: [1, 1, 1]
+      Rotation: [0, 0.51836282, 0]
+    SpriteRendererComponent:
+      Color: [0.59803921, 0.219867349, 0.219867349, 1]
