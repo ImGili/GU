@@ -190,6 +190,12 @@ void EditorLayer::OnImGuiRender()
 
         ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
 				ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+
+        if (ImGuizmo::IsUsing())
+        {
+            tc.Translation = glm::vec3(transform[3]);
+        }
+        
     }
 
 
