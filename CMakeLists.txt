@@ -59,11 +59,11 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Platform/OpenGL/*.cpp
                                     GU/ImGuiAddon/*.cpp
                                     GU/ImGuiAddon/FileBrowser/*.cpp
-                                    GU/ImGuiAddon/Gizmos/*.cpp
                                     GU/Renderer/*.cpp
                                     GU/AI/*.cpp
                                     GU/Scene/*.cpp
                                     vendor/imgui/*.cpp
+                                    vendor/ImGuizmo/*.cpp
                                     vendor/imgui/backends/imgui_impl_opengl3.cpp
                                     vendor/imgui/backends/imgui_impl_glfw.cpp
                                     vendor/RVO2/src/*.cpp
@@ -99,6 +99,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                 vendor/glfw/include/
                                 vendor/glm/
                                 vendor/imgui/
+                                vendor/ImGuizmo/
                                 vendor/spdlog/include/
                                 vendor/RVO2/src
                                 vendor/stb

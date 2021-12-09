@@ -104,7 +104,7 @@ void Scene::OnComponentAdd(Entity entity, CameraComponent component)
     }
 }
 
-Entity Scene::GetPrimaryCamera()
+Entity Scene::GetPrimaryCameraEntity()
 {
     auto view = m_Registry.view<CameraComponent>();
     for (auto entity : view)

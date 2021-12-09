@@ -12,7 +12,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include "ImGuiAddon/FileBrowser/ImGuiFileBrowser.h"
-#include "ImGuiAddon/Gizmos/ImGuizmo.h"
+#include<ImGuizmo.h>
 #include"Scene/Component.h"
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
@@ -20,6 +20,7 @@
 #include"Scene/SceneSerializer.h"
 #include <imgui.h>
 #include <cmath>
+#include<glm/gtc/type_ptr.hpp>
 #include<iostream>
 #include "GLFW/glfw3.h"
 EditorLayer::EditorLayer()
@@ -175,13 +176,13 @@ void EditorLayer::OnImGuiRender()
     {
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
-        float windowwidth = (float)ImGui::GetWindowWidth();
-        float windowHeight = (float)ImGui::GetWindowHeight();
-        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowwidth, windowHeight);
 
-        auto cameraEntity = m_ActiveScene->GetPrimaryCamera();
-        const auto& camera = cameraEntity.GetComponent<CameraComponent>();
-        const glm::mat4& cameraProjection = camera.Camera.GetProjection();
+        float windowWidth = (float)ImGui::GetWindowWidth();
+        float windowHeight = (float)ImGui::GetWindowHeight();
+        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+        auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+        const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+        const glm::mat4& cameraProjection = camera.GetProjection();
         glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
         
         auto& tc = selectedEntity.GetComponent<TransformComponent>();
