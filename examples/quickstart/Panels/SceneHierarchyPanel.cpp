@@ -234,26 +234,26 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     });
     DrawComponent<CameraComponent>("CameraComponent", entity, [](auto& component){
         SceneCamera& camera = component.Camera;
-        const char* items[] = {  "Orthographic", "Perspective" };
-        static int item_current_idx = camera.GetProjectionType(); // Here we store our selection data as an index.
-        const char* combo_preview_value = items[item_current_idx];  // Pass in the preview value visible before opening the combo (it could be anything)
+        const char* items[] = { "Perspective", "Orthographic"};
+        const char* combo_preview_value = items[(int)camera.GetProjectionType()];  // Pass in the preview value visible before opening the combo (it could be anything)
         if (ImGui::BeginCombo("Camera Type", combo_preview_value, 0))
         {
             for (int n = 0; n < IM_ARRAYSIZE(items); n++)
             {
-                const bool is_selected = (item_current_idx == n);
+                const bool is_selected = (combo_preview_value == items[n]);
                 if (ImGui::Selectable(items[n], is_selected))
-                    item_current_idx = n;
-
+                {
+                    combo_preview_value = items[n];
+                    camera.SetProjectionType((SceneCamera::ProjectionType)n);
+                }
                 // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
                 if (is_selected)
                     ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
         }
-        if (item_current_idx == 0)
+        if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
         {
-            camera.SetProjectionType(SceneCamera::ProjectionType::Orthographic);
             float orthoSize = camera.GetOrthographicSize();
             float orthoNearClip = camera.GetOrthographicNearClip();
             float orthoFarClip = camera.GetOrthographicFarClip();
@@ -265,9 +265,8 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
             camera.SetOrthographicNearClip(orthoNearClip);
             camera.SetOrthographicFarClip(orthoFarClip);
         }
-        if (item_current_idx == 1)
+        if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
         {
-            camera.SetProjectionType(SceneCamera::ProjectionType::Perspective);
             float Fov = glm::degrees(camera.GetPerspectiveFOV());
             float perspecNearClip = camera.GetPerspectiveNearClip();
             float perspecFarClip = camera.GetPerspectiveFarClip();
@@ -279,7 +278,6 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
             camera.SetPerspectiveFarClip(perspecFarClip);
             camera.SetPerspectiveNearClip(perspecNearClip);
         }
-        
     });
 
     DrawComponent<SpriteRendererComponent>("SpriteRendererComponent", entity, [](auto& component){

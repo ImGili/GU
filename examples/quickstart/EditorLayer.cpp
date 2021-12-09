@@ -170,26 +170,26 @@ void EditorLayer::OnImGuiRender()
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
     ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
-    // Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-    // if (selectedEntity)
-    // {
-    //     ImGuizmo::SetOrthographic(false);
-    //     ImGuizmo::SetDrawlist();
-    //     float windowwidth = (float)ImGui::GetWindowWidth();
-    //     float windowHeight = (float)ImGui::GetWindowHeight();
-    //     ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowwidth, windowHeight);
+    Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+    if (selectedEntity)
+    {
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist();
+        float windowwidth = (float)ImGui::GetWindowWidth();
+        float windowHeight = (float)ImGui::GetWindowHeight();
+        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowwidth, windowHeight);
 
-    //     auto cameraEntity = m_ActiveScene->GetPrimaryCamera();
-    //     const auto& camera = cameraEntity.GetComponent<CameraComponent>();
-    //     const glm::mat4& cameraProjection = camera.Camera.GetProjection();
-    //     glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+        auto cameraEntity = m_ActiveScene->GetPrimaryCamera();
+        const auto& camera = cameraEntity.GetComponent<CameraComponent>();
+        const glm::mat4& cameraProjection = camera.Camera.GetProjection();
+        glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
         
-    //     auto& tc = selectedEntity.GetComponent<TransformComponent>();
-    //     glm::mat4 transform = tc.GetTransform();
+        auto& tc = selectedEntity.GetComponent<TransformComponent>();
+        glm::mat4 transform = tc.GetTransform();
 
-    //     ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-	// 			ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
-    // }
+        ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+				ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+    }
 
 
     ImGui::End();

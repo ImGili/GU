@@ -17,8 +17,8 @@ namespace GU
 
 		void SetViewportSize(uint32_t width, uint32_t height);
 
-		void SetProjectionType(ProjectionType type) { m_ProjectionType = type; }
-		int GetProjectionType() { return (int)m_ProjectionType; }
+		void SetProjectionType(ProjectionType type) { m_ProjectionType = type; RecalculateProjection();}
+		ProjectionType GetProjectionType() { return m_ProjectionType; }
 
 		/*
 			Perspective Camera
