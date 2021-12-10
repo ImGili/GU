@@ -5,10 +5,10 @@
 #include"Core/Input.h"
 #include"Core/Application.h"
 using namespace GU;
-bool Input::IsKeyPressed(const KeyCode key)
+bool Input::IsKeyPressed(const KeyCode keycode)
 {
     GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get()->GetWindow().GetNativeWindow());
-    auto state = glfwGetKey(window, static_cast<int32_t>(key));
+    auto state = glfwGetKey(window, keycode);
     return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
@@ -20,9 +20,9 @@ glm::vec2 Input::GetMoudsePosition()
     return { (float)xpos, (float)ypos };
 }
 
-bool Input::IsMousePressed(const MouseKeyCode key)
+bool Input::IsMousePressed(const MouseKeyCode mousecode)
 {
     GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get()->GetWindow().GetNativeWindow());
-    auto state = glfwGetMouseButton(window, static_cast<int32_t>(key));
+    auto state = glfwGetMouseButton(window, mousecode);
     return state == GLFW_PRESS;
 }

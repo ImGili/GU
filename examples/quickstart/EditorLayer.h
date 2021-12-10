@@ -12,6 +12,7 @@
 #include"Renderer/OrthographicCameraController.h"
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
+#include"Events/Event.h"
 #include"Events/KeyEvent.h"
 #include"Panels/SceneHierarchyPanel.h"
 #include<glm/glm.hpp>
@@ -29,7 +30,7 @@ public:
     void OnUpdate(TimeStep ts) override;
     void OnImGuiRender() override;
     void OnEvent(Event& e) override;
-    void OnKeyPressed(KeyPressedEvent& e);
+    bool OnKeyPressed(KeyPressedEvent& e);
 private:
     std::shared_ptr<FrameBuffer> m_FrameBuffer;
     glm::vec2 m_ViewportBounds[2];

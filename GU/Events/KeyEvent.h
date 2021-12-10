@@ -14,6 +14,8 @@ namespace GU
         {}
         ~KeyPressedEvent() = default;
 
+        uint32_t GetKeyCode() const { return m_keycode; }
+
         GU_EVENT_GET_TYPE_OVERRIDE(KeyPressedEvent)
 
     private:

@@ -15,19 +15,19 @@ OrthographicCameraController::OrthographicCameraController(float aspectRatio, fl
 }
 void OrthographicCameraController::OnUpdate(TimeStep ts)
 {
-    if (Input::IsKeyPressed(KeyCode::A))
+    if (Input::IsKeyPressed(Key::A))
     {
         m_CameraPosition.x += m_CameraTranslationSpeed * ts;
     }
-    if (Input::IsKeyPressed(KeyCode::D))
+    if (Input::IsKeyPressed(Key::D))
     {
         m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
     }
-    if (Input::IsKeyPressed(KeyCode::S))
+    if (Input::IsKeyPressed(Key::S))
     {
         m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
     }
-    if (Input::IsKeyPressed(KeyCode::W))
+    if (Input::IsKeyPressed(Key::W))
     {
         m_CameraPosition.y += m_CameraTranslationSpeed * ts;
     }

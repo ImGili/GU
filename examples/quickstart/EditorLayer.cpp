@@ -225,13 +225,13 @@ void EditorLayer::OnAttach()
         virtual void OnUpdate(TimeStep ts) {
             auto& translation = GetComponent<TransformComponent>().Translation;
             float speed = 5.0f;
-            if(Input::IsKeyPressed(KeyCode::A))
+            if(Input::IsKeyPressed(Key::A))
                 translation.x -= speed * ts;
-            if(Input::IsKeyPressed(KeyCode::D))
+            if(Input::IsKeyPressed(Key::D))
                 translation.x += speed * ts;
-            if(Input::IsKeyPressed(KeyCode::S))
+            if(Input::IsKeyPressed(Key::S))
                 translation.y -= speed * ts;
-            if(Input::IsKeyPressed(KeyCode::W))
+            if(Input::IsKeyPressed(Key::W))
                 translation.y += speed * ts;
         }
         virtual void OnDestroy() {}
@@ -268,10 +268,23 @@ void EditorLayer::OnAttach()
 void EditorLayer::OnEvent(Event &e)
 {
     m_OrthographicCameraController.OnEvent(e);
-    EventProcess eventprocess(e);
+    EventProcesser eventProcesser(e);
+    eventProcesser.Process<KeyPressedEvent>(GU_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+
 }
 
-void EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 {
+    bool control = Input::IsKeyPressed(Key::LeftCtrl);
+    bool shift = Input::IsKeyPressed(Key::LeftShift);
+    switch (e.GetKeyCode())
+    {
+    case Key::S:
 
+        break;
+    
+    default:
+        break;
+    }
+    
 }

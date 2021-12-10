@@ -65,14 +65,14 @@ glm::vec3 EditorCamera::CalculatePosition()
 
 void EditorCamera::OnUpdate(TimeStep ts)
 {
-    if (Input::IsKeyPressed((KeyCode::LeftAlt)))
+    if (Input::IsKeyPressed((Key::LeftAlt)))
     {
         const glm::vec2& mouse{ Input::GetMoudsePosition().x, Input::GetMoudsePosition().y };
         glm::vec2 delta = ( mouse - m_InitialMousePosition ) * (float)ts;
         m_InitialMousePosition = mouse;
-        if (Input::IsMousePressed(MouseKeyCode::ButtonMiddle))
+        if (Input::IsMousePressed(MouseKey::ButtonMiddle))
             MousePan(delta);
-        else if(Input::IsMousePressed(MouseKeyCode::ButtonLeft))
+        else if(Input::IsMousePressed(MouseKey::ButtonLeft))
             MouseRotate(delta);
     }
     UpdateView();

@@ -19,15 +19,15 @@ namespace GU
         virtual EventType GetEventType() = 0;
     };
 
-    class EventProcess
+    class EventProcesser
     {
     public:
-        EventProcess(Event& event)
+        EventProcesser(Event& event)
             : m_Event(event)
         {}
 
         template<typename T, typename F>
-        bool Process(F f)
+        bool Process(const F& f)
         {
             if (m_Event.GetEventType() == T::GetStaticType())
             {
