@@ -286,5 +286,5 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
     default:
         break;
     }
-    
+    return false;
 }
