@@ -110,7 +110,6 @@ void EditorLayer::OnImGuiRender()
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
     }
     style.WindowMinSize.x = minWinStyle;
-    bool open = false, save = false;
     if (ImGui::BeginMenuBar())
     {
         if (ImGui::BeginMenu("File"))
@@ -122,12 +121,12 @@ void EditorLayer::OnImGuiRender()
             }
             if (ImGui::MenuItem("Open...", "Ctrl+O"))
             {
-                open = true;
+                OpenScene = true;
                 ImGui::OpenPopup("Open File");
             }
             if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
             {
-                save = true;
+                SaveScene = true;
             }
             if (ImGui::MenuItem("Exit"))
                 Application::Get()->Close();
@@ -137,9 +136,9 @@ void EditorLayer::OnImGuiRender()
         ImGui::EndMenuBar();
     }
     //Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
-    if(open)
+    if(OpenScene)
         ImGui::OpenPopup("Open File");
-    if(save)
+    if(SaveScene)
         ImGui::OpenPopup("Save File");
         
     /* Optional third parameter. Support opening only compressed rar/zip files. 
@@ -154,6 +153,7 @@ void EditorLayer::OnImGuiRender()
         SceneSerializer sceneserializer(m_ActiveScene);
         sceneserializer.Deserializer(file_dialog.selected_path.c_str());
     }
+
     if(file_dialog.showFileDialog("Save File", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".gu"))
     {
         SceneSerializer sceneserializer(m_ActiveScene);
@@ -164,6 +164,8 @@ void EditorLayer::OnImGuiRender()
     // {
     //     ImGui::ShowDemoWindow();
     // }
+    OpenScene = false;
+    SaveScene = false;
 
     //=============viewport======================================
     ImGui::Begin("Viewport");
@@ -280,8 +282,30 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
     switch (e.GetKeyCode())
     {
     case Key::S:
-
-        break;
+        {
+            if (control && shift)
+            {
+                SaveScene = true;
+            }
+            break;
+        }
+    case Key::O:
+        {
+            if (control)
+            {
+                OpenScene = true;
+            }
+            break;
+        }
+    case Key::N:
+        {
+            if (control)
+            {
+                m_ActiveScene = std::make_shared<Scene>();
+                m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+            }
+            break;
+        }
     
     default:
         break;

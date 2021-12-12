@@ -42,4 +42,6 @@ private:
     Entity m_CameraEntity;
     Entity m_SecondCameraEntity;
     SceneHierarchyPanel m_SceneHierarchyPanel;
+    bool OpenScene = false;
+    bool SaveScene = false;
 };
