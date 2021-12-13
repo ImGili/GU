@@ -62,6 +62,7 @@ file(GLOB PROJECT_SOURCES           GU/Core/*.cpp
                                     GU/Renderer/*.cpp
                                     GU/AI/*.cpp
                                     GU/Scene/*.cpp
+                                    GU/Math/*.cpp
                                     vendor/imgui/*.cpp
                                     vendor/ImGuizmo/*.cpp
                                     vendor/imgui/backends/imgui_impl_opengl3.cpp

@@ -44,4 +44,6 @@ private:
     SceneHierarchyPanel m_SceneHierarchyPanel;
     bool OpenScene = false;
     bool SaveScene = false;
+
+    int m_GizmoType = -1;
 };

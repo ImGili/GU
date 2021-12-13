@@ -16,6 +16,7 @@ namespace GU
             D = GLFW_KEY_D,
             O = GLFW_KEY_O,
             N = GLFW_KEY_N,
+            R = GLFW_KEY_R,
             LeftAlt = GLFW_KEY_LEFT_ALT,
             LeftCtrl = GLFW_KEY_LEFT_CONTROL,
             LeftShift = GLFW_KEY_LEFT_SHIFT,

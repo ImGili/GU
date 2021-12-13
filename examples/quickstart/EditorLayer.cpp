@@ -10,6 +10,7 @@
 #include "Renderer/RenderCommand.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "Math/Math.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include "ImGuiAddon/FileBrowser/ImGuiFileBrowser.h"
@@ -175,7 +176,7 @@ void EditorLayer::OnImGuiRender()
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
     ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
     Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-    if (selectedEntity)
+    if (selectedEntity && m_GizmoType!=-1)
     {
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
@@ -192,11 +193,18 @@ void EditorLayer::OnImGuiRender()
         glm::mat4 transform = tc.GetTransform();
 
         ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-				ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
 
         if (ImGuizmo::IsUsing())
         {
-            tc.Translation = glm::vec3(transform[3]);
+            glm::vec3 scale;
+            glm::vec3 rotation;
+            glm::vec3 translation;
+            Math::Decompose(transform, scale, rotation, translation);
+            tc.Translation = translation;
+            glm::vec3 deltaRotation = rotation - tc.Rotation;
+            tc.Rotation += deltaRotation;
+            tc.Scale = scale;
         }
         
     }
@@ -287,6 +295,7 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
             {
                 SaveScene = true;
             }
+            m_GizmoType = ImGuizmo::OPERATION::SCALE;
             break;
         }
     case Key::O:
@@ -304,6 +313,16 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
                 m_ActiveScene = std::make_shared<Scene>();
                 m_SceneHierarchyPanel.SetContext(m_ActiveScene);
             }
+            break;
+        }
+    case Key::R:
+        {
+            m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+            break;
+        }
+    case Key::W:
+        {
+            m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
             break;
         }
     
