@@ -10,6 +10,7 @@
 #include"Renderer/Buffer.h"
 #include"Renderer/Texture.h"
 #include"Renderer/OrthographicCameraController.h"
+#include"Renderer/EditorCamera.h"
 #include"Scene/Scene.h"
 #include"Scene/Entity.h"
 #include"Events/Event.h"
@@ -32,6 +33,7 @@ public:
     void OnEvent(Event& e) override;
     bool OnKeyPressed(KeyPressedEvent& e);
 private:
+    EditorCamera m_EditorCamera;
     std::shared_ptr<FrameBuffer> m_FrameBuffer;
     glm::vec2 m_ViewportBounds[2];
     bool m_ViewportFocused = false, m_ViewportHovered = false;

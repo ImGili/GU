@@ -5,6 +5,7 @@
 #pragma once
 #include"Core/Core.h"
 #include"Core/TimeStep.h"
+#include"Renderer/EditorCamera.h"
 #include<entt.hpp>
 #include<string>
 #include<memory>
@@ -17,6 +18,7 @@ namespace GU
         Scene();
         ~Scene();
         void OnUpdate(TimeStep ts);
+        void OnUpdateEditor(TimeStep ts, EditorCamera& camera);
         Entity CreateEntity(const std::string& name = std::string());
         void DeleteEntity(Entity entity);
         void OnViewportResize(uint32_t width, uint32_t height);

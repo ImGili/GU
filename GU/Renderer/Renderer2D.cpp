@@ -109,7 +109,7 @@ void Renderer2D::Init()
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
-    glDisable(GL_DEPTH_TEST);
+    // glDisable(GL_DEPTH_TEST);
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
     s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjectionViewMatrix();
@@ -117,7 +117,7 @@ void Renderer2D::BeginScene(const OrthographicCamera& camera)
 }
 void Renderer2D::BeginScene(const EditorCamera& camera)
 {
-    glDisable(GL_DEPTH_TEST);
+    // glDisable(GL_DEPTH_TEST);
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
     s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjectionViewMatrix();
@@ -126,7 +126,7 @@ void Renderer2D::BeginScene(const EditorCamera& camera)
 
 void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 {
-    glDisable(GL_DEPTH_TEST);
+    // glDisable(GL_DEPTH_TEST);
     s_Data.QuadVertexBufferDataPtr = s_Data.QuadVertexBufferDataBase;
     s_Data.QuadIndicesCount = 0;
     s_Data.CameraUniformBufferData.ProjectionView = camera.GetProjection() * glm::inverse(transform);
@@ -178,7 +178,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Text
 void Renderer2D::EndScene()
 {
     Flush();
-    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer2D::Flush()

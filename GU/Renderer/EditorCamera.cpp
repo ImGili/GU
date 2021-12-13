@@ -11,13 +11,13 @@
 #include<algorithm>
 using namespace GU;
 EditorCamera::EditorCamera(float fov, float aspectRatio, float nearClip, float farClip)
-    : m_FOV(fov), m_AspectRatio(aspectRatio), m_NearClip(nearClip), m_FarClip(farClip), m_ProjectionMatrix(glm::perspective((float)glm::radians(fov), aspectRatio, nearClip, farClip))
+    : m_FOV(fov), m_AspectRatio(aspectRatio), m_NearClip(nearClip), m_FarClip(farClip), Camera(glm::perspective((float)glm::radians(fov), aspectRatio, nearClip, farClip))
 {
     UpdateView();
 }
 
 EditorCamera::EditorCamera()
-    : m_FOV(45.0), m_AspectRatio(1.778f), m_NearClip(0.1f), m_FarClip(1000.0f), m_ProjectionMatrix(glm::perspective((float)glm::radians(45.0f), 1.778f, 0.1f, 1000.0f))
+    : m_FOV(45.0), m_AspectRatio(1.778f), m_NearClip(0.1f), m_FarClip(1000.0f), Camera(glm::perspective((float)glm::radians(45.0f), 1.778f, 0.1f, 1000.0f))
 {
     UpdateView();
 }
@@ -52,10 +52,10 @@ void EditorCamera::UpdateView()
     m_ViewMatrix = glm::inverse(m_ViewMatrix);
 }
 
-void EditorCamera::UpdateProjeciton()
+void EditorCamera::UpdateProjection()
 {
     m_AspectRatio = m_ViewportWidth / m_ViewportHeight;
-    m_ProjectionMatrix = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
+    m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
 }
 
 glm::vec3 EditorCamera::CalculatePosition()

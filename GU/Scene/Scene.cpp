@@ -69,6 +69,21 @@ void Scene::OnUpdate(TimeStep ts)
     
 }
 
+void Scene::OnUpdateEditor(TimeStep ts, EditorCamera& camera)
+{
+    Renderer2D::BeginScene(camera);
+
+    auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
+    for (auto entity : group)
+    {
+        auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+        Renderer2D::DrawSprite(transform.GetTransform(), sprite);
+    }
+
+    Renderer2D::EndScene();
+}
+
+
 void Scene::OnViewportResize(uint32_t width, uint32_t height)
 {
     m_ViewportWidth = width;

@@ -7,10 +7,11 @@
 #include"Core/TimeStep.h"
 #include"Events/MouseEvent.h"
 #include"glm/glm.hpp"
+#include"Renderer/Camera.h"
 #include<utility>
 namespace GU
 {
-    class EditorCamera
+    class EditorCamera : public Camera
     {
     public:
         EditorCamera();
@@ -19,7 +20,12 @@ namespace GU
         void OnUpdate(TimeStep ts);
         void OnEvent(Event& e);
 
-        glm::mat4 GetProjectionViewMatrix() const { return m_ProjectionMatrix*m_ViewMatrix;}
+        glm::mat4 GetProjectionViewMatrix() const { return m_Projection*m_ViewMatrix;}
+        inline void SetViewportSize(float width, float height) { m_ViewportWidth = width; m_ViewportHeight = height; UpdateProjection(); }
+
+        const glm::vec3& GetPosition() const { return m_Position; }
+
+        const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
     private:
         float m_FOV = 45.0f, m_AspectRatio = 1.778f, m_NearClip = 0.1f, m_FarClip = 1000.0f;
         float m_Pitch = 0.0f, m_Yaw = 0.0f;
@@ -34,10 +40,9 @@ namespace GU
         glm::vec2 m_InitialMousePosition = { 0.0, 0.0 };
 
         glm::mat4 m_ViewMatrix;
-        glm::mat4 m_ProjectionMatrix;
 
         void UpdateView();
-        void UpdateProjeciton();
+        void UpdateProjection();
 
         std::pair<float, float> PanSpeed() const;
         void MousePan(const glm::vec2& delta);
