@@ -16,8 +16,9 @@ OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec )
 void OpenGLFrameBuffer::Invalidate()
 {
     if (m_RendererID&&m_ColorAttachment){
-        glDeleteBuffers(1, &m_RendererID);
+        glDeleteFramebuffers(1, &m_RendererID);
         glDeleteTextures(1, &m_ColorAttachment);
+        glDeleteRenderbuffers(1, &m_DepthAttachment);
     }
     GU_INFO("reframe 111");
     // 帧缓冲创建
@@ -27,9 +28,6 @@ void OpenGLFrameBuffer::Invalidate()
     glGenTextures(1, &m_ColorAttachment);
     glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Specification.Width, m_Specification.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -75,8 +73,7 @@ uint32_t OpenGLFrameBuffer::GetColorAttachmentRendererID() const
 
 void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
 {
-    // GU_INFO("width:{0}, height:{1}", width, height);
     m_Specification.Width=width;
     m_Specification.Height = height;
-    // Invalidate();
+    Invalidate();
 }

@@ -39,6 +39,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
 
     if (m_ViewportSize.x != 0 && m_ViewportSize.y != 0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
     {
+        m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
         m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
@@ -166,11 +167,13 @@ void EditorLayer::OnImGuiRender()
     SaveScene = false;
 
     //=============viewport======================================
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
     ImGui::Begin("Viewport");
     m_IsViewportFocus = ImGui::IsWindowFocused();
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
+    
     ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
     Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
     if (selectedEntity && m_GizmoType!=-1)
@@ -207,6 +210,8 @@ void EditorLayer::OnImGuiRender()
 
 
     ImGui::End();
+    ImGui::PopStyleVar();
+
     ImGui::End();
 }
 void EditorLayer::OnAttach()
