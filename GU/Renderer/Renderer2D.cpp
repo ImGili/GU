@@ -54,6 +54,7 @@ struct Renderer2DData
     };
     CameraData CameraUniformBufferData;
     std::shared_ptr<UniformBuffer> CameraUniformBuffer;
+    Renderer2D::Statistics Stats;
 
 };
 
@@ -146,6 +147,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
         s_Data.QuadVertexBufferDataPtr++;
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
+    s_Data.Stats.QuadCount++;
 }
 void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color)
 {
@@ -173,6 +175,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Text
         s_Data.QuadVertexBufferDataPtr++;
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
+    s_Data.Stats.QuadCount++;
 }
 
 void Renderer2D::EndScene()
@@ -193,6 +196,7 @@ void Renderer2D::Flush()
         s_Data.TextureSlots[i]->Bind(i);
     }
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndicesCount);
+    s_Data.Stats.DrawCalls++;
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec4& color)
@@ -217,4 +221,15 @@ void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComp
     {
         DrawQuad(transform, sprite.Color);
     }
+}
+
+
+void Renderer2D::ResetStats()
+{
+    memset(&s_Data.Stats, 0, sizeof(Statistics));
+}
+
+Renderer2D::Statistics Renderer2D::GetStats()
+{
+    return s_Data.Stats;
 }

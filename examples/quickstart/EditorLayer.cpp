@@ -44,6 +44,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
         m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
     }
+    Renderer2D::ResetStats();
     m_EditorCamera.OnUpdate(ts);
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
@@ -165,6 +166,17 @@ void EditorLayer::OnImGuiRender()
     // }
     OpenScene = false;
     SaveScene = false;
+
+    ImGui::Begin("Stats");
+
+    auto stats = Renderer2D::GetStats();
+    ImGui::Text("Renderer2D Stats:");
+    ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+    ImGui::Text("Quads: %d", stats.QuadCount);
+    ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+    ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+    ImGui::End();
 
     //=============viewport======================================
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
