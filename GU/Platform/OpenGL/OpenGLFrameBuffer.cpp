@@ -32,6 +32,18 @@ namespace GU
         {
             glBindTexture(GL_TEXTURE_2D, id);
         }
+        static void AttachColorTexture(uint32_t id, GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, int index)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, NULL);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, id, 0);
+        }
     }
     OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec )
         : m_Specification(spec)
@@ -68,6 +80,12 @@ namespace GU
             for (size_t i = 0; i < m_ColorAttachments.size(); i++)
             {
                 Utils::BindTexture(m_ColorAttachments[i]);
+                switch (m_ColorAttachmentSpecifications[i].TextureFormat)
+				{
+					case FrameBufferTextureFormat::RGBA8:
+						Utils::AttachColorTexture(m_ColorAttachments[i], GL_RGBA8, GL_RGBA, m_Specification.Width, m_Specification.Height, i);
+						break;
+				}
             }
         }
         
@@ -83,7 +101,7 @@ namespace GU
         // glBindTexture(GL_TEXTURE_2D, 0);
 
         // 将它附加到当前绑定的帧缓冲对象
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
+        // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
 
         // 创建渲染缓冲对象
         glGenRenderbuffers(1, &m_DepthAttachment);
