@@ -5,11 +5,43 @@
 #pragma once
 #include"Core/Core.h"
 #include<memory>
+#include<vector>
 namespace GU
 {
+    enum class FrameBufferTextureFormat
+    {
+        None = 0,
+        RGBA8,
+
+        DEPTH24STENCIL8,
+
+        Depth = DEPTH24STENCIL8
+    };
+
+    struct FrameBufferTextureSpecification
+    {
+        FrameBufferTextureSpecification() = default;
+        FrameBufferTextureSpecification(FrameBufferTextureFormat format)
+            :TextureFormat(format)
+        {}
+
+        FrameBufferTextureFormat TextureFormat = FrameBufferTextureFormat::None;
+    };
+
+    struct FrameBufferAttachmentSpecification
+    {
+        FrameBufferAttachmentSpecification() = default;
+        FrameBufferAttachmentSpecification(std::initializer_list<FrameBufferTextureSpecification> attachments)
+            : Attachments(attachments)
+        {}
+
+        std::vector<FrameBufferTextureSpecification> Attachments;
+    };
+
     struct FrameBufferSpecification
     {
         uint32_t Width, Height;
+        FrameBufferAttachmentSpecification AttachmentsSpecification;
     };
     
     class FrameBuffer
