@@ -1,6 +1,6 @@
 #version 330 core
 layout(location = 0)out vec4 FragColor1;
-layout(location = 1)out vec4 FragColor2;
+layout(location = 1)out int FragColor2;
 
 in VS_OUT
 {
@@ -32,5 +32,5 @@ void main()
 		case 15: texColor *= texture(u_Textures[15], vs_in.TexCoord); break;
 	}
     FragColor1 = texColor;
-	FragColor2 = vec4(0.9f, 0.2f, 0.3f, 1.0f);
+	FragColor2 = 50;
 }

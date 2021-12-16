@@ -52,6 +52,21 @@ void EditorLayer::OnUpdate(TimeStep ts)
     // m_ActiveScene->OnUpdate(ts);
     m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
+    // 获取鼠标位置，并转换到贴图坐标
+    auto[mx, my] = ImGui::GetMousePos();
+    mx -= m_ViewportBounds[0].x;
+    my -= m_ViewportBounds[0].y;
+    glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+    my = viewportSize.y - my;
+    int mouseX = (int)mx;
+    int mouseY = (int)my;
+    
+    if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+    {
+        int pixelData = m_FrameBuffer->ReadPixel(1, mouseX, mouseY);
+        GU_WARN("Pixel:{0}", pixelData);
+    }
+
     m_FrameBuffer->Unbind();
 }
 void EditorLayer::OnImGuiRender()
@@ -182,10 +197,17 @@ void EditorLayer::OnImGuiRender()
     //=============viewport======================================
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
     ImGui::Begin("Viewport");
+    auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+    auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+    auto viewportOffset = ImGui::GetWindowPos();
+    // viewport最大包围边
+    m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+    m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+
     m_IsViewportFocus = ImGui::IsWindowFocused();
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-    uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID(0);
+    uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
     
     ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
     Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -194,9 +216,7 @@ void EditorLayer::OnImGuiRender()
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
 
-        float windowWidth = (float)ImGui::GetWindowWidth();
-        float windowHeight = (float)ImGui::GetWindowHeight();
-        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+        ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
         // auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
         const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
         glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
@@ -281,7 +301,7 @@ void EditorLayer::OnAttach()
     m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     
     FrameBufferSpecification spec;
-    spec.AttachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::Depth };
+    spec.AttachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::Depth };
     spec.Height = 1280;
     spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);

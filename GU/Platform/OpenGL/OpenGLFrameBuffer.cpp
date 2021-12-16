@@ -95,6 +95,9 @@ namespace GU
 					case FrameBufferTextureFormat::RGBA8:
 						Utils::AttachColorTexture(m_ColorAttachments[i], GL_RGBA8, GL_RGBA, m_Specification.Width, m_Specification.Height, i);
 						break;
+					case FrameBufferTextureFormat::RED_INTEGER:
+						Utils::AttachColorTexture(m_ColorAttachments[i], GL_R32I, GL_RED_INTEGER, m_Specification.Width, m_Specification.Height, i);
+						break;
 				}
             }
         }
@@ -178,5 +181,14 @@ namespace GU
         m_Specification.Width=width;
         m_Specification.Height = height;
         Invalidate();
+    }
+    int OpenGLFrameBuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+    {
+        GU_ASSERT(attachmentIndex < m_ColorAttachments.size(), "attachmentIndex is greater than size of attachments");
+
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
     }
 }

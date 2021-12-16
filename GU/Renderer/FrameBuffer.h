@@ -12,6 +12,7 @@ namespace GU
     {
         None = 0,
         RGBA8,
+        RED_INTEGER,
 
         DEPTH24STENCIL8,
 
@@ -50,6 +51,7 @@ namespace GU
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
         virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
+        virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
         virtual void Resize(uint32_t width, uint32_t height) = 0;
         static std::shared_ptr<FrameBuffer> Create(const FrameBufferSpecification& spec);
         virtual const FrameBufferSpecification& GetSpec() const = 0;
