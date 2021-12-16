@@ -44,6 +44,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
         m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
     }
+    RenderCommand::SetClearColor({0.0f, 0.0f, 0.0f, 1.0f});
     Renderer2D::ResetStats();
     m_EditorCamera.OnUpdate(ts);
     m_FrameBuffer->Bind();
