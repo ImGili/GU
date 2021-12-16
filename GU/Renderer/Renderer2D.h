@@ -22,12 +22,11 @@ namespace GU
         static void BeginScene(const EditorCamera& camera);
         static void BeginScene(const Camera& camera, const glm::mat4& transform);
 
-        static void DrawQuad(const glm::vec2& position, const glm::vec4& color = {1.0f, 0.5f, 0.2f, 1.0f});
+        static void DrawQuad(const glm::vec2& position, const glm::vec4& color);
         static void DrawQuad(const glm::vec2& position, const glm::vec2 size, const glm::vec4& color = {1.0f, 0.5f, 0.2f, 1.0f});
-        static void DrawQuad(const glm::mat4& tranfom, const glm::vec4& color = {1.0f, 0.5f, 0.2f, 1.0f});
-        static void DrawQuad(const glm::mat4& transform, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color = {1.0f, 1.0f, 1.0f, 1.0f});
-        static void DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite);
-
+        static void DrawQuad(const glm::mat4& tranfom, const glm::vec4& color , int entityID);
+        static void DrawQuad(const glm::mat4& transform, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color, int entityID);
+        static void DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entityID);
 
         static void EndScene();
 

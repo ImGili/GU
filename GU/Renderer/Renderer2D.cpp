@@ -22,6 +22,9 @@ struct QuadVertex
     glm::vec4 Color;
     glm::vec2 TexCoord;
     float TexIndex;
+
+    // Editor-only
+    int EntityID;
 };
 
 struct Renderer2DData
@@ -68,7 +71,8 @@ void Renderer2D::Init()
         { ShaderDataType::Float3, "a_Position"     },
         { ShaderDataType::Float4, "a_Color"        },
         { ShaderDataType::Float2, "a_TexCoord"     },
-        { ShaderDataType::Float,  "a_TexIndex"     }
+        { ShaderDataType::Float,  "a_TexIndex"     },
+        { ShaderDataType::Int,  "a_EntityID"     }
     });
     s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -135,7 +139,7 @@ void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 }
 
 
-void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 {
     constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
     for (size_t i = 0; i < 4; i++)
@@ -144,12 +148,13 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
         s_Data.QuadVertexBufferDataPtr->Color  = color;
         s_Data.QuadVertexBufferDataPtr->TexIndex = 0;
         s_Data.QuadVertexBufferDataPtr->TexCoord = textureCoords[i];
+        s_Data.QuadVertexBufferDataPtr->EntityID = entityID+1;
         s_Data.QuadVertexBufferDataPtr++;
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
     s_Data.Stats.QuadCount++;
 }
-void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color, int entityID)
 {
     uint32_t textureIndex = 0;
     for (size_t i = 0; i < s_Data.TextureSlotIndex; i++)
@@ -172,6 +177,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Text
         s_Data.QuadVertexBufferDataPtr->Color  = color;
         s_Data.QuadVertexBufferDataPtr->TexIndex = textureIndex;
         s_Data.QuadVertexBufferDataPtr->TexCoord = textureCoords[i];
+        s_Data.QuadVertexBufferDataPtr->EntityID = entityID+1;
         s_Data.QuadVertexBufferDataPtr++;
     }
     s_Data.QuadIndicesCount += s_Data.aQuadIndices;
@@ -202,24 +208,24 @@ void Renderer2D::Flush()
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec4& color)
 {
     glm::mat4 transform = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0));
-    DrawQuad(transform, color);
+    DrawQuad(transform, color, 0);
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2 size, const glm::vec4& color)
 {
     glm::mat4 transform = glm::translate(glm::mat4(1), glm::vec3(position.x, position.y, 0)) * glm::scale(glm::mat4(1), glm::vec3(size.x, size.y, 1.0));
-    DrawQuad(transform, color);
+    DrawQuad(transform, color, 0);
 }
 
-void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite)
+void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entityID)
 {
     if (sprite.Texture)
     {
-        DrawQuad(transform, sprite.Texture, sprite.Color);
+        DrawQuad(transform, sprite.Texture, sprite.Color, entityID);
     }
     else
     {
-        DrawQuad(transform, sprite.Color);
+        DrawQuad(transform, sprite.Color, entityID);
     }
 }
 

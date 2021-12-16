@@ -72,6 +72,21 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& ver
             m_VertexBufferIndex++;
             break;
         }
+        case ShaderDataType::Int:
+        case ShaderDataType::Int2:
+        case ShaderDataType::Int3:
+        case ShaderDataType::Int4:
+        case ShaderDataType::Bool:
+        {
+            glEnableVertexAttribArray(m_VertexBufferIndex);
+            glVertexAttribIPointer(m_VertexBufferIndex,
+                element.GetComponentCount(),
+                ShaderDataTypeToOpenGLBaseType(element.Type),
+                layout.GetStride(),
+                (const void*)element.Offset);
+            m_VertexBufferIndex++;
+            break;
+        }
         default:
             break;
         }

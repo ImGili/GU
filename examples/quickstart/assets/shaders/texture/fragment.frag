@@ -8,6 +8,9 @@ in VS_OUT
     vec2 TexCoord;
     float v_TexIndex ;
 } vs_in;
+
+flat in int EntityID;
+
 uniform sampler2D u_Textures[16];
 void main()
 {
@@ -32,5 +35,5 @@ void main()
 		case 15: texColor *= texture(u_Textures[15], vs_in.TexCoord); break;
 	}
     FragColor1 = texColor;
-	FragColor2 = 50;
+	FragColor2 = EntityID;
 }
