@@ -32,6 +32,10 @@ namespace GU
         {
             glBindTexture(GL_TEXTURE_2D, id);
         }
+        static void BindRBO(uint32_t id)
+        {
+            glBindRenderbuffer(GL_RENDERBUFFER, id);
+        }
         static void AttachColorTexture(uint32_t id, GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, int index)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, NULL);
@@ -41,8 +45,14 @@ namespace GU
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glBindTexture(GL_TEXTURE_2D, 0);
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, id, 0);
+        }
+        static void AttachDepthTexture(uint32_t id, GLenum format, uint32_t width, uint32_t height)
+        {
+            glRenderbufferStorage(GL_RENDERBUFFER, format, width, height);
+            glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, id);
         }
     }
     OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec )
@@ -88,6 +98,31 @@ namespace GU
 				}
             }
         }
+        if (m_DepthAttachmentSpecification.TextureFormat != FrameBufferTextureFormat::None)
+        {
+            Utils::CreateTextures(&m_DepthAttachment, 1);
+            Utils::BindRBO(m_DepthAttachment);
+            switch (m_DepthAttachmentSpecification.TextureFormat)
+            {
+            case FrameBufferTextureFormat::DEPTH24STENCIL8:
+                {
+                    Utils::AttachDepthTexture(m_DepthAttachment, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
+                    break;
+                }
+            }
+        }
+
+        if (m_ColorAttachments.size() > 1)
+		{
+			GU_ASSERT(m_ColorAttachments.size() <= 4,"Framebuffer color size less than 4");
+			GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+			glDrawBuffers(m_ColorAttachments.size(), buffers);
+		}
+		else if (m_ColorAttachments.empty())
+		{
+			// Only depth-pass
+			glDrawBuffer(GL_NONE);
+		}
         
         // glGenTextures(1, &m_ColorAttachment);
         // glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
@@ -104,12 +139,12 @@ namespace GU
         // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
 
         // 创建渲染缓冲对象
-        glGenRenderbuffers(1, &m_DepthAttachment);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_DepthAttachment);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        // glGenRenderbuffers(1, &m_DepthAttachment);
+        // glBindRenderbuffer(GL_RENDERBUFFER, m_DepthAttachment);
+        // glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
+        // glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_DepthAttachment);
+        // glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_DepthAttachment);
 
         GU_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -128,11 +163,14 @@ namespace GU
     OpenGLFrameBuffer::~OpenGLFrameBuffer()
     {
         glDeleteFramebuffers(1, &m_RendererID);
+        glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
+        glDeleteRenderbuffers(1, &m_DepthAttachment);
     }
 
-    uint32_t OpenGLFrameBuffer::GetColorAttachmentRendererID() const
+    uint32_t OpenGLFrameBuffer::GetColorAttachmentRendererID(uint32_t index) const
     {
-        return m_ColorAttachment;
+        // GU_ASSERT(index > m_ColorAttachments.size(), "index is over size of colorattach");
+        return m_ColorAttachments[index];
     }
 
     void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)

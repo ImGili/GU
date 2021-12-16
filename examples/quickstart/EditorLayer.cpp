@@ -184,7 +184,7 @@ void EditorLayer::OnImGuiRender()
     m_IsViewportFocus = ImGui::IsWindowFocused();
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-    uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
+    uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID(0);
     
     ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
     Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -280,6 +280,7 @@ void EditorLayer::OnAttach()
     m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     
     FrameBufferSpecification spec;
+    spec.AttachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::Depth };
     spec.Height = 1280;
     spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);
