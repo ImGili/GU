@@ -64,6 +64,7 @@ void EditorLayer::OnUpdate(TimeStep ts)
     if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
     {
         int pixelData = m_FrameBuffer->ReadPixel(1, mouseX, mouseY);
+        m_HoveredEntity = pixelData == 0 ? Entity() :  Entity( (entt::entity)(pixelData-1), m_ActiveScene.get() );
         GU_WARN("Pixel:{0}", pixelData);
     }
 
@@ -184,7 +185,13 @@ void EditorLayer::OnImGuiRender()
     SaveScene = false;
 
     ImGui::Begin("Stats");
+    std::string HoveredEntityName = "None";
+    if (m_HoveredEntity)
+    {
+        HoveredEntityName = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+    }
 
+    ImGui::Text("Hovered Entity: %s", HoveredEntityName.c_str());
     auto stats = Renderer2D::GetStats();
     ImGui::Text("Renderer2D Stats:");
     ImGui::Text("Draw Calls: %d", stats.DrawCalls);
@@ -315,6 +322,7 @@ void EditorLayer::OnEvent(Event &e)
     EventProcesser eventProcesser(e);
     eventProcesser.Process<KeyPressedEvent>(GU_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
     m_EditorCamera.OnEvent(e);
+    eventProcesser.Process<MouseButtonPressedEvent>(GU_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 }
 
 bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
@@ -367,6 +375,18 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
     
     default:
         break;
+    }
+    return false;
+}
+
+bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+{
+    if (e.GetMouseButton() == MouseKey::ButtonLeft)
+    {
+        if (m_HoveredEntity && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftShift))
+        {
+            m_SceneHierarchyPanel.SetSelectedEnttiy(m_HoveredEntity);
+        }
     }
     return false;
 }

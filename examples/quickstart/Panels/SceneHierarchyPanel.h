@@ -22,7 +22,7 @@ namespace GU
         void OnImGuiRender();
 
         Entity GetSelectedEntity() { return m_SelectionEntity; }
-
+        void SetSelectedEnttiy(Entity entity) { m_SelectionEntity = entity; }
     private:
         /**
          * @brief Draw entity tree

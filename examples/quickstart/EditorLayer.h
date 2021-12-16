@@ -31,8 +31,9 @@ public:
     void OnUpdate(TimeStep ts) override;
     void OnImGuiRender() override;
     void OnEvent(Event& e) override;
-    bool OnKeyPressed(KeyPressedEvent& e);
 private:
+    bool OnKeyPressed(KeyPressedEvent& e);
+    bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
     EditorCamera m_EditorCamera;
     std::shared_ptr<FrameBuffer> m_FrameBuffer;
     glm::vec2 m_ViewportBounds[2];
@@ -43,6 +44,7 @@ private:
     std::shared_ptr<Scene> m_ActiveScene;
     Entity m_CameraEntity;
     Entity m_SecondCameraEntity;
+    Entity m_HoveredEntity;
     SceneHierarchyPanel m_SceneHierarchyPanel;
     bool OpenScene = false;
     bool SaveScene = false;

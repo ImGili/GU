@@ -55,6 +55,20 @@ void glfwWindow::Init(const WindowProps& props)
         WindowData& wData =  *(WindowData*)glfwGetWindowUserPointer(window);
         MouseScrolledEvent event((float)xOffset, (float)yOffset);
         wData.callback(event);});
+    glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods)
+    {
+        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+        switch (action)
+        {
+            case GLFW_PRESS:
+            {
+                MouseButtonPressedEvent event(button);
+                data.callback(event);
+                break;
+            }
+        }
+    });
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode , int action, int mod){
         WindowData& wData =  *(WindowData*)glfwGetWindowUserPointer(window);
         switch (action)

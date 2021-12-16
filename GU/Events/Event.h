@@ -7,6 +7,7 @@ namespace GU
         None = 0,
         WindowsCloseEvent,
         MouseScrolledEvent,
+        MouseButtonPressedEvent,
         KeyPressedEvent
     };
 
