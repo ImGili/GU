@@ -19,5 +19,6 @@ namespace GU
         void End();
 
         void SetDarkThemeColors();
+        void SetModernDarkTheme();
     };
 }
