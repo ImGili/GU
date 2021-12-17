@@ -27,6 +27,10 @@ namespace GU
         {
             glGenTextures(count, outID);
         }
+        static void CreateRenderbuffers(uint32_t* outID, uint32_t count)
+        {
+            glGenRenderbuffers(count, outID);
+        }
 
         static void BindTexture(uint32_t id)
         {
@@ -103,7 +107,7 @@ namespace GU
         }
         if (m_DepthAttachmentSpecification.TextureFormat != FrameBufferTextureFormat::None)
         {
-            Utils::CreateTextures(&m_DepthAttachment, 1);
+            Utils::CreateRenderbuffers(&m_DepthAttachment, 1);
             Utils::BindRBO(m_DepthAttachment);
             switch (m_DepthAttachmentSpecification.TextureFormat)
             {
