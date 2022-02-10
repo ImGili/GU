@@ -30,6 +30,9 @@ void ImGuiLayer::OnAttach()
     // io.Fonts->GetGlyphRangesChineseFull();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+    float frontSize = 30;
+    io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", frontSize);
+    io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", frontSize);
     // Setup Dear ImGui style
     // ImGui::StyleColorsLight();
     ImGui::StyleColorsDark();

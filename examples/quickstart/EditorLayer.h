@@ -16,6 +16,7 @@
 #include"Events/Event.h"
 #include"Events/KeyEvent.h"
 #include"Panels/SceneHierarchyPanel.h"
+#include"Panels/ContentBrowserPanel.h"
 #include<glm/glm.hpp>
 #include<string>
 #include<entt.hpp>
@@ -46,6 +47,7 @@ private:
     Entity m_SecondCameraEntity;
     Entity m_HoveredEntity;
     SceneHierarchyPanel m_SceneHierarchyPanel;
+    ContentBrowserPanel m_ContentBrowserPanel;
     bool OpenScene = false;
     bool SaveScene = false;
 
