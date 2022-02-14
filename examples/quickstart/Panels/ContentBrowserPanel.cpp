@@ -41,7 +41,9 @@ namespace GU
             auto relativePath = std::filesystem::relative(path, s_AssetPath);
             std::string filenameString = relativePath.filename().string();
             ImTextureID icon = directoryEntry.is_directory() ? (ImTextureID)m_DirctoryIcon->GetRendererID() : (ImTextureID)m_FileIcon->GetRendererID();
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
             ImGui::ImageButton(icon, {128.0f, 128.0f}, {0, 1}, {1, 0});
+            ImGui::PopStyleColor();
 
             if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
             {
