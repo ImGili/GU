@@ -17,6 +17,8 @@ namespace GU
         void Bind(uint32_t slot) override;
 
         void SetData(void* data, uint32_t size) override;
+
+        uint32_t GetRendererID() override;
     private:
         uint32_t m_RendererID;
         GLenum m_InternalFormat, m_DataFormat;

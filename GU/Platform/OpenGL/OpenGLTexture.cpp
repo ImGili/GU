@@ -77,3 +77,8 @@ void OpenGLTexture2D::SetData(void* data, uint32_t size)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+uint32_t OpenGLTexture2D::GetRendererID()
+{
+    return m_RendererID;
+}
