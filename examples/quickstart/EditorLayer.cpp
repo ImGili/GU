@@ -1,6 +1,6 @@
 /*
  * @Author: ImGili
- * @Description: 
+ * @Description:
  */
 #include "EditorLayer.h"
 #include "Core/Application.h"
@@ -14,17 +14,22 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include "ImGuiAddon/FileBrowser/ImGuiFileBrowser.h"
-#include<ImGuizmo.h>
-#include"Scene/Component.h"
-#include"Scene/Scene.h"
-#include"Scene/Entity.h"
-#include"Scene/ScriptableEntity.h"
-#include"Scene/SceneSerializer.h"
+#include <ImGuizmo.h>
+#include "Scene/Component.h"
+#include "Scene/Scene.h"
+#include "Scene/Entity.h"
+#include "Scene/ScriptableEntity.h"
+#include "Scene/SceneSerializer.h"
 #include <imgui.h>
 #include <cmath>
-#include<glm/gtc/type_ptr.hpp>
-#include<iostream>
+#include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 #include "GLFW/glfw3.h"
+namespace GU
+{
+    extern const std::filesystem::path g_AssetPath;
+}
+
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_OrthographicCameraController(1280 / 720.0f)
 {
@@ -53,19 +58,19 @@ void EditorLayer::OnUpdate(TimeStep ts)
     m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
     // 获取鼠标位置，并转换到贴图坐标
-    auto[mx, my] = ImGui::GetMousePos();
+    auto [mx, my] = ImGui::GetMousePos();
     mx -= m_ViewportBounds[0].x;
     my -= m_ViewportBounds[0].y;
     glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
     my = viewportSize.y - my;
     int mouseX = (int)mx;
     int mouseY = (int)my;
-    
+
     if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
     {
         int pixelData = m_FrameBuffer->ReadPixel(1, mouseX, mouseY);
-        m_HoveredEntity = pixelData == 0 ? Entity() :  Entity( (entt::entity)(pixelData-1), m_ActiveScene.get() );
-        GU_WARN("Pixel:{0}", pixelData);
+        m_HoveredEntity = pixelData == 0 ? Entity() : Entity((entt::entity)(pixelData - 1), m_ActiveScene.get());
+        // GU_WARN("Pixel:{0}", pixelData);
     }
 
     m_FrameBuffer->Unbind();
@@ -118,7 +123,7 @@ void EditorLayer::OnImGuiRender()
 
     // Submit the DockSpace
     ImGuiIO &io = ImGui::GetIO();
-    ImGuiStyle& style = ImGui::GetStyle();
+    ImGuiStyle &style = ImGui::GetStyle();
     float minWinStyle = style.WindowMinSize.x;
     style.WindowMinSize.x = 370.0f;
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
@@ -138,12 +143,12 @@ void EditorLayer::OnImGuiRender()
             }
             if (ImGui::MenuItem("Open...", "Ctrl+O"))
             {
-                OpenScene = true;
+                m_OpenScene = true;
                 ImGui::OpenPopup("Open File");
             }
             if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
             {
-                SaveScene = true;
+                m_SaveScene = true;
             }
             if (ImGui::MenuItem("Exit"))
                 Application::Get()->Close();
@@ -152,26 +157,23 @@ void EditorLayer::OnImGuiRender()
 
         ImGui::EndMenuBar();
     }
-    //Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
-    if(OpenScene)
+    // Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
+    if (m_OpenScene)
         ImGui::OpenPopup("Open File");
-    if(SaveScene)
+    if (m_SaveScene)
         ImGui::OpenPopup("Save File");
-        
-    /* Optional third parameter. Support opening only compressed rar/zip files. 
+
+    /* Optional third parameter. Support opening only compressed rar/zip files.
      * Opening any other file will show error, return false and won't close the dialog.
      */
     static imgui_addons::ImGuiFileBrowser file_dialog;
 
-    if(file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".gu"))
+    if (file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".gu"))
     {
-        m_ActiveScene = std::make_shared<Scene>();
-        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-        SceneSerializer sceneserializer(m_ActiveScene);
-        sceneserializer.Deserializer(file_dialog.selected_path.c_str());
+        OpenScene(file_dialog.selected_path.c_str());
     }
 
-    if(file_dialog.showFileDialog("Save File", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".gu"))
+    if (file_dialog.showFileDialog("Save File", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".gu"))
     {
         SceneSerializer sceneserializer(m_ActiveScene);
         sceneserializer.Serializer(file_dialog.selected_path.c_str());
@@ -182,8 +184,8 @@ void EditorLayer::OnImGuiRender()
     // {
     //     ImGui::ShowDemoWindow();
     // }
-    OpenScene = false;
-    SaveScene = false;
+    m_OpenScene = false;
+    m_SaveScene = false;
 
     ImGui::Begin("Stats");
     std::string HoveredEntityName = "None";
@@ -203,37 +205,49 @@ void EditorLayer::OnImGuiRender()
     ImGui::End();
 
     //=============viewport======================================
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
     ImGui::Begin("Viewport");
     auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
     auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
     auto viewportOffset = ImGui::GetWindowPos();
     // viewport最大包围边
-    m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
-    m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+    m_ViewportBounds[0] = {viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y};
+    m_ViewportBounds[1] = {viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y};
 
     m_IsViewportFocus = ImGui::IsWindowFocused();
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
     uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-    
+
     ImGui::Image(reinterpret_cast<void *>(textureID), ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0});
     Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-    if (selectedEntity && m_GizmoType!=-1)
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+        {
+            const wchar_t *path = (const wchar_t *)payload->Data;
+            OpenScene(std::filesystem::path(g_AssetPath)/path);
+            GU_WARN("has path");
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    if (selectedEntity && m_GizmoType != -1)
     {
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
 
         ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
         // auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-        const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
+        const glm::mat4 &cameraProjection = m_EditorCamera.GetProjection();
         glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
-        
-        auto& tc = selectedEntity.GetComponent<TransformComponent>();
+
+        auto &tc = selectedEntity.GetComponent<TransformComponent>();
         glm::mat4 transform = tc.GetTransform();
 
         ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
+                             (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
 
         if (ImGuizmo::IsUsing())
         {
@@ -246,13 +260,11 @@ void EditorLayer::OnImGuiRender()
             tc.Rotation += deltaRotation;
             tc.Scale = scale;
         }
-        
     }
-
 
     ImGui::End();
     ImGui::PopStyleVar();
-
+    
     ImGui::End();
 }
 void EditorLayer::OnAttach()
@@ -307,14 +319,13 @@ void EditorLayer::OnAttach()
     transform3 = { -1.0, -1.0, 0.0 };
 #endif
     m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-    
+
     FrameBufferSpecification spec;
-    spec.AttachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::Depth };
+    spec.AttachmentsSpecification = {FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::Depth};
     spec.Height = 1280;
     spec.Width = 720;
     m_FrameBuffer = FrameBuffer::Create(spec);
     m_EditorCamera = EditorCamera(45.0f, 1.778f, 0.1f, 1000.0f);
-    
 }
 
 void EditorLayer::OnEvent(Event &e)
@@ -326,61 +337,61 @@ void EditorLayer::OnEvent(Event &e)
     eventProcesser.Process<MouseButtonPressedEvent>(GU_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 }
 
-bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+bool EditorLayer::OnKeyPressed(KeyPressedEvent &e)
 {
     bool control = Input::IsKeyPressed(Key::LeftCtrl);
     bool shift = Input::IsKeyPressed(Key::LeftShift);
     switch (e.GetKeyCode())
     {
     case Key::S:
+    {
+        if (control && shift)
         {
-            if (control && shift)
-            {
-                SaveScene = true;
-            }
-            m_GizmoType = ImGuizmo::OPERATION::SCALE;
-            break;
+            m_SaveScene = true;
         }
+        m_GizmoType = ImGuizmo::OPERATION::SCALE;
+        break;
+    }
     case Key::O:
+    {
+        if (control)
         {
-            if (control)
-            {
-                OpenScene = true;
-            }
-            break;
+            m_OpenScene = true;
         }
+        break;
+    }
     case Key::N:
+    {
+        if (control)
         {
-            if (control)
-            {
-                m_ActiveScene = std::make_shared<Scene>();
-                m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-            }
-            break;
+            m_ActiveScene = std::make_shared<Scene>();
+            m_SceneHierarchyPanel.SetContext(m_ActiveScene);
         }
+        break;
+    }
     case Key::R:
-        {
-            m_GizmoType = ImGuizmo::OPERATION::ROTATE;
-            break;
-        }
+    {
+        m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+        break;
+    }
     case Key::G:
-        {
-            m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
-            break;
-        }
+    {
+        m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+        break;
+    }
     case Key::W:
-        {
-            m_GizmoType = -1;
-            break;
-        }
-    
+    {
+        m_GizmoType = -1;
+        break;
+    }
+
     default:
         break;
     }
     return false;
 }
 
-bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent &e)
 {
     if (e.GetMouseButton() == MouseKey::ButtonLeft)
     {
@@ -390,4 +401,17 @@ bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
         }
     }
     return false;
+}
+
+void EditorLayer::OpenScene(const std::filesystem::path& path)
+{
+    if (path.extension().string() != ".gu")
+    {
+        GU_WARN("Could not load scene{0}, it is not a scene file", path.filename().string());
+        return;
+    }
+    m_ActiveScene = std::make_shared<Scene>();
+    m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+    SceneSerializer sceneserializer(m_ActiveScene);
+    sceneserializer.Deserializer(path.string().c_str());
 }

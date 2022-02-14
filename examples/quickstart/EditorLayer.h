@@ -20,6 +20,7 @@
 #include<glm/glm.hpp>
 #include<string>
 #include<entt.hpp>
+#include <filesystem>
 using namespace GU;
 
 class EditorLayer : public Layer
@@ -32,6 +33,8 @@ public:
     void OnUpdate(TimeStep ts) override;
     void OnImGuiRender() override;
     void OnEvent(Event& e) override;
+
+    void OpenScene(const std::filesystem::path& path);
 private:
     bool OnKeyPressed(KeyPressedEvent& e);
     bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
@@ -48,8 +51,8 @@ private:
     Entity m_HoveredEntity;
     SceneHierarchyPanel m_SceneHierarchyPanel;
     ContentBrowserPanel m_ContentBrowserPanel;
-    bool OpenScene = false;
-    bool SaveScene = false;
+    bool m_OpenScene = false;
+    bool m_SaveScene = false;
 
     int m_GizmoType = -1;
 };
