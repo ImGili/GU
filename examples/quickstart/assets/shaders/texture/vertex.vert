@@ -13,15 +13,16 @@ out VS_OUT
 {
    vec4 Color;
 	vec2 TexCoord;
-   float v_TexIndex;
 } vs_out;
 
 flat out int EntityID;
+flat out float v_TexIndex;
 void main()
 {
    vs_out.Color = a_Color;
    vs_out.TexCoord = a_TexCoord;
-   vs_out.v_TexIndex = a_TexIndex;
+   v_TexIndex = a_TexIndex;
+
    EntityID = a_EntityID;
    gl_Position = ProjectionView * vec4(a_Position, 1.0);
 }

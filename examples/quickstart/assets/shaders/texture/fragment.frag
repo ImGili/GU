@@ -6,16 +6,16 @@ in VS_OUT
 {
     vec4 Color;
     vec2 TexCoord;
-    float v_TexIndex ;
 } vs_in;
 
 flat in int EntityID;
+flat in float v_TexIndex;
 
 uniform sampler2D u_Textures[16];
 void main()
 {
     vec4 texColor = vs_in.Color;
-	switch(int(vs_in.v_TexIndex))
+	switch(int(v_TexIndex))
 	{
 		case  0: texColor *= texture(u_Textures[ 0], vs_in.TexCoord); break;
 		case  1: texColor *= texture(u_Textures[ 1], vs_in.TexCoord); break;

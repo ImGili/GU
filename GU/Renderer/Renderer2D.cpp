@@ -80,6 +80,7 @@ void Renderer2D::Init()
     s_Data.QuadVertexShader->Bind();
     s_Data.QuadVertexShader->SetInt("u_Textures[0]", 0);
     s_Data.QuadVertexShader->SetInt("u_Textures[1]", 1);
+    s_Data.QuadVertexShader->SetInt("u_Textures[2]", 2);
     s_Data.QuadVertexBufferDataBase = new QuadVertex[Renderer2DData::MaxVertices];
 
     s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
@@ -170,6 +171,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Text
         s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
         s_Data.TextureSlotIndex++;
     }
+    GU_INFO("textureIndex: {0}", textureIndex);
     constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
     for (size_t i = 0; i < 4; i++)
     {
