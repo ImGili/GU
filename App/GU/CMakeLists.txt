@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(quickstart)
+project(GU)
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /source-charset:utf-8 /execution-charset:gbk /std:c++17")
@@ -34,7 +34,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} 
     PUBLIC
-            Gu
+        GU_KERNEL
 )
 
 

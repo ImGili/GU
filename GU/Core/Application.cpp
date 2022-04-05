@@ -15,9 +15,9 @@ Application* Application::s_Instance = nullptr;
 Application::Application()
 {
     #ifdef GU_PLATFORM_WINDOWS
-        m_window = Window::Create({"GUEngine", 1280, 720});
+        m_window = Window::Create({"GU", 1280, 720});
     #else
-        m_window = Window::Create({"GUEngine", 640, 400});
+        m_window = Window::Create({"GU", 640, 400});
     #endif
     
     Renderer::Init();

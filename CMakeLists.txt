@@ -75,13 +75,13 @@ add_definitions(-DGLFW_INCLUDE_NONE
 add_definitions(-DGU_ENABLE_DEBUG -DYAML_CPP_STATIC_DEFINE)
 
 
-add_library(${PROJECT_NAME} STATIC
+add_library(GU_KERNEL STATIC
                                 ${PROJECT_SOURCES} 
                                 ${PROJECT_HEADERS}
                                 ${VENDORS_SOURCES}
             )
 if(MSVC)
-SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
+SET_TARGET_PROPERTIES(GU_KERNEL PROPERTIES
                 COMPILE_FLAGS "-DGU_PLATFORM_WINDOWS")
 elseif(APPLE)
 add_definitions(-DGU_PLATFORM_MACOS)
@@ -94,7 +94,7 @@ endif()
 
 
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(GU_KERNEL PUBLIC
                                 GU/
                                 vendor/glad/include/
                                 vendor/glfw/include/
@@ -108,7 +108,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                 vendor/yaml-cpp/include
              )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
+target_link_libraries(GU_KERNEL PUBLIC
                                 glfw
                                 ${GLFW_LIBRARIES} 
                                 ${GLAD_LIBRARIES}
@@ -119,9 +119,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 # set_target_properties(${PROJECT_NAME} PROPERTIES
 #     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 
-if (GU_BUILD_EXAMPLES)
-    message("GU BUILD EXAMPLE")
-    add_subdirectory(examples/quickstart)
-    add_subdirectory(examples/aiquickstart)
-endif()
+
+add_subdirectory(App/GU)
 
