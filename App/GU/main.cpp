@@ -1,18 +1,16 @@
 #include"Core/EntryPoint.h"
-#include"ExampleLayer.h"
 #include"EditorLayer.h"
-#include"Example3DLayer.h"
-class ExampleApplication : public GU::Application
+class GUApplication : public GU::Application
 {
 public:
-    ExampleApplication(){
+    GUApplication(){
         PushLayer(new EditorLayer());
     }
 
-    ~ExampleApplication()
+    ~GUApplication()
     {}
 };
 GU::Application* GU::CreateApplication()
 {
-    return new ExampleApplication();
+    return new GUApplication();
 }

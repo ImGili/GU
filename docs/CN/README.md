@@ -18,6 +18,7 @@ git clone https://gitee.com/ImGili/GU.git
 # 构建项目
 ```
 mkdir build
+cd build
 cmake ..
-cmake . --config Release --target GU -j 10 --
+cmake --build ./ --config Release --target GU -j 10
 ```
