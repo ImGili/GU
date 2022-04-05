@@ -227,7 +227,7 @@ void EditorLayer::OnImGuiRender()
         if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
         {
             const wchar_t *path = (const wchar_t *)payload->Data;
-            OpenScene(std::filesystem::path(g_AssetPath)/path);
+            OpenScene(std::filesystem::path(g_AssetPath) / path);
             GU_WARN("has path");
         }
         ImGui::EndDragDropTarget();
@@ -264,14 +264,31 @@ void EditorLayer::OnImGuiRender()
 
     ImGui::End();
     ImGui::PopStyleVar();
-    
+    UI_ToolBar();
     ImGui::End();
 }
+
+void EditorLayer::UI_ToolBar()
+{
+    float size = ImGui::GetWindowHeight() - 4.0f;
+    std::shared_ptr<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
+    ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+    if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1), 0))
+    {
+        if (m_SceneState == SceneState::Edit)
+            OnScenePlay();
+        else if (m_SceneState == SceneState::Play)
+            OnSceneStop();
+    }
+    ImGui::End();
+}
+
 void EditorLayer::OnAttach()
 {
     // Application::Get()->GetWindow().MaxWindow();
     m_ActiveScene = std::make_shared<Scene>();
-
+    m_IconPlay = Texture2D::Create("./resources/icons/PlayButton.png");
+    m_IconStop = Texture2D::Create("./resources/icons/StopButton.png");
 #if 0
     m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
     auto& cc = m_CameraEntity.AddComponent<CameraComponent>();
@@ -403,7 +420,7 @@ bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent &e)
     return false;
 }
 
-void EditorLayer::OpenScene(const std::filesystem::path& path)
+void EditorLayer::OpenScene(const std::filesystem::path &path)
 {
     if (path.extension().string() != ".gu")
     {
@@ -414,4 +431,13 @@ void EditorLayer::OpenScene(const std::filesystem::path& path)
     m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     SceneSerializer sceneserializer(m_ActiveScene);
     sceneserializer.Deserializer(path.string().c_str());
+}
+
+void EditorLayer::OnScenePlay()
+{
+    m_SceneState = SceneState::Play;
+}
+void EditorLayer::OnSceneStop()
+{
+    m_SceneState = SceneState::Edit;
 }
