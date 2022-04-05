@@ -1,23 +1,23 @@
 # Gu [![License](https://img.shields.io/github/license/ImGili/GUEngine.svg)](https://github.com/ImGili/GUEngine/blob/master/LICENSE)
 
-![logo](docs/imgs/logo.png)
+![logo](../imgs/logo.png)
 
-# How to clone
+# 克隆项目
+外网用户：
+
 ```
 git clone https://github.com/ImGili/GU.git
 ```
 
-Mirror Source：
+内网用户：
 
 ```
 git clone https://gitee.com/ImGili/GU.git
 ```
 
-# How to build
+# 构建项目
 ```
 mkdir build
 cmake ..
 cmake . --config Release --target GU -j 10 --
 ```
-
-[CN](docs/CN/README.md)
