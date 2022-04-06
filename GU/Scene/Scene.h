@@ -17,7 +17,7 @@ namespace GU
     public:
         Scene();
         ~Scene();
-        void OnUpdate(TimeStep ts);
+        void OnUpdateRuntime(TimeStep ts);
         void OnUpdateEditor(TimeStep ts, EditorCamera& camera);
         Entity CreateEntity(const std::string& name = std::string());
         void DeleteEntity(Entity entity);

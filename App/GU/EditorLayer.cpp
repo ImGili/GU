@@ -37,10 +37,10 @@ EditorLayer::EditorLayer()
 
 void EditorLayer::OnUpdate(TimeStep ts)
 {
-    if (m_IsViewportFocus)
-    {
-        m_OrthographicCameraController.OnUpdate(ts);
-    }
+    // if (m_IsViewportFocus)
+    // {
+    //     m_OrthographicCameraController.OnUpdate(ts);
+    // }
 
     if (m_ViewportSize.x != 0 && m_ViewportSize.y != 0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
     {
@@ -51,11 +51,30 @@ void EditorLayer::OnUpdate(TimeStep ts)
     }
     RenderCommand::SetClearColor({0.0f, 0.0f, 0.0f, 1.0f});
     Renderer2D::ResetStats();
-    m_EditorCamera.OnUpdate(ts);
+    // m_EditorCamera.OnUpdate(ts);
     m_FrameBuffer->Bind();
     RenderCommand::Clear();
     // m_ActiveScene->OnUpdate(ts);
-    m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+    // m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+
+    switch (m_SceneState)
+    {
+        case SceneState::Edit:
+        {
+            if (m_ViewportFocused)
+                m_OrthographicCameraController.OnUpdate(ts);
+
+            m_EditorCamera.OnUpdate(ts);
+
+            m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+            break;
+        }
+        case SceneState::Play:
+        {
+            m_ActiveScene->OnUpdateRuntime(ts);
+            break;
+        }
+    }
 
     // 获取鼠标位置，并转换到贴图坐标
     auto [mx, my] = ImGui::GetMousePos();
@@ -270,10 +289,11 @@ void EditorLayer::OnImGuiRender()
 
 void EditorLayer::UI_ToolBar()
 {
-    float size = ImGui::GetWindowHeight() - 4.0f;
-    std::shared_ptr<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
     ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-    if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1), 0))
+    float size = 50;
+    std::shared_ptr<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
+    ImGui::SameLine((ImGui::GetContentRegionMax().x*0.5) - (size*0.5));
+    if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
     {
         if (m_SceneState == SceneState::Edit)
             OnScenePlay();

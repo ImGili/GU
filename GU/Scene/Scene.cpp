@@ -22,7 +22,7 @@ Entity Scene::CreateEntity(const std::string& name)
     return entity;
 }
 
-void Scene::OnUpdate(TimeStep ts)
+void Scene::OnUpdateRuntime(TimeStep ts)
 {
     // Update Script Entity
     m_Registry.view<NativeScriptComponent>().each([&](entt::entity entity, NativeScriptComponent& nsc){
