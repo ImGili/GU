@@ -238,7 +238,6 @@ void EditorLayer::OnImGuiRender()
         {
             const wchar_t *path = (const wchar_t *)payload->Data;
             OpenScene(std::filesystem::path(g_AssetPath) / path);
-            GU_WARN("has path");
         }
         ImGui::EndDragDropTarget();
     }
