@@ -267,14 +267,14 @@ namespace GU
         }
         if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
         {
-            float Fov = glm::degrees(camera.GetPerspectiveFOV());
+            float Fov = camera.GetPerspectiveFOV();
             float perspecNearClip = camera.GetPerspectiveNearClip();
             float perspecFarClip = camera.GetPerspectiveFarClip();
             ImGui::DragFloat("FOV", &Fov, 0.1f, 0.0, 360);
             ImGui::DragFloat("NearClip", &perspecNearClip, 0.1f, 0.0, 20.0);
             ImGui::DragFloat("FarClip", &perspecFarClip, 0.1f, 0.0, 20.0);
             ImGui::Checkbox("Primary", &component.Primary);
-            camera.SetPerspectiveFOV(glm::radians(Fov));
+            camera.SetPerspectiveFOV(Fov);
             camera.SetPerspectiveFarClip(perspecFarClip);
             camera.SetPerspectiveNearClip(perspecNearClip);
         } });

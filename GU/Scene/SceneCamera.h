@@ -46,12 +46,12 @@ namespace GU
 		void RecalculateProjection();
 	private:
 		ProjectionType m_ProjectionType = ProjectionType::Orthographic;
-		float m_PerspectiveFOV = glm::radians(45.0f);
+		float m_PerspectiveFOV = 45.0f;
 		float m_PerspectiveNear = 0.01f, m_PerspectiveFar = 1000.0f;
 
 		float m_OrthographicSize = 10.0f;
 		float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;
 
-		float m_AspectRatio = 0.0f;
+		float m_AspectRatio = 800.0f / 600.0f;
 	};
 }

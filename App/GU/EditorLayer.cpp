@@ -31,21 +31,15 @@ namespace GU
 }
 
 EditorLayer::EditorLayer()
-    : Layer("EditorLayer"), m_OrthographicCameraController(1280 / 720.0f)
+    : Layer("EditorLayer")
 {
 }
 
 void EditorLayer::OnUpdate(TimeStep ts)
 {
-    // if (m_IsViewportFocus)
-    // {
-    //     m_OrthographicCameraController.OnUpdate(ts);
-    // }
-
     if (m_ViewportSize.x != 0 && m_ViewportSize.y != 0 && m_FrameBuffer->GetSpec().Width != m_ViewportSize.x || m_FrameBuffer->GetSpec().Height != m_ViewportSize.y)
     {
         m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-        m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
         m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
     }
@@ -61,9 +55,6 @@ void EditorLayer::OnUpdate(TimeStep ts)
     {
         case SceneState::Edit:
         {
-            if (m_ViewportFocused)
-                m_OrthographicCameraController.OnUpdate(ts);
-
             m_EditorCamera.OnUpdate(ts);
 
             m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
@@ -367,7 +358,6 @@ void EditorLayer::OnAttach()
 
 void EditorLayer::OnEvent(Event &e)
 {
-    m_OrthographicCameraController.OnEvent(e);
     EventProcesser eventProcesser(e);
     eventProcesser.Process<KeyPressedEvent>(GU_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
     m_EditorCamera.OnEvent(e);

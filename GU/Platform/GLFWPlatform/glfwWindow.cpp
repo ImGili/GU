@@ -51,7 +51,6 @@ void glfwWindow::Init(const WindowProps& props)
     });
 
     glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset){
-        GU_INFO("{0}",yOffset);
         WindowData& wData =  *(WindowData*)glfwGetWindowUserPointer(window);
         MouseScrolledEvent event((float)xOffset, (float)yOffset);
         wData.callback(event);});

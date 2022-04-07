@@ -12,6 +12,7 @@
 
 #include<glm/glm.hpp>
 #include<glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include<memory>
 using namespace GU;
 
@@ -171,7 +172,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const std::shared_ptr<Text
         s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
         s_Data.TextureSlotIndex++;
     }
-    GU_INFO("textureIndex: {0}", textureIndex);
+    // GU_INFO("textureIndex: {0}", textureIndex);
     constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
     for (size_t i = 0; i < 4; i++)
     {

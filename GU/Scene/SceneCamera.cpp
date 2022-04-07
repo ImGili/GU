@@ -3,6 +3,7 @@
  * @Description: 
  */
 #include"Scene/SceneCamera.h"
+#include "Core/Log.h"
 using namespace GU;
 SceneCamera::SceneCamera()
 {
